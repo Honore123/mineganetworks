@@ -5,7 +5,7 @@
         <div class="col-lg-4 mx-auto">
         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
             <div class="brand-logo">
-            <img src="../../images/logo.svg" alt="logo">
+            <img src="{{asset('images/logo1.png')}}" alt="logo">
             </div>
             <h4>Forgot your password?</h4>
             <h6 class="font-weight-light">No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.</h6>

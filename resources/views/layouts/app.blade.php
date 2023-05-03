@@ -15,11 +15,14 @@
         <link rel="stylesheet" href="{{asset('assets/datatables.net-bs4/dataTables.bootstrap4.css')}}">
         <link rel="stylesheet" href="{{asset('assets/ti-icons/css/themify-icons.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('custom/js/select.dataTables.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/select2/select2.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
         <!-- End plugin css for this page -->
         <!-- inject:css -->
         <link rel="stylesheet" href="{{asset('custom/css/vertical-layout-light/style.css')}}">
         <!-- endinject -->
-        <link rel="shortcut icon" href="{{asset('images/favicon.png')}}" />
+        <link rel="shortcut icon" href="{{asset('images/logo1.min.png')}}" />
+       
     </head>
     <body>
         <div class="container-scroller">
@@ -46,7 +49,9 @@
         <script src="{{asset('assets/chart.js/Chart.min.js')}}"></script>
         <script src="{{asset('assets/datatables.net/jquery.dataTables.js')}}"></script>
         <script src="{{asset('assets/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
+        <script src="{{asset('assets/select2/select2.min.js')}}"></script>
         <script src="{{asset('custom/js/dataTables.select.min.js')}}"></script>
+       
       
         <!-- End plugin js for this page -->
         <!-- inject:js -->
@@ -58,7 +63,9 @@
         <!-- endinject -->
         <!-- Custom js for this page-->
         <script src="{{asset('custom/js/dashboard.js')}}"></script>
-        <script src="js/Chart.roundedBarCharts.js"></script>
+        <script src="{{asset('custom/js/Chart.roundedBarCharts.js')}}"></script>
+        <script src="{{asset('custom/js/select2.js')}}"></script>
         <!-- End custom js for this page-->
+        @stack('scripts')
     </body>
 </html>

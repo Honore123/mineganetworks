@@ -1,105 +1,69 @@
 <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-      <li class="nav-item {{setActive('dashboard')}}">
-        <a class="nav-link" href="index.html">
-          <i class="icon-grid menu-icon"></i>
-          <span class="menu-title">Dashboard</span>
+      <li class="nav-item {{setActive('/')}}">
+        <a class="nav-link" href="{{route('dashboard')}}">
+          <i class="ti-dashboard menu-icon"></i>
+          <span class="menu-title"> Dashboard</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-          <i class="icon-layout menu-icon"></i>
-          <span class="menu-title">UI Elements</span>
+      <li class="nav-item {{setActive('products')}} {{setActive('products/*')}}">
+        <a class="nav-link" href="{{route('product.index')}}">
+          <i class="ti-shopping-cart-full menu-icon"></i>
+          <span class="menu-title">Products</span>
+        </a>
+      </li>
+      <li class="nav-item {{setActive('quotation')}} {{setActive('quotation/*')}}">
+        <a class="nav-link" data-toggle="collapse" href="#quotation-drop" aria-expanded="false" aria-controls="quotation-drop">
+          <i class="ti-pencil-alt menu-icon"></i>
+          <span class="menu-title">Quotations</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="ui-basic">
+        <div class="collapse {{showCollapse('quotation')}} {{showCollapse('quotation/*')}}" id="quotation-drop">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+            <li class="nav-item {{setActive('quotation/add')}}"> <a class="nav-link" href="{{route('quotation.add')}}">New Quotation</a></li>
+            <li class="nav-item {{setActive('quotation')}}"> <a class="nav-link" href="{{route('quotation.index')}}">Manage Quotations</a></li>
           </ul>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-          <i class="icon-columns menu-icon"></i>
-          <span class="menu-title">Form elements</span>
+      <li class="nav-item {{setActive('purchase-order')}} {{setActive('purchase-order/*')}}">
+        <a class="nav-link" data-toggle="collapse" href="#purchase-order-drop" aria-expanded="false" aria-controls="purchase-order-drop">
+          <i class="ti-pencil-alt menu-icon"></i>
+          <span class="menu-title">Purchase Order</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="form-elements">
+        <div class="collapse {{showCollapse('purchase-order')}} {{showCollapse('purchase-order/*')}}" id="purchase-order-drop">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
+            <li class="nav-item {{setActive('purchase-order/add')}}"> <a class="nav-link" href="{{route('purchase-order.add')}}">New P.O</a></li>
+            <li class="nav-item {{setActive('purchase-order')}}"> <a class="nav-link" href="{{route('purchase-order.index')}}">Manage P.O</a></li>
           </ul>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-          <i class="icon-bar-graph menu-icon"></i>
-          <span class="menu-title">Charts</span>
+      <li class="nav-item {{setActive('customers')}} {{setActive('customers/*')}}">
+        <a class="nav-link" href="{{route('customer.index')}}">
+          <i class="ti-user menu-icon"></i>
+          <span class="menu-title">Customers</span>
+        </a>
+      </li>
+      <li class="nav-item {{setActive('vendors')}} {{setActive('vendors/*')}}">
+        <a class="nav-link" href="{{route('vendor.index')}}">
+          <i class="ti-user menu-icon"></i>
+          <span class="menu-title">Vendors</span>
+        </a>
+      </li>
+      <li class="nav-item {{setActive('settings')}} {{setActive('settings/*')}}">
+        <a class="nav-link" data-toggle="collapse" href="#settings-drop" aria-expanded="false" aria-controls="ui-basic">
+          <i class="ti-settings menu-icon"></i>
+          <span class="menu-title">Settings</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="charts">
+        <div class="collapse" id="settings-drop">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">ChartJs</a></li>
+            <li class="nav-item {{setActive('settings/categories')}} {{setActive('settings/categories/*')}}"> <a class="nav-link" href="{{route('category.index')}}">Categories</a></li>
+            <li class="nav-item {{setActive('settings/subcategories')}} {{setActive('settings/subcategories/*')}}"> <a class="nav-link" href="{{route('subcategory.index')}}">Sub-Categories</a></li>
+            <li class="nav-item {{setActive('settings/measurement_unit')}} {{setActive('settings/measurement_unit/*')}}"> <a class="nav-link" href="{{route('measurement.index')}}">Measurement Unit</a></li>
           </ul>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-          <i class="icon-grid-2 menu-icon"></i>
-          <span class="menu-title">Tables</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="tables">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-          <i class="icon-contract menu-icon"></i>
-          <span class="menu-title">Icons</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="icons">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-          <i class="icon-head menu-icon"></i>
-          <span class="menu-title">User Pages</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="auth">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-          <i class="icon-ban menu-icon"></i>
-          <span class="menu-title">Error pages</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="error">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="pages/documentation/documentation.html">
-          <i class="icon-paper menu-icon"></i>
-          <span class="menu-title">Documentation</span>
-        </a>
       </li>
     </ul>
   </nav>
