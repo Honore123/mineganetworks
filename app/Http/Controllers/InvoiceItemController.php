@@ -1,0 +1,119 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use Illuminate\Http\Request;
+
+class InvoiceItemController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Invoice $invoice)
+    {
+        $items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
+        $data['total'] = $items->sum('total_price');
+        $data['vat'] = $data['total'] * 0.18;
+        $data['totalVat'] = $data['total'] + $data['vat'];
+
+        return view('invoice.add-item', [
+            'invoice' => $invoice,
+            'items' => $items,
+            'total' => number_format($data['total'], 0, '.', ','),
+            'vat' => number_format($data['vat'], 0, '.', ','),
+            'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Invoice $invoice)
+    {
+        $data = request()->validate([
+            'item_name' => ['required', 'string'],
+            'quantity' => ['required'],
+            'unit_price' => ['required'],
+            'total_price' => ['required'],
+        ]);
+
+        $data['invoice_id'] = $invoice->id;
+
+        InvoiceItem::create($data);
+
+        return redirect()->back()->with('success', 'Item added');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @return \Illuminate\Http\Response
+     */
+    public function show(InvoiceItem $invoiceItem)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(InvoiceItem $invoiceItem)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @return \Illuminate\Http\Response
+     */
+    public function update(InvoiceItem $item)
+    {
+        $data = request()->validate([
+            'item_name' => ['required', 'string'],
+            'quantity' => ['required'],
+            'unit_price' => ['required'],
+            'total_price' => ['required'],
+        ]);
+
+        $item->update($data);
+
+        return redirect()->back()->with('success', 'Item updated');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(InvoiceItem $item)
+    {
+        $item->delete();
+
+        return redirect()->back()->with('success', 'Item removed');
+    }
+}

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\MeasurementUnitController;
 use App\Http\Controllers\PricingBookController;
 use App\Http\Controllers\ProductCategoryController;
@@ -54,7 +56,16 @@ Route::prefix('purchase-order')->middleware(['auth'])->group(function () {
     Route::delete('products/{order}', [PurchaseProductController::class, 'delete'])->name('purchase-order-product.delete');
     Route::delete('{order}', [PurchaseOrderController::class, 'delete'])->name('purchase-order.delete');
 });
-
+Route::prefix('invoice')->middleware(['auth'])->group(function () {
+    Route::get('', [InvoiceController::class, 'index'])->name('invoice.index');
+    Route::get('add', [InvoiceController::class, 'create'])->name('invoice.add');
+    Route::get('{invoice}', [InvoiceItemController::class, 'index'])->name('invoiceItem.index');
+    Route::post('', [InvoiceController::class, 'store'])->name('invoice.store');
+    Route::post('{invoice}', [InvoiceItemController::class, 'store'])->name('invoiceItem.store');
+    Route::put('{item}', [InvoiceItemController::class, 'update'])->name('invoiceItem.update');
+    Route::delete('{invoice}', [InvoiceController::class, 'destroy'])->name('invoice.delete');
+    Route::delete('items/{item}', [InvoiceItemController::class, 'destroy'])->name('invoiceItem.delete');
+});
 Route::prefix('products')->middleware(['auth'])->group(function () {
     Route::get('', [ProductsController::class, 'index'])->name('product.index');
     Route::get('{product}', [ProductsController::class, 'edit'])->name('product.edit');

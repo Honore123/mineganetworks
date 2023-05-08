@@ -65,6 +65,7 @@
         <script src="{{asset('custom/js/dashboard.js')}}"></script>
         <script src="{{asset('custom/js/Chart.roundedBarCharts.js')}}"></script>
         <script src="{{asset('custom/js/select2.js')}}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- End custom js for this page-->
         @stack('scripts')
     </body>

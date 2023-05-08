@@ -71,22 +71,22 @@ class QuotationController extends Controller
         $data['vat'] = $data['total'] * 0.18;
         $data['totalVat'] = $data['total'] + $data['vat'];
 
-        // $pdf = Pdf::loadView('quotation.download_quotation', [
-        //     'quotation' => $quotation,
-        //     'items' => $items,
-        //     'total' => number_format($data['total'], 0, '.', ','),
-        //     'vat' => number_format($data['vat'], 0, '.', ','),
-        //     'totalVat' => number_format($data['totalVat'], 0, '.', ','),
-        // ]);
-
-        // return $pdf->download($quotation->quotation_code.'_quotation.pdf');
-        return view('quotation.download_quotation', [
+        $pdf = Pdf::loadView('quotation.download_quotation', [
             'quotation' => $quotation,
             'items' => $items,
             'total' => number_format($data['total'], 0, '.', ','),
             'vat' => number_format($data['vat'], 0, '.', ','),
             'totalVat' => number_format($data['totalVat'], 0, '.', ','),
         ]);
+
+        return $pdf->download($quotation->quotation_code.'_quotation.pdf');
+        // return view('quotation.download_quotation', [
+        //     'quotation' => $quotation,
+        //     'items' => $items,
+        //     'total' => number_format($data['total'], 0, '.', ','),
+        //     'vat' => number_format($data['vat'], 0, '.', ','),
+        //     'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+        // ]);
     }
 
     public function store()

@@ -39,6 +39,19 @@
           </ul>
         </div>
       </li>
+      <li class="nav-item {{setActive('invoice')}} {{setActive('invoice/*')}}">
+        <a class="nav-link" data-toggle="collapse" href="#invoice-drop" aria-expanded="false" aria-controls="invoice-drop">
+          <i class="ti-pencil-alt menu-icon"></i>
+          <span class="menu-title">Invoices</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse {{showCollapse('invoice')}} {{showCollapse('invoice/*')}}" id="invoice-drop">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item "> <a class="nav-link" href="{{route('invoice.add')}}">New Invoice</a></li>
+            <li class="nav-item "> <a class="nav-link" href="{{route('invoice.index')}}">Manage Invoices</a></li>
+          </ul>
+        </div>
+      </li>
       <li class="nav-item {{setActive('customers')}} {{setActive('customers/*')}}">
         <a class="nav-link" href="{{route('customer.index')}}">
           <i class="ti-user menu-icon"></i>
