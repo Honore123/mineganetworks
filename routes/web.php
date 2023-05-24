@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\MeasurementUnitController;
@@ -11,9 +13,12 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchaseProductController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\QuotationProductController;
+use App\Http\Controllers\RiggerController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UploadFrameworkController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
+use App\Models\Rigger;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,13 +32,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('quotation')->middleware(['auth'])->group(function () {
     Route::get('', [QuotationController::class, 'index'])->name('quotation.index');
-    Route::get('add', [QuotationController::class, 'add'])->name('quotation.add');
+    Route::get('new_quotation', [QuotationController::class, 'add'])->name('quotation.add');
     Route::get('{quotation}', [QuotationController::class, 'items'])->name('quotation.items');
     Route::get('edit/{quotation}', [QuotationController::class, 'edit'])->name('quotation.edit');
     Route::get('download/{quotation}', [QuotationController::class, 'downloadQuotation'])->name('quotation.download');
@@ -48,8 +51,9 @@ Route::prefix('quotation')->middleware(['auth'])->group(function () {
 
 Route::prefix('purchase-order')->middleware(['auth'])->group(function () {
     Route::get('', [PurchaseOrderController::class, 'index'])->name('purchase-order.index');
-    Route::get('add', [PurchaseOrderController::class, 'add'])->name('purchase-order.add');
+    Route::get('new_po', [PurchaseOrderController::class, 'add'])->name('purchase-order.add');
     Route::get('{order}', [PurchaseOrderController::class, 'items'])->name('purchase-order.items');
+    Route::get('download/{order}', [PurchaseOrderController::class, 'download'])->name('purchase-order.download');
     Route::post('', [PurchaseOrderController::class, 'store'])->name('purchase-order.store');
     Route::post('products/{order}', [PurchaseProductController::class, 'store'])->name('purchase-order-product.store');
     Route::put('products/{order}', [PurchaseProductController::class, 'update'])->name('purchase-order-product.update');
@@ -58,8 +62,9 @@ Route::prefix('purchase-order')->middleware(['auth'])->group(function () {
 });
 Route::prefix('invoice')->middleware(['auth'])->group(function () {
     Route::get('', [InvoiceController::class, 'index'])->name('invoice.index');
-    Route::get('add', [InvoiceController::class, 'create'])->name('invoice.add');
+    Route::get('new_invoice', [InvoiceController::class, 'create'])->name('invoice.add');
     Route::get('{invoice}', [InvoiceItemController::class, 'index'])->name('invoiceItem.index');
+    Route::get('download/{invoice}', [InvoiceController::class, 'download'])->name('invoice.download');
     Route::post('', [InvoiceController::class, 'store'])->name('invoice.store');
     Route::post('{invoice}', [InvoiceItemController::class, 'store'])->name('invoiceItem.store');
     Route::put('{item}', [InvoiceItemController::class, 'update'])->name('invoiceItem.update');
@@ -95,7 +100,23 @@ Route::prefix('vendors')->group(function () {
     Route::put('{vendor}', [VendorController::class, 'update'])->name('vendor.update');
     Route::delete('{vendor}', [VendorController::class, 'delete'])->name('vendor.delete');
 });
-
+Route::prefix('riggers')->group(function () {
+    Route::get('', [RiggerController::class, 'index'])->name('riggers.index');
+    Route::post('', [RiggerController::class, 'store'])->name('riggers.store');
+    Route::put('{rigger}', [RiggerController::class, 'update'])->name('riggers.update');
+    Route::delete('{rigger}', [RiggerController::class, 'destroy'])->name('riggers.delete');
+    Route::prefix('profile')->group(function () {
+        Route::get('{rigger}', [RiggerController::class, 'show'])->name('rigger.show');
+        Route::post('{rigger}', [RiggerController::class, 'upload'])->name('rigger.upload');
+        Route::delete('{rigger}/{document}', [RiggerController::class, 'removeDocument'])->name('rigger-document.delete');
+    });
+});
+Route::prefix('users')->group(function () {
+    Route::get('', [UserController::class, 'index'])->name('users.index');
+    Route::post('', [UserController::class, 'store'])->name('users.store');
+    Route::put('{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('{user}', [UserController::class, 'destroy'])->name('users.delete');
+});
 Route::prefix('settings')->group(function () {
     Route::prefix('measurement_unit')->group(function () {
         Route::get('', [MeasurementUnitController::class, 'index'])->name('measurement.index');
@@ -111,6 +132,13 @@ Route::prefix('settings')->group(function () {
     Route::prefix('subcategories')->group(function () {
         Route::get('', [SubcategoryController::class, 'index'])->name('subcategory.index');
         Route::post('', [SubcategoryController::class, 'store'])->name('subcategory.store');
+    });
+    Route::prefix('logs')->group(function () {
+        Route::get('', [ActivityLogController::class, 'index'])->name('logs.index');
+    });
+    Route::prefix('password')->group(function () {
+        Route::get('', [UserController::class, 'changePassword'])->name('change.password');
+        Route::put('{user}', [UserController::class, 'updatePassword'])->name('update.password');
     });
 });
 

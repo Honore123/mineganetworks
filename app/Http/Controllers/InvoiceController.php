@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 
@@ -50,6 +52,7 @@ class InvoiceController extends Controller
     {
         $data = request()->validate([
             'company_name' => ['required', 'string'],
+            'tin_number' => ['required'],
             'project_title' => ['required', 'string'],
         ]);
 
@@ -99,6 +102,32 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         //
+    }
+
+    public function download(Invoice $invoice)
+    {
+        $items = InvoiceItem::where('invoice_id', $invoice->id)->get();
+        $data['total'] = $items->sum('total_price');
+        $data['vat'] = $data['total'] * 0.18;
+        $data['totalVat'] = $data['total'] + $data['vat'];
+
+        $pdf = Pdf::loadView('invoice.download_invoice', [
+            'invoice' => $invoice,
+            'items' => $items,
+            'total' => number_format($data['total'], 0, '.', ','),
+            'vat' => number_format($data['vat'], 0, '.', ','),
+            'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+        ]);
+
+        return $pdf->download($invoice->invoice_code.'_invoice.pdf');
+
+        // return view('invoice.download_invoice', [
+        //     'invoice' => $invoice,
+        //     'items' => $items,
+        //     'total' => number_format($data['total'], 0, '.', ','),
+        //     'vat' => number_format($data['vat'], 0, '.', ','),
+        //     'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+        // ]);
     }
 
     /**

@@ -16,7 +16,7 @@
         @font-face {
             font-family: 'century_bold';
             src: url('{{ storage_path("fonts/gothicb.ttf") }}') format("truetype");
-            font-weight: bold;
+            
         }
         body{
             font-family: 'century';

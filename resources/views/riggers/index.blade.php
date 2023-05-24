@@ -3,27 +3,24 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h3>Vendors</h3>
+            <h3>Riggers</h3>
         </div>
         <div class="col-md-12 d-flex justify-content-end">
-            <a class="btn btn-primary rounded-0 mr-4" data-toggle="modal" data-target="#new_vendor">New Vendor</a>
+            <a class="btn btn-primary rounded-0 mr-4" data-toggle="modal" data-target="#new_rigger">New Rigger</a>
         </div>
-        @include('vendor.partials.add')
+        @include('riggers.partials.add')
         <div class="col-md-12 mt-3">
             @include('layouts.partials.notification')
         </div>
-        @include('vendor.partials.edit')
+        @include('riggers.partials.edit')
         <div class="col-md-12 mt-4 bg-white p-3">
             <table class="table table-bordered table-striped table-hover" id="customers-table" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>TIN</th>
-                        <th>Status</th>
-                        <th>Valid until</th>
+                        <th>Phone number</th>
+                        <th>ID Number</th>
                         <th>Option</th>
                     </tr>
                 </thead>
@@ -40,7 +37,7 @@
     function deleteAlert(id, name){
             swal.fire( {
                 title:'Confirmation',
-                text:'The pricing book of '+ name +' will be removed, Do you want to delete vendor '+ name,
+                text:'Rigger account of  '+ name +' will be removed, Do you want to delete?',
                 icon: 'warning',
                 confirmButtonText: 'Yes',
                 cancelButtonText:'No',
@@ -48,22 +45,18 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('delete-vendor-'+ id).submit();
+                    document.getElementById('delete-rigger-'+ id).submit();
                 }
             });
         }
        function showModal(id){
-        const vendors = @json($vendors);
-        let vendor = vendors.find(vendor=> vendor.id == id);
-        $("#edit_vendor_name").val(vendor.vendor_name);
-        $("#edit_start_date").val(vendor.start_date);
-        $("#edit_end_date").val(vendor.end_date);
-        $("#edit_email").val(vendor.email);
-        $("#edit_phone_number").val(vendor.phone_number);
-        $("#edit_nat_id").val(vendor.nat_id);
-        $("#edit_tin").val(vendor.tin);
-        $('#edit_vendor_form').attr("action","{{route('vendor.index')}}/"+id)
-        $('#edit_vendor').modal('show');
+        const riggers = @json($riggers);
+        let rigger = riggers.find(rigger=> rigger.id == id);
+        $("#edit_name").val(rigger.name);
+        $("#edit_phone").val(rigger.phone);
+        $("#edit_nid").val(rigger.nid);
+        $('#edit_rigger_form').attr("action","{{route('riggers.index')}}/"+id)
+        $('#edit_rigger').modal('show');
        }
         $('#customers-table').DataTable({
             'paging': true,
@@ -78,17 +71,14 @@
             "processing":true,
             "serverSide":true,
             "ajax": {
-                "url": "{{route('vendor.index')}}",
+                "url": "{{route('riggers.index')}}",
                 "type": 'GET',
             },
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
-                { "data": 'vendor_name', "name": 'vendor_name',"className":"text-middle"},
-                { "data": 'email', "name": 'email',"className":"text-middle","defaultContent":"Not available"},
-                { "data": 'phone_number', "name": 'phone_number',"className":"text-middle","defaultContent":"Not available"},
-                { "data": 'tin', "name": 'tin',"className":"text-middle","defaultContent":"Not available"},
-                { "data": 'contract_status', "name": 'contract_status',"className":"text-middle"},
-                { "data": 'end_date', "name": 'end_date',"className":"text-middle"},
+                { "data": 'name', "name": 'name',"className":"text-middle"},
+                { "data": 'phone', "name": 'phone',"className":"text-middle"},
+                { "data": 'nid', "name": 'nid',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
         })

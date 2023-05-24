@@ -47,6 +47,10 @@ class VendorController extends Controller
             'vendor_name' => ['required', 'string'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
+            'tin' => ['required'],
+            'phone_number' => ['required'],
+            'email' => ['string'],
+            'nat_id' => ['string'],
         ]);
 
         $data['contract_status'] = 1;
@@ -69,6 +73,10 @@ class VendorController extends Controller
             'vendor_name' => ['required', 'string'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
+            'tin' => ['required'],
+            'phone_number' => ['required'],
+            'email' => ['string'],
+            'nat_id' => ['string'],
         ]);
         $data['contract_status'] = 1;
         if (new DateTime($data['end_date']) < new DateTime($data['start_date'])) {

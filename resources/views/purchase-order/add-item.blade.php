@@ -89,7 +89,7 @@
                   </div>
                   <div class="mt-5 mb-3 d-flex justify-content-between">
                     <button onclick="deletePurchaseOrder({{$purchaseOrder->id}},'{{$purchaseOrder->vendor->vendor_name}}')" class="btn btn-outline-danger rounded-0">Delete</button>
-                    <a href="{{route('quotation.download',$purchaseOrder->id)}}" class="btn btn-primary rounded-0 mr-2">Download</a>
+                    <a href="{{route('purchase-order.download',$purchaseOrder->id)}}" class="btn btn-primary rounded-0 mr-2">Download</a>
                   </div>
                   <form action="{{route('purchase-order.delete',$purchaseOrder->id)}}" method="POST" id="delete-purchase-order-{{$purchaseOrder->id}}">
                     @csrf

@@ -8,20 +8,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class PurchaseOrder extends Model
+class Rigger extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
     protected $guarded = [];
 
-    public function vendor()
-    {
-        return $this->hasOne(Vendor::class, 'id', 'vendor_id');
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
         ->logAll();
+    }
+
+    public function document()
+    {
+        return $this->hasMany(RiggerDocument::class, 'id', 'rigger_id');
     }
 }

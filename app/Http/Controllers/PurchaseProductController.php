@@ -43,6 +43,10 @@ class PurchaseProductController extends Controller
             'unit_price' => ['required'],
             'total_price' => ['required'],
         ]);
+        $existing = PurchaseProduct::where('purchase_order_id', $order->id)->where('product_id', $data['product_id'])->first();
+        if ($existing) {
+            return redirect()->back()->with('error', 'Item is already on the list! You can edit it');
+        }
         $data['purchase_order_id'] = $order->id;
         PurchaseProduct::create($data);
 

@@ -6,6 +6,7 @@ use App\Models\Products;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseProduct;
 use App\Models\Vendor;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller
@@ -72,6 +73,32 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = PurchaseOrder::create($data);
 
         return redirect()->route('purchase-order.items', $purchaseOrder->id)->with('success', 'Purchase order created! Now you can start adding items');
+    }
+
+    public function download(PurchaseOrder $order)
+    {
+        $items = PurchaseProduct::where('purchase_order_id', $order->id)->get();
+        $data['total'] = $items->sum('total_price');
+        $data['vat'] = $data['total'] * 0.18;
+        $data['totalVat'] = $data['total'] + $data['vat'];
+
+        $pdf = Pdf::loadView('purchase-order.download_purchase', [
+            'purchaseOrder' => $order,
+            'items' => $items,
+            'total' => number_format($data['total'], 0, '.', ','),
+            'vat' => number_format($data['vat'], 0, '.', ','),
+            'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+        ]);
+
+        return $pdf->download($order->vendor->vendor_name.'_'.$order->po_code.'_po.pdf');
+
+        // return view('purchase-order.download_purchase', [
+        //     'purchaseOrder' => $order,
+        //     'items' => $items,
+        //     'total' => number_format($data['total'], 0, '.', ','),
+        //     'vat' => number_format($data['vat'], 0, '.', ','),
+        //     'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+        // ]);
     }
 
     public function delete(PurchaseOrder $order)

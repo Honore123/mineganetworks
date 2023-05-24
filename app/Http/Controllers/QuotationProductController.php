@@ -25,6 +25,10 @@ class QuotationProductController extends Controller
             'quantity' => ['required'],
             'product_id' => ['required'],
         ]);
+        $existing = QuotationProduct::where('quotation_id', $quotation->id)->where('product_id', $data['product_id'])->first();
+        if ($existing) {
+            return redirect()->back()->with('error', 'Item is already on the list! You can edit it');
+        }
         $source = request()->input('item_source');
         if ($quotation->client_id != 0 && $source != 0) {
             $product = PricingBook::where('customer_id', $quotation->client_id)->where('product_id', $data['product_id'])->first();

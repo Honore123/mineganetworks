@@ -16,12 +16,16 @@
                   Fill out the form below
                 </p>
                   <div class="form-group w-25">
-                    <label for="exampleInputName1">Client Name:</label>
-                    <h5 class="mt-3">{{$invoice->company_name}}</h5>
+                    <h5 for="exampleInputName1">Client:</h5>
+                    <p class="mt-3">{{$invoice->company_name}}</p>
+                    <p><span>TIN </span>{{$invoice->tin_number}}</p>
+                    @if(!is_null($invoice->address))
+                    <p>{{$invoice->address}}</p>
+                    @endif
                   </div>
                   <div class="form-group w-25">
-                    <label for="project_name">Project Name:</label>
-                    <h5 class="mt-3">{{$invoice->project_title}}</h5>
+                    <h5 for="project_name">Project:</h5>
+                    <p class="mt-3">{{$invoice->project_title}}</p>
                   </div>
                   <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-primary rounded-0" data-toggle="modal" data-target="#add_item">Add Item</button>
@@ -71,20 +75,20 @@
                                 <td colspan="5" class="text-center"><b>Total</b></td>
                                 <td><b>{{$total}} Rwf</b></td>
                             </tr>
-                            {{-- <tr>
-                                <td colspan="6" class="text-center"><b>VAT</b> </td>
+                            <tr>
+                                <td colspan="5" class="text-center"><b>VAT(18%)</b> </td>
                                 <td><b>{{$vat}} Rwf</b></td>
-                            </tr> --}}
-                            {{-- <tr>
-                                <td colspan="6" class="text-center"><b>Total Incl. VAT</b></td>
+                            </tr> 
+                            <tr>
+                                <td colspan="5" class="text-center"><b>Total Incl. VAT</b></td>
                                 <td><b>{{$totalVat}} Rwf</b></td>
-                            </tr> --}}
+                            </tr> 
                         </tbody>
                     </table>
                   </div>
                   <div class="mt-5 mb-3 d-flex justify-content-between">
                     <button onclick="deleteInvoice({{$invoice->id}},'{{$invoice->company_name}}')" class="btn btn-outline-danger rounded-0">Delete</button>
-                    <a href="" class="btn btn-primary rounded-0 mr-2">Download</a>
+                    <a href="{{route('invoice.download', $invoice->id)}}" class="btn btn-primary rounded-0 mr-2">Download</a>
                   </div>
                   <form action="{{route('invoice.delete',$invoice->id)}}" method="POST" id="delete-invoice-{{$invoice->id}}">
                     @csrf

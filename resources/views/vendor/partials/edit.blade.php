@@ -16,6 +16,22 @@
               <input type="text" class="form-control" name="vendor_name" id="edit_vendor_name" placeholder="Vendor name">
           </div>
           <div class="form-group">
+            <label for="">Email</label>
+            <input type="email" class="form-control" name="email" id="edit_email" placeholder="Vendor Email">
+          </div>
+          <div class="form-group">
+            <label for="">Phone Number</label>
+            <input type="number" class="form-control" name="phone_number" id="edit_phone_number" placeholder="Phone Number">
+          </div>
+          <div class="form-group">
+            <label for="">National ID</label>
+            <input type="number" class="form-control" name="nat_id" id="edit_nat_id" placeholder="National ID">
+          </div>
+          <div class="form-group">
+            <label for="">TIN</label>
+            <input type="number" class="form-control" name="tin" id="edit_tin" placeholder="TIN">
+          </div>
+          <div class="form-group">
             <label for="price">Contract start date</label>
             <input type="date" class="form-control" id="edit_start_date" name="start_date" placeholder="Start date">
           </div>

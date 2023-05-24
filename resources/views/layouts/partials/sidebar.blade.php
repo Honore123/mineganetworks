@@ -28,7 +28,7 @@
       </li>
       <li class="nav-item {{setActive('purchase-order')}} {{setActive('purchase-order/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#purchase-order-drop" aria-expanded="false" aria-controls="purchase-order-drop">
-          <i class="ti-pencil-alt menu-icon"></i>
+          <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Purchase Order</span>
           <i class="menu-arrow"></i>
         </a>
@@ -41,7 +41,7 @@
       </li>
       <li class="nav-item {{setActive('invoice')}} {{setActive('invoice/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#invoice-drop" aria-expanded="false" aria-controls="invoice-drop">
-          <i class="ti-pencil-alt menu-icon"></i>
+          <i class="ti-envelope menu-icon"></i>
           <span class="menu-title">Invoices</span>
           <i class="menu-arrow"></i>
         </a>
@@ -64,6 +64,18 @@
           <span class="menu-title">Vendors</span>
         </a>
       </li>
+      <li class="nav-item {{setActive('riggers')}} {{setActive('riggers/*')}}">
+        <a class="nav-link" href="{{route('riggers.index')}}">
+          <i class="ti-user menu-icon"></i>
+          <span class="menu-title">Riggers</span>
+        </a>
+      </li>
+      <li class="nav-item {{setActive('users')}} {{setActive('users/*')}}">
+        <a class="nav-link" href="{{route('users.index')}}">
+          <i class="ti-user menu-icon"></i>
+          <span class="menu-title">Users</span>
+        </a>
+      </li>
       <li class="nav-item {{setActive('settings')}} {{setActive('settings/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#settings-drop" aria-expanded="false" aria-controls="ui-basic">
           <i class="ti-settings menu-icon"></i>
@@ -75,6 +87,8 @@
             <li class="nav-item {{setActive('settings/categories')}} {{setActive('settings/categories/*')}}"> <a class="nav-link" href="{{route('category.index')}}">Categories</a></li>
             <li class="nav-item {{setActive('settings/subcategories')}} {{setActive('settings/subcategories/*')}}"> <a class="nav-link" href="{{route('subcategory.index')}}">Sub-Categories</a></li>
             <li class="nav-item {{setActive('settings/measurement_unit')}} {{setActive('settings/measurement_unit/*')}}"> <a class="nav-link" href="{{route('measurement.index')}}">Measurement Unit</a></li>
+            <li class="nav-item {{setActive('settings/logs')}} {{setActive('settings/logs/*')}}"> <a class="nav-link" href="{{route('logs.index')}}">Logs</a></li>
+            <li class="nav-item {{setActive('settings/password')}} {{setActive('settings/password/*')}}"> <a class="nav-link" href="{{route('change.password')}}">Change Password</a></li>
           </ul>
         </div>
       </li>
