@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('riggers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('phone')->unique();
-            $table->integer('nid')->unique();
+            $table->string('phone')->unique();
+            $table->string('nid')->unique();
             $table->timestamps();
         });
     }

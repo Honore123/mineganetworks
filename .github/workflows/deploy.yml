@@ -1,0 +1,22 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploying
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: cd ${{ secrets.PATH }} && git pull minega main && chmod +x ./.scripts/deploy.sh && git add . && git commit --amend --no-edit && ./.scripts/deploy.sh
