@@ -108,7 +108,7 @@ class RiggerController extends Controller
         ]);
         $file = request()->file('document');
         $data['document'] = uniqid().'_'.trim($file->getClientOriginalName());
-        $file->storeAs('riggers/'.$rigger->name, $data['document']);
+        $file->storeAs('riggers/'.$rigger->name, $data['document'], 'public');
         $data['rigger_id'] = $rigger->id;
         RiggerDocument::create($data);
 
