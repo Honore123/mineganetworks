@@ -58,7 +58,6 @@
                         <thead>
                             <tr class="bg-yellow" style="font-family: 'century_bold'">
                                 <th>#</th>
-                                <th style="font-family: 'century_bold'">Item code</th>
                                 <th>Name/description</th>
                                 <th>UOM</th>
                                 <th>Unit Price (Rwf)</th>
@@ -70,7 +69,6 @@
                             @forelse($items as $item)
                             <tr>
                                 <td>{{$loop->iteration++}}</td>
-                                <td>{{$item->product->product_code}}</td>
                                 <td>{{$item->product->product_name}}</td>
                                 <td>{{$item->product->unit->unit_abbr}}</td>
                                 <td>{{number_format($item->unit_price,0,'.',',')}}</td>
@@ -80,15 +78,15 @@
                             @empty
                             @endforelse
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="6" class="text-center"><b>Total Excl. VAT</b></td>
+                                <td colspan="5" class="text-center"><b>Total Excl. VAT</b></td>
                                 <td style="font-family: 'century_bold'"><b>{{$total}} Rwf</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="6" class="text-center"><b>VAT(18%)</b> </td>
+                                <td colspan="5" class="text-center"><b>VAT(18%)</b> </td>
                                 <td ><b>{{$vat}} Rwf</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="6" class="text-center"><b>Total Incl. VAT</b></td>
+                                <td colspan="5" class="text-center"><b>Total Incl. VAT</b></td>
                                 <td><b>{{$totalVat}} Rwf</b></td>
                             </tr>
                         </tbody>
