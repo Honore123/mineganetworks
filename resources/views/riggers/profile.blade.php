@@ -37,7 +37,7 @@
                                 <td>
                                     <button type="button" class="btn btn-outline-primary py-2 dropdown-toggle" data-toggle="dropdown">Option</button>
                                     <div class="dropdown-menu">
-                                    <a href="{{asset('storage/public/riggers/'.$rigger->name.'/'.$document->document)}}" class="dropdown-item py-2">Download</a>
+                                    <a href="{{asset('storage/public/riggers/'.$rigger->name.'/'.$document->document)}}" target="blank" class="dropdown-item py-2">Download</a>
                                     <div class="dropdown-divider"></div>
                                     <form action="{{route('rigger-document.delete',[$rigger->id,$document->id])}}" id="delete-rigger-document-{{$document->id}}"  method="POST">
                                         @csrf

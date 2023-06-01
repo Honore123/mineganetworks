@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rigger;
 use App\Models\RiggerDocument;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -113,6 +114,20 @@ class RiggerController extends Controller
         RiggerDocument::create($data);
 
         return redirect()->back()->with('success', 'Document uploaded');
+    }
+
+    public function download()
+    {
+        $items = Rigger::all();
+
+        $pdf = Pdf::loadView('riggers.download_riggers', [
+            'items' => $items,
+        ]);
+
+        return $pdf->download('Riggers_List.pdf');
+        // return view('riggers.download_riggers', [
+        //     'items' => $items,
+        // ]);
     }
 
     public function removeDocument(Rigger $rigger, RiggerDocument $document)
