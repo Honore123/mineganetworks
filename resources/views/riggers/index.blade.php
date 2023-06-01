@@ -6,7 +6,8 @@
             <h3>Riggers</h3>
         </div>
         <div class="col-md-12 d-flex justify-content-end">
-            <a class="btn btn-primary rounded-0 mr-4" data-toggle="modal" data-target="#new_rigger">New Rigger</a>
+            <a class="btn btn-outline-primary rounded-0 mr-3" href="{{route('riggers.download')}}">Download List</a>
+            <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#new_rigger">New Rigger</a>
         </div>
         @include('riggers.partials.add')
         <div class="col-md-12 mt-3">
