@@ -43,7 +43,7 @@
               <div class="card-body p-0">
                   <div>
                     <div class="w-25">
-                        <img class="img-fluid" src="{{asset('images/logo1.png')}}" alt="">
+                        <img class="img-fluid" src="data:image/png;base64,{{ base64_encode(file_get_contents(asset('images/logo1.png'))) }}" alt="">
                     </div>
                    <p class="mb-0">MINEGA NETWORKS Ltd</p>
                    <p class="mb-0">KICUKIRO - GIKONDO - KANSEREGE</p>
