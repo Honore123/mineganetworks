@@ -15,10 +15,11 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::firstOrCreate([
-            'name'=>'Administrator',
-            'email'=>'admin@mineganetworks.rw',
-            'password'=>Hash::make('password'),
-        ]);
+        User::firstOrCreate(
+            ['email'=>'admin@mineganetworks.rw'],
+            ['name'=>'Administrator',
+                'password'=>Hash::make('password'),
+            ],
+        );
     }
 }
