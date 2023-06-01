@@ -102,6 +102,7 @@ Route::prefix('vendors')->group(function () {
 });
 Route::prefix('riggers')->group(function () {
     Route::get('', [RiggerController::class, 'index'])->name('riggers.index');
+    Route::get('download', [RiggerController::class, 'download'])->name('riggers.download');
     Route::post('', [RiggerController::class, 'store'])->name('riggers.store');
     Route::put('{rigger}', [RiggerController::class, 'update'])->name('riggers.update');
     Route::delete('{rigger}', [RiggerController::class, 'destroy'])->name('riggers.delete');
