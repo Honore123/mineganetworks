@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -29,16 +32,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -50,10 +43,16 @@ class UserController extends Controller
             'email'=>['string', 'required', 'unique:users'],
             'name' => ['string', 'required'],
         ]);
-        $data['password'] = Hash::make('sdfasdqweqwfsafasfas');
-        User::create($data);
+        $data['password'] = Hash::make('Minega@2023user');
+        $user = User::create($data);
+        if (! is_null($user)) {
+            $status = Password::sendResetLink($request->only('email'));
+        }
 
-        return redirect()->back()->with('success', 'User created! Email sent for creating password');
+        return $status == Password::RESET_LINK_SENT
+        ? back()->with('success', 'User created! Email sent for resetting password')
+        : back()->withInput($request->only('email'))
+                ->withErrors(['email' => __($status)]);
     }
 
     /**
