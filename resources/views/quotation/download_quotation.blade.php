@@ -58,7 +58,6 @@
                         <thead>
                             <tr class="bg-yellow" style="font-family: 'century_bold'">
                                 <th>#</th>
-                                <th style="font-family: 'century_bold'">Item code</th>
                                 <th>Name/description</th>
                                 <th>UOM</th>
                                 <th>Unit Price (Rwf)</th>
@@ -70,7 +69,6 @@
                             @forelse($items as $item)
                             <tr>
                                 <td>{{$loop->iteration++}}</td>
-                                <td>{{$item->product->product_code}}</td>
                                 <td>{{$item->product->product_name}}</td>
                                 <td>{{$item->product->unit->unit_abbr}}</td>
                                 <td>{{number_format($item->unit_price,0,'.',',')}}</td>
