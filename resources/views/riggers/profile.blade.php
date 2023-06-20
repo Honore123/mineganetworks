@@ -18,14 +18,18 @@
                 <h3 class="card-title">Documents</h3>
                 <button class="btn btn-primary rounded-0" data-toggle="modal" data-target="#document_rigger">New document</button>
                 @include('riggers.partials.document')
+                @include('riggers.partials.edit_document')
            </div>
            <div class="row mt-4">
-                <div class="col-md-12">
+                <div class="col-md-12 table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Document Type</th>
+                                <th>Status</th>
+                                <th>Issued date</th>
+                                <th>Expiry date</th>
                                 <th>Option</th>
                             </tr>
                         </thead>
@@ -35,9 +39,33 @@
                                 <td>{{$loop->iteration++}}</td>
                                 <td>{{$document->document_type}}</td>
                                 <td>
+                                    @if(is_null($document->expiry_date))
+                                    <span class="badge badge-primary">Life time</span>
+                                    @elseif(new DateTime($document->expiry_date)  >= new DateTime('today'))
+                                    <span class="badge badge-success">Valid</span>
+                                    @else
+                                    <span class="badge badge-danger">Expired</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(!is_null($document->issued_date))
+                                    {{$document->issued_date}}
+                                    @else
+                                    Not applicable
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(!is_null($document->expiry_date))
+                                    {{$document->expiry_date}}
+                                    @else
+                                    Not applicable
+                                    @endif
+                                </td>
+                                <td>
                                     <button type="button" class="btn btn-outline-primary py-2 dropdown-toggle" data-toggle="dropdown">Option</button>
                                     <div class="dropdown-menu">
                                     <a href="{{asset('storage/public/riggers/'.$rigger->name.'/'.$document->document)}}" target="blank" class="dropdown-item py-2">Download</a>
+                                    <button onclick="showModal({{$document->id}})"  class="dropdown-item py-2">Edit Document</button>
                                     <div class="dropdown-divider"></div>
                                     <form action="{{route('rigger-document.delete',[$rigger->id,$document->id])}}" id="delete-rigger-document-{{$document->id}}"  method="POST">
                                         @csrf
@@ -77,5 +105,16 @@
                 }
             });
         }
+        function showModal(id){
+        const documents = @json($documents);
+        let document = documents.find(document=> document.id == id);
+        $("#edit_document_type").val(document.document_type);
+        $("#edit_issued_date").val(document.issued_date);
+        $("#edit_expiry_date").val(document.expiry_date);
+        var url = '{{ route("rigger.update.doc", ":id") }}';
+        url = url.replace(':id',id);
+        $('#edit_rigger_doc_form').attr("action",url);
+        $('#edit_document_rigger').modal('show');
+       }
     </script>
 @endpush
