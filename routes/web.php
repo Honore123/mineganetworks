@@ -109,6 +109,7 @@ Route::prefix('riggers')->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('{rigger}', [RiggerController::class, 'show'])->name('rigger.show');
         Route::post('{rigger}', [RiggerController::class, 'upload'])->name('rigger.upload');
+        Route::put('{document}', [RiggerController::class, 'updateDoc'])->name('rigger.update.doc');
         Route::delete('{rigger}/{document}', [RiggerController::class, 'removeDocument'])->name('rigger-document.delete');
     });
 });

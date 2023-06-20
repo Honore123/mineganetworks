@@ -106,6 +106,8 @@ class RiggerController extends Controller
         $data = request()->validate([
             'document_type' => ['required', 'string'],
             'document' => ['required', 'file', 'max:10000'],
+            'expiry_date' =>['nullable'],
+            'issued_date' => ['nullable'],
         ]);
         $file = request()->file('document');
         $data['document'] = uniqid().'_'.trim($file->getClientOriginalName());
@@ -114,6 +116,26 @@ class RiggerController extends Controller
         RiggerDocument::create($data);
 
         return redirect()->back()->with('success', 'Document uploaded');
+    }
+
+    public function updateDoc(RiggerDocument $document)
+    {
+        $data = request()->validate([
+            'document_type' => ['required', 'string'],
+            'expiry_date' =>['nullable'],
+            'issued_date' => ['nullable'],
+        ]);
+        $file = request()->file('document');
+        if (! is_null($file)) {
+            $rigger = Rigger::where('id', $document->rigger_id)->first();
+            Storage::delete('riggers/'.$rigger->name.'/'.$document->document);
+            $data['document'] = uniqid().'_'.trim($file->getClientOriginalName());
+            $file->storeAs('riggers/'.$rigger->name, $data['document'], 'public');
+        }
+
+        $document->update($data);
+
+        return redirect()->back()->with('success', 'Document updated');
     }
 
     public function download()
