@@ -21,7 +21,7 @@
                 @include('riggers.partials.edit_document')
            </div>
            <div class="row mt-4">
-                <div class="col-md-12">
+                <div class="col-md-12 table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
