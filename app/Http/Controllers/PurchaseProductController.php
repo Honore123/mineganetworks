@@ -89,6 +89,10 @@ class PurchaseProductController extends Controller
             'unit_price' => ['required'],
             'total_price' => ['required'],
         ]);
+        $existing = PurchaseProduct::whereNotIn('product_id', [$order->product->id])->where('product_id', $data['product_id'])->first();
+        if ($existing) {
+            return redirect()->back()->with('error', 'Item is already on the list! You can edit it and delete this one');
+        }
 
         $order->update($data);
 

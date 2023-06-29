@@ -13,7 +13,7 @@
                 <p class="card-description">
                   Fill out the form below
                 </p>
-                <form class="forms-sample mt-3" action="{{route('purchase-order.store')}}" method="POST">
+                <form class="forms-sample mt-3" action="{{route('purchase-order.store')}}" method="POST" id="new_po_form">
                   @csrf
                   <div class="form-group" id="customer_form_group">
                     <label for="exampleInputName1">Vendor Name</label>
@@ -35,3 +35,12 @@
           </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+          $('#new_po_form').on('submit', function() {
+            $('#submit_btn').prop('disabled', true);
+          });
+      });
+    </script>
+@endpush

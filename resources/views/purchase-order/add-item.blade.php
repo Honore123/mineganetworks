@@ -55,7 +55,7 @@
                                 <td>
                                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">Option</button>
                                     <div class="dropdown-menu">
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#edit_item_{{$item->id}}">Edit</a>
+                                    <a class="dropdown-item" data-toggle="modal" onclick="editProduct({{$item->id}})" data-target="#edit_item_{{$item->id}}">Edit</a>
                                     <div class="dropdown-divider"></div>
                                     <form action="{{route('purchase-order-product.delete',$item->id)}}" method="POST" id="delete-purchase-product-{{$item->id}}">
                                       @csrf
@@ -105,9 +105,11 @@
     <script>
         $(document).ready(function(){
             $('#product_id').select2();
-            $('#edit_product_id').select2();
-            
+           
         })
+        function editProduct(id){
+            $('#edit_product_'+id).select2();
+        }
         function deleteAlert(id, name){
             swal.fire( {
                 title:'Confirmation',
@@ -150,14 +152,14 @@
                 $('#total_price').val(0);
             }
         }
-        function editTotalPrice(){
-            const quantity = $('#edit_quantity').val();
-            const price = $('#edit_unit_price').val();
+        function editTotalPrice(id){
+            const quantity = $('#edit_quantity_'+id).val();
+            const price = $('#edit_unit_price_'+id).val();
             let totalPrice = quantity * price;
             if(totalPrice) {
-                $('#edit_total_price').val(totalPrice);
+                $('#edit_total_price_'+id).val(totalPrice);
             }else {
-                $('#edit_total_price').val(0);
+                $('#edit_total_price_'+id).val(0);
             }  
         }
 

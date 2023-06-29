@@ -80,7 +80,7 @@ Route::prefix('products')->middleware(['auth'])->group(function () {
     Route::delete('{product}', [ProductsController::class, 'delete'])->name('product.delete');
 });
 
-Route::prefix('customers')->group(function () {
+Route::prefix('customers')->middleware(['auth'])->group(function () {
     Route::get('', [CustomerController::class, 'index'])->name('customer.index');
     Route::post('', [CustomerController::class, 'store'])->name('customer.store');
     Route::put('{customer}', [CustomerController::class, 'update'])->name('customer.update');
@@ -94,13 +94,13 @@ Route::prefix('customers')->group(function () {
     });
 });
 
-Route::prefix('vendors')->group(function () {
+Route::prefix('vendors')->middleware(['auth'])->group(function () {
     Route::get('', [VendorController::class, 'index'])->name('vendor.index');
     Route::post('', [VendorController::class, 'store'])->name('vendor.store');
     Route::put('{vendor}', [VendorController::class, 'update'])->name('vendor.update');
     Route::delete('{vendor}', [VendorController::class, 'delete'])->name('vendor.delete');
 });
-Route::prefix('riggers')->group(function () {
+Route::prefix('riggers')->middleware(['auth'])->group(function () {
     Route::get('', [RiggerController::class, 'index'])->name('riggers.index');
     Route::get('download', [RiggerController::class, 'download'])->name('riggers.download');
     Route::post('', [RiggerController::class, 'store'])->name('riggers.store');
@@ -113,13 +113,13 @@ Route::prefix('riggers')->group(function () {
         Route::delete('{rigger}/{document}', [RiggerController::class, 'removeDocument'])->name('rigger-document.delete');
     });
 });
-Route::prefix('users')->group(function () {
+Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('', [UserController::class, 'index'])->name('users.index');
     Route::post('', [UserController::class, 'store'])->name('users.store');
     Route::put('{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('{user}', [UserController::class, 'destroy'])->name('users.delete');
 });
-Route::prefix('settings')->group(function () {
+Route::prefix('settings')->middleware(['auth'])->group(function () {
     Route::prefix('measurement_unit')->group(function () {
         Route::get('', [MeasurementUnitController::class, 'index'])->name('measurement.index');
         Route::post('', [MeasurementUnitController::class, 'store'])->name('measurement.store');

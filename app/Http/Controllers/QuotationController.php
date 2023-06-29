@@ -70,6 +70,9 @@ class QuotationController extends Controller
         $data['total'] = $items->sum('total_price');
         $data['vat'] = $data['total'] * 0.18;
         $data['totalVat'] = $data['total'] + $data['vat'];
+        if ($quotation->client_id != 0) {
+            $client = Customer::where('id', $quotation->client_id)->first();
+        }
 
         $pdf = Pdf::loadView('quotation.download_quotation', [
             'quotation' => $quotation,
@@ -77,6 +80,7 @@ class QuotationController extends Controller
             'total' => number_format($data['total'], 0, '.', ','),
             'vat' => number_format($data['vat'], 0, '.', ','),
             'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+            'client' => $client,
         ]);
 
         return $pdf->download($quotation->quotation_code.'_quotation.pdf');
@@ -86,6 +90,7 @@ class QuotationController extends Controller
         //     'total' => number_format($data['total'], 0, '.', ','),
         //     'vat' => number_format($data['vat'], 0, '.', ','),
         //     'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+        //     'client' => $client,
         // ]);
     }
 

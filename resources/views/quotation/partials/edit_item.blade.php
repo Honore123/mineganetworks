@@ -22,10 +22,11 @@
           </div> --}}
           <div class="form-group">
               <label for="select item">Item</label>
-              <select class="edit_item_selector" style="width: 100%" name="product_id" id="edit_product_id">
+              <select class="edit_item_selector" style="width: 100%" name="product_id" id="edit_product_{{$item->id}}">
                 <option value="">Select Item</option>
                 @forelse ($products as $product)
-                  <option value="{{$product->id}}" {{$product->id == $item->product_id ?'selected' :''}}>{{$product->product_name}}</option>
+                  <option value="{{$quotation->client_id != 0 ? $product->product->id : $product->id}}" {{$quotation->client_id != 0 && $product->product->id == $item->product->id ? 'selected':''}}>{{$quotation->client_id != 0 ? $product->product->product_name : $product->product_name}}</option>
+                
                 @empty
                   <option value="" disabled>No products</option>
                 @endforelse

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use DateTime;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Rule as ValidationRule;
 
 class CustomerController extends Controller
 {
@@ -44,6 +46,10 @@ class CustomerController extends Controller
     {
         $data = request()->validate([
             'customer_name' => ['required', 'string'],
+            'email' => ['required', 'unique:customers'],
+            'phone_number' => ['required', 'unique:customers'],
+            'tin' => ['required', 'unique:customers'],
+            'address' => ['nullable'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
         ]);
@@ -65,6 +71,10 @@ class CustomerController extends Controller
     {
         $data = request()->validate([
             'customer_name' => ['required', 'string'],
+            'email' => ['required', ValidationRule::unique('customers')->ignore($customer->id)],
+            'phone_number' => ['required', ValidationRule::unique('customers')->ignore($customer->id)],
+            'tin' => ['required', ValidationRule::unique('customers')->ignore($customer->id)],
+            'address' => ['nullable'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
         ]);
