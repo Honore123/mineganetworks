@@ -55,7 +55,7 @@
                                 <td>
                                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">Option</button>
                                     <div class="dropdown-menu">
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#edit_item_{{$item->id}}">Edit</a>
+                                    <a class="dropdown-item" data-toggle="modal" onclick="editProduct({{$item->id}})" data-target="#edit_item_{{$item->id}}">Edit</a>
                                     <div class="dropdown-divider"></div>
                                     <form action="{{route('quotation-product.delete',$item->id)}}" method="POST" id="delete-quotation-product-{{$item->id}}">
                                       @csrf
@@ -105,9 +105,11 @@
     <script>
         $(document).ready(function(){
             $('#product_id').select2();
-            $('#edit_product_id').select2();
-            
+           
         })
+        function editProduct($id) {
+            $('#edit_product_'+$id).select2(); 
+        }
         function deleteAlert(id, name){
             swal.fire( {
                 title:'Confirmation',

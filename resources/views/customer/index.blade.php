@@ -19,6 +19,9 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>TIN</th>
                         <th>Status</th>
                         <th>Valid until</th>
                         <th>Option</th>
@@ -53,6 +56,10 @@
         const customers = @json($customers);
         let customer = customers.find(customer=> customer.id == id);
         $("#edit_customer_name").val(customer.customer_name);
+        $("#edit_email").val(customer.email);
+        $("#edit_phone_number").val(customer.phone_number);
+        $("#edit_address").val(customer.address);
+        $("#edit_tin").val(customer.tin);
         $("#edit_start_date").val(customer.start_date);
         $("#edit_end_date").val(customer.end_date);
         $('#edit_customer_form').attr("action","{{route('customer.index')}}/"+id)
@@ -77,6 +84,9 @@
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'customer_name', "name": 'customer_name',"className":"text-middle"},
+                { "data": 'email', "name": 'email',"className":"text-middle"},
+                { "data": 'phone_number', "name": 'phone_number',"className":"text-middle"},
+                { "data": 'tin', "name": 'tin',"className":"text-middle"},
                 { "data": 'contract_status', "name": 'contract_status',"className":"text-middle"},
                 { "data": 'end_date', "name": 'end_date',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},

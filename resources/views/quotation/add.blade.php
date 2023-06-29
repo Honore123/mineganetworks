@@ -13,7 +13,7 @@
                 <p class="card-description">
                   Fill out the form below
                 </p>
-                <form class="forms-sample mt-3" action="{{route('quotation.store')}}" method="POST">
+                <form class="forms-sample mt-3" action="{{route('quotation.store')}}" method="POST" id="new_quotation_form">
                   @csrf
                   <div class="form-group">
                     <label for="exampleInputName1">Client type</label>
@@ -46,7 +46,7 @@
                     <input type="text" class="form-control" id="project_title" name="project_title" placeholder="Project title">
                   </div>
                   <div class="mt-5 mb-3 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary rounded-0 mr-2 d-none" id="submit_btn">Save & Continue</button>
+                    <button type="submit" onclick="btnDisable()" class="btn btn-primary rounded-0 mr-2 d-none" id="submit_btn">Save & Continue</button>
                   </div>
                 </form>
               </div>
@@ -56,6 +56,11 @@
 @endsection
 @push('scripts')
     <script>
+        $(document).ready(function() {
+          $('#new_quotation_form').on('submit', function() {
+            $('#submit_btn').prop('disabled', true);
+          });
+      });
       function customerType(sel){
         const customer_type = sel.value;
         if(customer_type == 1) {

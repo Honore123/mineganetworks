@@ -51,6 +51,10 @@ class QuotationProductController extends Controller
             'quantity' => ['required'],
             'product_id' => ['required'],
         ]);
+        $existing = QuotationProduct::whereNotIn('product_id', [$quotation->product->id])->where('product_id', $data['product_id'])->first();
+        if ($existing) {
+            return redirect()->back()->with('error', 'Item is already on the list! You can edit it and delete this one');
+        }
         $product = Products::where('id', $data['product_id'])->first();
         $data['unit_price'] = $product->product_unit_price;
         $data['total_price'] = $data['unit_price'] * $data['quantity'];

@@ -13,7 +13,7 @@
                 <p class="card-description">
                   Fill out the form below
                 </p>
-                <form class="forms-sample mt-3" action="{{route('invoice.store')}}" method="POST">
+                <form class="forms-sample mt-3" action="{{route('invoice.store')}}" method="POST" id="new_invoice_form">
                   @csrf
                   <div class="form-group" id="client_form_group">
                     <label for="exampleInputName1">Client Name</label>
@@ -40,3 +40,12 @@
           </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+          $('#new_invoice_form').on('submit', function() {
+            $('#submit_btn').prop('disabled', true);
+          });
+      });
+    </script>
+@endpush

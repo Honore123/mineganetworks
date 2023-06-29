@@ -11,42 +11,42 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6 mb-4 stretch-card transparent">
-                  <div class="card card-tale">
+                  <a class="card card-tale text-decoration-none" href="{{route('quotation.index')}}" role="button">
                     <div class="card-body">
                       <p class="mb-4">Total Quotations</p>
                       <p class="fs-30 mb-2">{{$quotation}}</p>
                       <p>(30 days)</p>
                     </div>
-                  </div>
+                  </a>
                 </div>
-                <div class="col-md-6 mb-4 stretch-card transparent">
-                  <div class="card card-dark-blue">
+                <div class="col-md-6 mb-4 stretch-card transparent ">
+                  <a class="card card-dark-blue text-decoration-none" href="{{route('invoice.index')}}" role="button">
                     <div class="card-body">
                       <p class="mb-4">Total Invoices</p>
                       <p class="fs-30 mb-2">{{$invoice}}</p>
                       <p>(30 days)</p>
                     </div>
-                  </div>
+                  </a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
-                    <div class="card text-light" style="background: #2f3683">
+                    <a class="card text-light text-decoration-none" href="{{route('purchase-order.index')}}" role="button" style="background: #2f3683">
                     <div class="card-body">
                         <p class="mb-4">Total POs</p>
                         <p class="fs-30 mb-2">{{$purchaseOrder}}</p>
                         <p>(30 days)</p>
                     </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-6 stretch-card transparent">
-                    <div class="card text-light" style="background: #c7ad36">
+                    <a class="card text-light text-decoration-none" href="{{route('riggers.index')}}" role="button" style="background: #c7ad36">
                     <div class="card-body">
                         <p class="mb-4">Number of Riggers</p>
                         <p class="fs-30 mb-2">{{$rigger}}</p>
                         <p>(All)</p>
                     </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
