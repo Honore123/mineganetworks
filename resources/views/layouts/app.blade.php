@@ -17,6 +17,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('custom/js/select.dataTables.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/select2/select2.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/datatable_buttons/buttons.dataTables.min.css')}}">
         <!-- End plugin css for this page -->
         <!-- inject:css -->
         <link rel="stylesheet" href="{{asset('custom/css/vertical-layout-light/style.css')}}">
@@ -65,7 +66,7 @@
         <script src="{{asset('custom/js/dashboard.js')}}"></script>
         <script src="{{asset('custom/js/Chart.roundedBarCharts.js')}}"></script>
         <script src="{{asset('custom/js/select2.js')}}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{{asset('assets/sweetalert/sweetalert.js')}}"></script>
         <!-- End custom js for this page-->
         @stack('scripts')
     </body>

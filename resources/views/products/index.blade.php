@@ -36,7 +36,15 @@
     </div>
 @endsection
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{asset('assets/datatable_buttons/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('assets/datatable_buttons/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/datatable_buttons/buttons.colVis.min.js')}}"></script>
+<script src="{{asset('assets/jszip/jszip.min.js')}}"></script>
+<script src="{{asset('assets/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{asset('assets/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{asset('assets/datatable_buttons/buttons.html5.min.js')}}"></script>
+<script src="{{asset('assets/datatable_buttons/buttons_1.colVis.min.js')}}"></script>
+
 <script>
     function deleteAlert(id, name){
             swal.fire( {
@@ -54,6 +62,7 @@
             });
         }
         $('#products-table').DataTable({
+            'dom':'lBfrtip',
             'paging': true,
             'scrollX': true,
             'lengthChange': true,
@@ -79,7 +88,12 @@
                 {"data":"unit.unit_name", "name":"unit.unit_name","className":"text-middle"},
                 {"data":"product_unit_price", "name":"product_unit_price","className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
-            ]
+            ],
+            "buttons": [
+                {extend: 'colvis', className: 'btn btn-warning', columns: ':visible'},
+                { extend: 'excelHtml5', className: 'btn btn-info', exportOptions: {columns:':visible'} },
+                { extend: 'pdfHtml5', orientation: 'landscape', pageSize: 'A4', className: 'btn btn-success',exportOptions: {columns:':visible'} },
+            ],
         })
 </script>
 @endpush
