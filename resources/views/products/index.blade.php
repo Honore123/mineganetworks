@@ -36,15 +36,6 @@
     </div>
 @endsection
 @push('scripts')
-<script src="{{asset('assets/datatable_buttons/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('assets/datatable_buttons/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/datatable_buttons/buttons.colVis.min.js')}}"></script>
-<script src="{{asset('assets/jszip/jszip.min.js')}}"></script>
-<script src="{{asset('assets/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{asset('assets/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{asset('assets/datatable_buttons/buttons.html5.min.js')}}"></script>
-<script src="{{asset('assets/datatable_buttons/buttons_1.colVis.min.js')}}"></script>
-
 <script>
     function deleteAlert(id, name){
             swal.fire( {
