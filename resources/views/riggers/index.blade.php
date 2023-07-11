@@ -22,6 +22,7 @@
                         <th>Name</th>
                         <th>Phone number</th>
                         <th>ID Number</th>
+                        <th>Certificates</th>
                         <th>Option</th>
                     </tr>
                 </thead>
@@ -60,6 +61,7 @@
         $('#edit_rigger').modal('show');
        }
         $('#customers-table').DataTable({
+            'dom':'lBfrtip',
             'paging': true,
             'lengthChange': true,
             'searching': true,
@@ -80,8 +82,14 @@
                 { "data": 'name', "name": 'name',"className":"text-middle"},
                 { "data": 'phone', "name": 'phone',"className":"text-middle"},
                 { "data": 'nid', "name": 'nid',"className":"text-middle"},
+                { "data": 'document', "name": 'document',"className":"text-middle", searchable:false},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
-            ]
+            ],
+            "buttons": [
+                {extend: 'colvis', className: 'btn btn-warning', columns: ':visible'},
+                { extend: 'excelHtml5', className: 'btn btn-info', exportOptions: {columns:':visible'} },
+                { extend: 'pdfHtml5', orientation: 'landscape', pageSize: 'A4', className: 'btn btn-success',exportOptions: {columns:':visible'} },
+            ],
         })
 </script>
 @endpush

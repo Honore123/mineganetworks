@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Rigger;
 use App\Models\RiggerDocument;
 use Barryvdh\DomPDF\Facade\Pdf;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -18,11 +19,22 @@ class RiggerController extends Controller
      */
     public function index()
     {
-        $riggers = Rigger::all();
+        $riggers = Rigger::with(['document'])->get();
+
         if (request()->ajax()) {
             return datatables($riggers)
+            ->editColumn('document', function ($rigger) {
+                $documents = RiggerDocument::where('rigger_id', $rigger->id)->get();
+                $output = '<ul>';
+                foreach ($documents as $document) {
+                    $output .= '<li>'.$document['document_type'].', </li>';
+                }
+                $output .= '</ul>';
+
+                return $output;
+            })
             ->editColumn('option', 'riggers.partials.action')
-            ->rawColumns(['option'])
+            ->rawColumns(['option', 'document'])
             ->addIndexColumn()
             ->make(true);
         }

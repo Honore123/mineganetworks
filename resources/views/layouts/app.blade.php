@@ -50,6 +50,14 @@
         <script src="{{asset('assets/chart.js/Chart.min.js')}}"></script>
         <script src="{{asset('assets/datatables.net/jquery.dataTables.js')}}"></script>
         <script src="{{asset('assets/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
+        <script src="{{asset('assets/datatable_buttons/dataTables.buttons.min.js')}}"></script>
+        <script src="{{asset('assets/datatable_buttons/buttons.bootstrap4.min.js')}}"></script>
+        <script src="{{asset('assets/datatable_buttons/buttons.colVis.min.js')}}"></script>
+        <script src="{{asset('assets/jszip/jszip.min.js')}}"></script>
+        <script src="{{asset('assets/pdfmake/pdfmake.min.js')}}"></script>
+        <script src="{{asset('assets/pdfmake/vfs_fonts.js')}}"></script>
+        <script src="{{asset('assets/datatable_buttons/buttons.html5.min.js')}}"></script>
+        <script src="{{asset('assets/datatable_buttons/buttons_1.colVis.min.js')}}"></script>
         <script src="{{asset('assets/select2/select2.min.js')}}"></script>
         <script src="{{asset('custom/js/dataTables.select.min.js')}}"></script>
        
