@@ -8,17 +8,19 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border as StyleBorder;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill as StyleFill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class RiggersExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+class RiggersExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize, WithEvents
 {
     public function headings(): array
     {
@@ -83,5 +85,38 @@ class RiggersExport implements FromQuery, WithHeadings, WithMapping, WithStyles,
         }
 
         return $info;
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet;
+                $highestRow = $sheet->getHighestRow();
+                $highestCol = $sheet->getHighestColumn();
+                $sheet->getDelegate()->getRowDimension(7)->setRowHeight(25);
+                $sheet->getDelegate()->getStyle('A7:'.$highestCol.$highestRow)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->getDelegate()->getStyle('C7:'.$highestCol.$highestRow)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                for ($row = 8; $row <= $highestRow; $row++) {
+                    $sheet->getDelegate()->getRowDimension($row)->setRowHeight(20);
+                    for ($col = 'A'; $col <= $highestCol; $col++) {
+                        $cellValue = $sheet->getCell($col.$row)->getValue();
+                        $range = $col.$row;
+                        if ($col >= 'E') {
+                            if ($cellValue != 'N/A') {
+                                $sheet->getStyle($range)->getFill()->setFillType(StyleFill::FILL_SOLID);
+                                $sheet->getStyle($range)->getFill()->getStartColor()->setRGB('FF95B3D7');
+                            } else {
+                                $sheet->getStyle($range)->getFill()->setFillType(StyleFill::FILL_SOLID);
+                                $sheet->getStyle($range)->getFill()->getStartColor()->setRGB('FFD09996');
+                            }
+                        } else {
+                            $sheet->getStyle($range)->getFill()->setFillType(StyleFill::FILL_SOLID);
+                            $sheet->getStyle($range)->getFill()->getStartColor()->setRGB('FFC8D6A1');
+                        }
+                    }
+                }
+            },
+        ];
     }
 }
