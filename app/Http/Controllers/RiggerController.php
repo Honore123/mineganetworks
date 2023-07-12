@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RiggersExport;
 use App\Models\Rigger;
 use App\Models\RiggerDocument;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -9,6 +10,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RiggerController extends Controller
 {
@@ -27,7 +29,9 @@ class RiggerController extends Controller
                 $documents = RiggerDocument::where('rigger_id', $rigger->id)->get();
                 $output = '<ul>';
                 foreach ($documents as $document) {
-                    $output .= '<li>'.$document['document_type'].', </li>';
+                    if (new DateTime($document['expiry_date']) >= new DateTime('today') || $document['expiry_date'] == null) {
+                        $output .= '<li>'.$document['document_type'].', </li>';
+                    }
                 }
                 $output .= '</ul>';
 
@@ -111,6 +115,11 @@ class RiggerController extends Controller
         $rigger->update($data);
 
         return redirect()->back()->with('success', 'Rigger updated');
+    }
+
+    public function export()
+    {
+        return Excel::download(new RiggersExport, 'Rigger_List.xlsx');
     }
 
     public function upload(Rigger $rigger)

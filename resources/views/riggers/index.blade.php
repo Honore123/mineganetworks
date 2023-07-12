@@ -6,7 +6,8 @@
             <h3>Riggers</h3>
         </div>
         <div class="col-md-12 d-flex justify-content-end">
-            <a class="btn btn-outline-primary rounded-0 mr-3" href="{{route('riggers.download')}}">Download List</a>
+            <a class="btn btn-outline-success rounded-0 mr-3" href="{{route('riggers.export-excel')}}">Export Excel</a>
+            <a class="btn btn-outline-primary rounded-0 mr-3" href="{{route('riggers.download')}}">Download PDF</a>
             <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#new_rigger">New Rigger</a>
         </div>
         @include('riggers.partials.add')
@@ -62,6 +63,7 @@
        }
         $('#customers-table').DataTable({
             'dom':'lBfrtip',
+            'scrollX': true,
             'paging': true,
             'lengthChange': true,
             'searching': true,
@@ -87,8 +89,6 @@
             ],
             "buttons": [
                 {extend: 'colvis', className: 'btn btn-warning', columns: ':visible'},
-                { extend: 'excelHtml5', className: 'btn btn-info', exportOptions: {columns:':visible'} },
-                { extend: 'pdfHtml5', orientation: 'landscape', pageSize: 'A4', className: 'btn btn-success',exportOptions: {columns:':visible'} },
             ],
         })
 </script>

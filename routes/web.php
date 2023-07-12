@@ -103,6 +103,7 @@ Route::prefix('vendors')->middleware(['auth'])->group(function () {
 Route::prefix('riggers')->middleware(['auth'])->group(function () {
     Route::get('', [RiggerController::class, 'index'])->name('riggers.index');
     Route::get('download', [RiggerController::class, 'download'])->name('riggers.download');
+    Route::get('export', [RiggerController::class, 'export'])->name('riggers.export-excel');
     Route::post('', [RiggerController::class, 'store'])->name('riggers.store');
     Route::put('{rigger}', [RiggerController::class, 'update'])->name('riggers.update');
     Route::delete('{rigger}', [RiggerController::class, 'destroy'])->name('riggers.delete');
