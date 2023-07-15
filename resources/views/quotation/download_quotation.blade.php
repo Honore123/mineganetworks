@@ -18,6 +18,7 @@
             src: url('{{ storage_path("fonts/gothicb.ttf") }}') format("truetype");
            
         }
+        @page { margin-right:70px; }
         body{
             font-family: 'century';
             font-size: 11px;
@@ -33,6 +34,9 @@
         }
         .table thead th{
             border-bottom: 0;
+        }
+        .table tbody+tbody {
+            border-top:0;
         }
         .footer {
             position: fixed;
@@ -81,29 +85,27 @@
                     </div>
                   </div>
                   <div class="text-center mt-4 bg-warning" style="padding: 1px 0px; border: 1px solid #000000; border-bottom:0">
-                    <p style="font-family: 'century_bold'">{{$quotation->project_title}}</p>
+                    <p style="font-family: 'century_bold'; font-size:16px">{{$quotation->project_title}}</p>
                   </div>
-                  <div class="table-responsive">
+                  <div>
                     <table class="table table-bordered table-stripped">
-                        <thead>
-                            <tr class="bg-yellow" style="font-family: 'century_bold'">
-                                <th>#</th>
-                                <th>Name/description</th>
-                                <th>UOM</th>
-                                <th>Unit Price (Rwf)</th>
-                                <th>Quantity</th>
-                                <th>Total Price (Rwf)</th>
-                            </tr>
-                        </thead>
+                        <tr class="bg-yellow" style="font-family: 'century_bold'">
+                            <th>#</th>
+                            <th>Item name/description</th>
+                            <th>UOM</th>
+                            <th>Unit Price (Rwf)</th>
+                            <th>Quantity</th>
+                            <th>Total Price (Rwf)</th>
+                        </tr>
                         <tbody>
                             @forelse($items as $item)
                             <tr>
-                                <td>{{$loop->iteration++}}</td>
-                                <td>{{$item->product->product_name}}</td>
-                                <td>{{$item->product->unit->unit_abbr}}</td>
-                                <td>{{number_format($item->unit_price,0,'.',',')}}</td>
-                                <td>{{$item->quantity}}</td>
-                                <td>{{number_format($item->total_price,0,'.',',')}}</td>
+                                <td width="5%">{{$loop->iteration++}}</td>
+                                <td  width="25%">{{$item->product->product_name}}</td>
+                                <td  width="8%">{{$item->product->unit->unit_abbr}}</td>
+                                <td  width="17%">{{number_format($item->unit_price,0,'.',',')}}</td>
+                                <td  width="10%">{{$item->quantity}}</td>
+                                <td  width="35%">{{number_format($item->total_price,0,'.',',')}}</td>
                             </tr>
                             @empty
                             @endforelse

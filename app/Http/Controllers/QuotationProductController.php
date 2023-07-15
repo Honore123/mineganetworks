@@ -42,25 +42,26 @@ class QuotationProductController extends Controller
         $data['quotation_id'] = $quotation->id;
         QuotationProduct::create($data);
 
-        return redirect()->back();
+        return redirect()->back(); 
     }
 
-    public function update(QuotationProduct $quotation)
+    public function update(QuotationProduct $quotationProduct, Quotation $quotation)
     {
         $data = request()->validate([
             'quantity' => ['required'],
             'product_id' => ['required'],
         ]);
-        $existing = QuotationProduct::whereNotIn('product_id', [$quotation->product->id])->where('product_id', $data['product_id'])->first();
+        $existing = QuotationProduct::whereNotIn('product_id', [$quotationProduct->product->id])
+        ->where('quotation_id', $quotation->id)->where('product_id', $data['product_id'])->first();
         if ($existing) {
             return redirect()->back()->with('error', 'Item is already on the list! You can edit it and delete this one');
         }
         $product = Products::where('id', $data['product_id'])->first();
         $data['unit_price'] = $product->product_unit_price;
         $data['total_price'] = $data['unit_price'] * $data['quantity'];
-        $quotation->update($data);
+        $quotationProduct->update($data);
 
-        return redirect()->back();
+        return redirect()->back()->with('success','Product updated');
     }
 
     public function delete(QuotationProduct $quotation)
