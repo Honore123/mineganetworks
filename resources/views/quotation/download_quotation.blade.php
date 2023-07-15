@@ -31,6 +31,8 @@
         }
         .table-bordered td, .table-bordered th {
             border: 1px solid #000000;
+            padding-bottom: 0;
+            padding-top: 0;
         }
         .table thead th{
             border-bottom: 0;
@@ -84,8 +86,8 @@
                         @endif
                     </div>
                   </div>
-                  <div class="text-center mt-4 bg-warning" style="padding: 1px 0px; border: 1px solid #000000; border-bottom:0">
-                    <p style="font-family: 'century_bold'; font-size:16px">{{$quotation->project_title}}</p>
+                  <div class="text-center mt-4 bg-warning" style="padding: 0px; border: 1px solid #000000; border-bottom:0">
+                    <p style="font-family: 'century_bold'; font-size:14px; margin-bottom:0;">{{$quotation->project_title}}</p>
                   </div>
                   <div>
                     <table class="table table-bordered table-stripped">
