@@ -15,7 +15,7 @@ class QuotationController extends Controller
 {
     public function index()
     {
-        $quotations = Quotation::all()->sortBy('created_at');
+        $quotations = Quotation::orderBy('created_at', 'DESC')->get();
         if (request()->ajax()) {
             return datatables($quotations)
                 ->editColumn('option', 'quotation.partials.action')

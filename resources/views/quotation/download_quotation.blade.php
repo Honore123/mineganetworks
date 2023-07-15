@@ -31,6 +31,8 @@
         }
         .table-bordered td, .table-bordered th {
             border: 1px solid #000000;
+            padding-bottom: 0;
+            padding-top: 0;
         }
         .table thead th{
             border-bottom: 0;
@@ -65,7 +67,7 @@
                     </div>
                     <div class="text-right" style="position:fixed;top:0; right:0">
                         <p class="mb-0" style="font-size: 18px; font-family: 'century_bold'">Quotation</p>
-                        <p class="mb-0">Date: {{$client->created_at->format('d/m/Y')}}</p>
+                        <p class="mb-0">Date: {{$quotation->created_at->format('d/m/Y')}}</p>
                     </div>
                     <div class="mt-3 mb-4">
                         <p class="mb-0" style="font-size: 16px; font-family: 'century_bold'">Quotation for:</p>
@@ -84,8 +86,8 @@
                         @endif
                     </div>
                   </div>
-                  <div class="text-center mt-4 bg-warning" style="padding: 1px 0px; border: 1px solid #000000; border-bottom:0">
-                    <p style="font-family: 'century_bold'; font-size:16px">{{$quotation->project_title}}</p>
+                  <div class="text-center mt-4 bg-warning" style="padding: 0px; border: 1px solid #000000; border-bottom:0">
+                    <p style="font-family: 'century_bold'; font-size:14px; margin-bottom:0;">{{$quotation->project_title}}</p>
                   </div>
                   <div>
                     <table class="table table-bordered table-stripped">

@@ -60,7 +60,7 @@
             'autoWidth': false,
             'responsive': false,
             "aLengthMenu": [[10,25, 50, 75, -1], [10,25, 50, 75, "All"]],
-            "iDisplayLength": 10,
+            "iDisplayLength": 25,
             "processing":true,
             "serverSide":true,
             "ajax": {
