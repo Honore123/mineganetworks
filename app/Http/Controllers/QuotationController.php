@@ -83,7 +83,7 @@ class QuotationController extends Controller
             'client' => $client,
         ]);
 
-        return $pdf->download($quotation->quotation_code.'_quotation.pdf');
+        return $pdf->download($quotation->project_title.'_quotation.pdf');
         // return view('quotation.download_quotation', [
         //     'quotation' => $quotation,
         //     'items' => $items,
