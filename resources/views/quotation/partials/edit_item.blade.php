@@ -7,19 +7,11 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <form class="forms-sample" action="{{route('quotation-product.update',$item->id)}}" method="POST">
+        <form class="forms-sample" action="{{route('quotation-product.update',[$item->id,$quotation->id])}}" method="POST">
           @csrf
           @method('PUT')
         <div class="modal-body">
-          {{-- <div class="form-group">
-            <label for="exampleInputUsername1">Item Category</label>
-            <select name="item_category" id="item_category" class="form-control">
-              <option value="">Select Category</option>
-              <option value="">Goods</option>
-              <option value="">Services</option>
-              <option value="">Supply and Installation</option>
-            </select>
-          </div> --}}
+        
           <div class="form-group">
               <label for="select item">Item</label>
               <select class="edit_item_selector" style="width: 100%" name="product_id" id="edit_product_{{$item->id}}">

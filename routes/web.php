@@ -44,7 +44,7 @@ Route::prefix('quotation')->middleware(['auth'])->group(function () {
     Route::post('products/{quotation}', [QuotationProductController::class, 'store'])->name('quotation-product.store');
     Route::put('{quotation}', [QuotationController::class, 'update'])->name('quotation.update');
     Route::get('products/source/{client_id}', [QuotationProductController::class, 'source'])->name('quotation-source');
-    Route::put('products/{quotation}', [QuotationProductController::class, 'update'])->name('quotation-product.update');
+    Route::put('products/{quotationProduct}/{quotation}', [QuotationProductController::class, 'update'])->name('quotation-product.update');
     Route::delete('products/{quotation}', [QuotationProductController::class, 'delete'])->name('quotation-product.delete');
     Route::delete('{quotation}', [QuotationController::class, 'delete'])->name('quotation.delete');
 });
