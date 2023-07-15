@@ -71,9 +71,6 @@
                         @if(!is_null($purchaseOrder->vendor->phone_number))
                         <p class="mb-0">Phone: {{$purchaseOrder->vendor->phone_number}}</p>
                         @endif
-                        @if(!is_null($purchaseOrder->vendor->nat_id))
-                        <p class="mb-0">ID: {{$purchaseOrder->vendor->nat_id}}</p>
-                        @endif
                         @if(!is_null($purchaseOrder->vendor->email))
                         <p class="mb-0">Email: {{$purchaseOrder->vendor->email}}</p>
                         @endif
