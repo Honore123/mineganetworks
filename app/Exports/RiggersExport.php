@@ -41,7 +41,7 @@ class RiggersExport implements FromQuery, WithHeadings, WithMapping, WithStyles,
     public function columnFormats(): array
     {
         return [
-            'D' => NumberFormat::FORMAT_TEXT
+            'D' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
@@ -83,7 +83,7 @@ class RiggersExport implements FromQuery, WithHeadings, WithMapping, WithStyles,
         $info = [$rigger->id,
             $rigger->name,
             $rigger->phone,
-            $rigger->nid];
+            $rigger->nid.','];
         for ($i = 4; $i < count($headers[4]); $i++) {
             $document = RiggerDocument::where('rigger_id', $rigger->id)->where('document_type', $headers[4][$i])->pluck('expiry_date')->first();
             if (! is_null($document)) {
