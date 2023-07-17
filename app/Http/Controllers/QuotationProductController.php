@@ -42,7 +42,7 @@ class QuotationProductController extends Controller
         $data['quotation_id'] = $quotation->id;
         QuotationProduct::create($data);
 
-        return redirect()->back(); 
+        return redirect()->back();
     }
 
     public function update(QuotationProduct $quotationProduct, Quotation $quotation)
@@ -61,7 +61,7 @@ class QuotationProductController extends Controller
         $data['total_price'] = $data['unit_price'] * $data['quantity'];
         $quotationProduct->update($data);
 
-        return redirect()->back()->with('success','Product updated');
+        return redirect()->back()->with('success', 'Product updated');
     }
 
     public function delete(QuotationProduct $quotation)
