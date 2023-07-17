@@ -59,8 +59,8 @@ class InvoiceController extends Controller
         $invoiceCode = [
             'table' => 'invoices',
             'field' => 'invoice_code',
-            'length' => 7,
-            'prefix' => 'MI',
+            'length' => 5,
+            'prefix' => ' ',
             'reset_on_prefix_change' => true,
         ];
         $data['invoice_code'] = IdGenerator::generate($invoiceCode);
@@ -119,7 +119,7 @@ class InvoiceController extends Controller
             'totalVat' => number_format($data['totalVat'], 0, '.', ','),
         ]);
 
-        return $pdf->download($invoice->invoice_code.'_invoice.pdf');
+        return $pdf->download($invoice->company_name.'_invoice.pdf');
 
         // return view('invoice.download_invoice', [
         //     'invoice' => $invoice,
