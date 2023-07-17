@@ -18,6 +18,7 @@
             src: url('{{ storage_path("fonts/gothicb.ttf") }}') format("truetype");
            
         }
+        @page { margin-right:70px; }
         body{
             font-family: 'century';
             font-size: 11px;
@@ -30,9 +31,14 @@
         }
         .table-bordered td, .table-bordered th {
             border: 1px solid #000000;
+            padding-bottom: 0;
+            padding-top: 0;
         }
         .table thead th{
             border-bottom: 0;
+        }
+        .table tbody+tbody {
+            border-top:0;
         }
         .footer {
             position: fixed;
@@ -80,16 +86,14 @@
 
                   <div class="table-responsive">
                     <table class="table table-bordered table-stripped">
-                        <thead>
-                            <tr class="bg-yellow" style="font-family: 'century_bold'">
-                                <th>#</th>
-                                <th>Name/description</th>
-                                <th>Quantity</th>
-                                <th>Unit Price (Tax Ex)</th>
-                                <th>Tax</th>
-                                <th>Total (Tax incl)</th>
-                            </tr>
-                        </thead>
+                        <tr class="bg-yellow" style="font-family: 'century_bold'">
+                            <th>#</th>
+                            <th>Name/description</th>
+                            <th>Quantity</th>
+                            <th>Unit Price (Tax Ex)</th>
+                            <th>Tax</th>
+                            <th>Total (Tax incl)</th>
+                        </tr>
                         <tbody>
                             @forelse($items as $item)
                             <tr>
