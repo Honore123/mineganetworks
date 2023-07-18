@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\QuotationType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
@@ -39,7 +41,10 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoice.add');
+        return view('invoice.add', [
+            'types' => QuotationType::all(),
+            'customers' => Customer::all(),
+        ]);
     }
 
     /**
@@ -51,8 +56,6 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'company_name' => ['required', 'string'],
-            'tin_number' => ['required'],
             'project_title' => ['required', 'string'],
         ]);
 
@@ -64,7 +67,19 @@ class InvoiceController extends Controller
             'reset_on_prefix_change' => true,
         ];
         $data['invoice_code'] = IdGenerator::generate($invoiceCode);
-
+        $clientId = request()->input('selected_client');
+        $data['company_name'] = request()->input('company_name');
+        $data['tin_number'] = request()->input('tin_number');
+        $data['address'] = request()->input('address');
+        $customerType = request()->input('customer_type');
+        if ($customerType == 1 && ! is_null($clientId)) {
+            $client = Customer::where('id', $clientId)->first();
+            $data['company_name'] = $client->customer_name;
+            $data['tin_number'] = $client->tin;
+            $data['address'] = $client->address;
+        } elseif (is_null($data['company_name']) || is_null($data['tin_number']) || is_null($data['address'])) {
+            return redirect()->back()->with('error', 'Please fill form correctly');
+        }
         $invoice = Invoice::create($data);
 
         return redirect()->route('invoiceItem.index', $invoice->id)->with('success', 'Invoice created! Now you can start adding items');
