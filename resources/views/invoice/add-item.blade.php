@@ -2,8 +2,14 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
-            <h3>New Invoice</h3>
+        <div class="col-md-12 d-flex flex-wrap justify-content-between">
+            <h3>{{$invoice->company_name}}'s Invoice</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{{route('invoice.index')}}">Manage invoices</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add items</li>
+                </ol>
+            </nav>
         </div>
         <div class="col-md-12">
             @include('layouts.partials.notification')
@@ -11,10 +17,6 @@
         <div class="col-12 grid-margin stretch-card mt-4">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Invoice form</h4>
-                <p class="card-description">
-                  Fill out the form below
-                </p>
                   <div class="form-group w-25">
                     <h5 for="exampleInputName1">Client:</h5>
                     <p class="mt-3">{{$invoice->company_name}}</p>
