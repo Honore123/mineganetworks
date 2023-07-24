@@ -2,26 +2,28 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
-            <h3>New Quotation</h3>
+        <div class="col-md-12 d-flex flex-wrap justify-content-between">
+            <h3>{{$quotation->client_name}}'s quotation</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{{route('quotation.index')}}">Manage quotations</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add items</li>
+                </ol>
+            </nav>
         </div>
         <div class="col-md-12">
             @include('layouts.partials.notification')
         </div>
-        <div class="col-12 grid-margin stretch-card mt-4">
+        <div class="col-12 grid-margin stretch-card mt-2">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Quotation form</h4>
-                <p class="card-description">
-                  Fill out the form below
-                </p>
-                  <div class="form-group w-25">
+                  <div class="form-group">
                     <label for="exampleInputName1">Client Name:</label>
-                    <h5 class="mt-3">{{$quotation->client_name}}</h5>
+                    <h5 class="mt-2">{{$quotation->client_name}}</h5>
                   </div>
-                  <div class="form-group w-25">
+                  <div class="form-group">
                     <label for="project_name">Project Name:</label>
-                    <h5 class="mt-3">{{$quotation->project_title}}</h5>
+                    <h5 class="mt-2">{{$quotation->project_title}}</h5>
                   </div>
                   <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-primary rounded-0" data-toggle="modal" data-target="#add_item">Add Item</button>

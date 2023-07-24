@@ -27,7 +27,10 @@ class QuotationController extends Controller
                 ->make(true);
         }
 
-        return view('quotation.index');
+        return view('quotation.index', [
+            'quotations' => $quotations,
+            'types' => QuotationType::all(),
+            'customers' => Customer::all(), ]);
     }
 
     public function add()
@@ -123,8 +126,26 @@ class QuotationController extends Controller
         return redirect()->route('quotation.items', $quotation->id)->with('success', 'Quotation created! Now you can start adding items');
     }
 
-    public function update()
+    public function update(Quotation $quotation)
     {
+        $data = request()->validate([
+            'project_title' => ['required', 'string'],
+        ]);
+
+        $clientId = request()->input('selected_client');
+        $data['client_name'] = request()->input('client_name');
+        $customerType = request()->input('customer_type');
+        if ($customerType == 1 && ! is_null($clientId)) {
+            $client = Customer::where('id', $clientId)->first();
+            $data['client_name'] = $client->customer_name;
+            $data['client_id'] = $clientId;
+        } elseif (is_null($data['client_name'])) {
+            return redirect()->back()->with('error', 'Please fill form correctly');
+        }
+
+        $quotation->update($data);
+
+        return redirect()->back()->with('success', 'Quotation updated!');
     }
 
     public function delete(Quotation $quotation)
