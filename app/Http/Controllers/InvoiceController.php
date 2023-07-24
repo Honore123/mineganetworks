@@ -19,7 +19,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::all()->sortBy('created_at');
+        $invoices = Invoice::orderBy('created_at', 'DESC')->get();
         if (request()->ajax()) {
             return datatables($invoices)
                 ->editColumn('option', 'invoice.partials.action')
@@ -31,7 +31,11 @@ class InvoiceController extends Controller
                 ->make(true);
         }
 
-        return view('invoice.index');
+        return view('invoice.index', [
+            'invoices' => $invoices,
+            'types' => QuotationType::all(),
+            'customers' => Customer::all(),
+        ]);
     }
 
     /**
@@ -77,6 +81,7 @@ class InvoiceController extends Controller
             $data['company_name'] = $client->customer_name;
             $data['tin_number'] = $client->tin;
             $data['address'] = $client->address;
+            $data['client_id'] = $clientId;
         } elseif (is_null($data['company_name']) || is_null($data['tin_number']) || is_null($data['address'])) {
             return redirect()->back()->with('error', 'Please fill form correctly');
         }
@@ -114,9 +119,29 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(Invoice $invoice)
     {
-        //
+        $data = request()->validate([
+            'project_title' => ['required', 'string'],
+        ]);
+
+        $clientId = request()->input('selected_client');
+        $data['company_name'] = request()->input('company_name');
+        $data['tin_number'] = request()->input('tin_number');
+        $data['address'] = request()->input('address');
+        $customerType = request()->input('customer_type');
+        if ($customerType == 1 && ! is_null($clientId)) {
+            $client = Customer::where('id', $clientId)->first();
+            $data['company_name'] = $client->customer_name;
+            $data['tin_number'] = $client->tin;
+            $data['address'] = $client->address;
+            $data['client_id'] = $clientId;
+        } elseif (is_null($data['company_name']) || is_null($data['tin_number']) || is_null($data['address'])) {
+            return redirect()->back()->with('error', 'Please fill form correctly');
+        }
+        $invoice->update($data);
+
+        return redirect()->back()->with('success', 'Invoice updated!');
     }
 
     public function download(Invoice $invoice)

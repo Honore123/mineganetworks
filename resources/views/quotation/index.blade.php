@@ -49,15 +49,14 @@
                 $('#customer_type option[value="1"]').prop('selected', true);
                 $('#selected_client option[value="'+quotation.client_id+'"]').prop('selected', true);
                 $('#project_title').val(quotation.project_title);
-                $('#edit_customer_info').modal('show');
                 customerType(document.getElementById('customer_type'));
             } else {
                 $('#customer_type option[value="2"]').prop('selected', true);
                 $('#client_name').val(quotation.client_name);
                 $('#project_title').val(quotation.project_title);
-                $('#edit_customer_info').modal('show');
                 customerType(document.getElementById('customer_type'));
             }
+            $('#edit_customer_info').modal('show');
             $("#edit_quotation_title_modal").text("Edit "+quotation.client_name+"'s quotation");
             var url = '{{ route("quotation.update", ":id") }}';
             url = url.replace(':id',id);

@@ -68,6 +68,7 @@ Route::prefix('invoice')->middleware(['auth'])->group(function () {
     Route::post('', [InvoiceController::class, 'store'])->name('invoice.store');
     Route::post('{invoice}', [InvoiceItemController::class, 'store'])->name('invoiceItem.store');
     Route::put('{item}', [InvoiceItemController::class, 'update'])->name('invoiceItem.update');
+    Route::put('update/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
     Route::delete('{invoice}', [InvoiceController::class, 'destroy'])->name('invoice.delete');
     Route::delete('items/{item}', [InvoiceItemController::class, 'destroy'])->name('invoiceItem.delete');
 });

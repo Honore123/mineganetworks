@@ -2,8 +2,14 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 d-flex flex-wrap justify-content-between">
             <h3>New Invoice</h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('invoice.index')}}">Manage invoices</a></li>
+                <li class="breadcrumb-item active" aria-current="page">New</li>
+              </ol>
+          </nav>
         </div>
         <div class="col-6 grid-margin stretch-card mt-4">
             <div class="card">
