@@ -1,15 +1,10 @@
 @extends('layouts.app')
 @push('styles')
-    {{-- <style>
-        table {
-    table-layout:fixed;
-}
-td{
-    overflow:hidden;
-    text-overflow: ellipsis;
-}
-
-    </style> --}}
+    <style>
+        .table td{
+            white-space: normal;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="row">
@@ -34,7 +29,7 @@ td{
                         <th>Name</th>
                         <th>Category</th>
                         <th>Sub-category</th>
-                        <th>Measurement Unit</th>
+                        <th>Unit</th>
                         <th>Unit Price</th>
                         <th>Option</th>
                     </tr>
@@ -66,7 +61,7 @@ td{
         $('#products-table').DataTable({
             'dom':'lBfrtip',
             'paging': true,
-            'scrollX': true,
+            'scrollX': false,
             'lengthChange': true,
             'searching': true,
             'ordering': true,
