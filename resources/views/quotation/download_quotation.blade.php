@@ -71,6 +71,9 @@
                     </div>
                     <div class="mt-3 mb-4">
                         <p class="mb-0" style="font-size: 16px; font-family: 'century_bold'">Quotation for:</p>
+                        @if ($quotation->client_id == 0)
+                        <p class="mb-0">{{$client}}</p>
+                        @else
                         <p class="mb-0">{{$client->customer_name}}</p>
                         @if(!is_null($client->address))
                         <p class="mb-0">{{$client->address}}</p>
@@ -84,6 +87,8 @@
                         @if(!is_null($client->tin))
                         <p class="mb-0">TIN: {{$client->tin}}</p>
                         @endif
+                        @endif
+                      
                     </div>
                   </div>
                   <div class="text-center mt-4 bg-warning" style="padding: 0px; border: 1px solid #000000; border-bottom:0">

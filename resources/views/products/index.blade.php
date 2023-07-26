@@ -1,5 +1,16 @@
 @extends('layouts.app')
+@push('styles')
+    {{-- <style>
+        table {
+    table-layout:fixed;
+}
+td{
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
 
+    </style> --}}
+@endpush
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -71,9 +82,9 @@
                 "type": 'GET',
             },
             "columns": [
-                {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
+                {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle", "width":"1%"},
                 { "data": 'product_code', "name": 'product_code'},
-                { "data": 'product_name', "name": 'product_name',"className":"text-middle"},
+                { "data": 'product_name', "name": 'product_name',"className":"warp", "width":"30%"},
                 { "data": 'category.category_name', "name": 'category.category_name',"className":"text-middle"},
                 { "data": 'subcategory.sub_name', "name": 'subcategory.sub_name',"className":"text-middle"},
                 {"data":"unit.unit_name", "name":"unit.unit_name","className":"text-middle"},
