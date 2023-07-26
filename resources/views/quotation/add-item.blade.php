@@ -1,5 +1,11 @@
 @extends('layouts.app')
-
+@push('styles')
+    <style>
+        .table td{
+            white-space: normal;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="row">
         <div class="col-md-12 d-flex flex-wrap justify-content-between">
