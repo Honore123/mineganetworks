@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="{{asset('custom/css/vertical-layout-light/style.css')}}">
         <!-- endinject -->
         <link rel="shortcut icon" href="{{asset('images/logo1.min.png')}}" />
-       
+       @stack('styles')
     </head>
     <body>
         <div class="container-scroller">

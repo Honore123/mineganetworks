@@ -73,6 +73,7 @@ class QuotationController extends Controller
         $data['total'] = $items->sum('total_price');
         $data['vat'] = $data['total'] * 0.18;
         $data['totalVat'] = $data['total'] + $data['vat'];
+        $client = $quotation->client_name;
         if ($quotation->client_id != 0) {
             $client = Customer::where('id', $quotation->client_id)->first();
         }
