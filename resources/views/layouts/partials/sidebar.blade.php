@@ -70,6 +70,12 @@
           <span class="menu-title">Riggers</span>
         </a>
       </li>
+      <li class="nav-item {{setActive('drivers')}} {{setActive('drivers/*')}}">
+        <a class="nav-link" href="{{route('drivers.index')}}">
+          <i class="ti-car menu-icon"></i>
+          <span class="menu-title">Drivers</span>
+        </a>
+      </li>
       <li class="nav-item {{setActive('users')}} {{setActive('users/*')}}">
         <a class="nav-link" href="{{route('users.index')}}">
           <i class="ti-user menu-icon"></i>

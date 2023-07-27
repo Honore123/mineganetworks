@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\MeasurementUnitController;
@@ -114,6 +115,12 @@ Route::prefix('riggers')->middleware(['auth'])->group(function () {
         Route::put('{document}', [RiggerController::class, 'updateDoc'])->name('rigger.update.doc');
         Route::delete('{rigger}/{document}', [RiggerController::class, 'removeDocument'])->name('rigger-document.delete');
     });
+});
+Route::prefix('drivers')->middleware(['auth'])->group(function () {
+    Route::get('', [DriverController::class, 'index'])->name('drivers.index');
+    Route::post('', [DriverController::class, 'store'])->name('drivers.store');
+    Route::put('{driver}', [DriverController::class, 'update'])->name('drivers.update');
+    Route::delete('{driver}', [DriverController::class, 'delete'])->name('drivers.delete');
 });
 Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('', [UserController::class, 'index'])->name('users.index');
