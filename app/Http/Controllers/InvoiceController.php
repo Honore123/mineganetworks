@@ -63,19 +63,12 @@ class InvoiceController extends Controller
             'project_title' => ['required', 'string'],
         ]);
 
-        $invoiceCode = [
-            'table' => 'invoices',
-            'field' => 'invoice_code',
-            'length' => 5,
-            'prefix' => ' ',
-            'reset_on_prefix_change' => true,
-        ];
-        $data['invoice_code'] = IdGenerator::generate($invoiceCode);
         $clientId = request()->input('selected_client');
         $data['company_name'] = request()->input('company_name');
         $data['tin_number'] = request()->input('tin_number');
         $data['address'] = request()->input('address');
         $customerType = request()->input('customer_type');
+
         if ($customerType == 1 && ! is_null($clientId)) {
             $client = Customer::where('id', $clientId)->first();
             $data['company_name'] = $client->customer_name;
@@ -84,6 +77,14 @@ class InvoiceController extends Controller
             $data['client_id'] = $clientId;
         } elseif (is_null($data['company_name']) || is_null($data['tin_number']) || is_null($data['address'])) {
             return redirect()->back()->with('error', 'Please fill form correctly');
+        }
+        $latest = Invoice::where('tin_number', $data['tin_number'])->latest()->first();
+        if ($latest) {
+            $id = trim($latest->invoice_code);
+            $increment = 1;
+            $data['invoice_code'] = str_pad((intval($id) + $increment), strlen($id), '0', STR_PAD_LEFT);
+        } else {
+            $data['invoice_code'] = '0001';
         }
         $invoice = Invoice::create($data);
 
