@@ -11,13 +11,22 @@
           @csrf
           @method('PUT')
         <div class="modal-body">
-        
+          @if ($quotation->client_id != 0)
+          <div class="form-group">
+            <label for="exampleInputUsername1">Source</label>
+            <select name="item_source" id="item_source" onchange="setSource(this)" class="form-control">
+              <option value="" disabled>~~Choose Source~~</option>
+              <option value="0" {{$quotation->client_id == 0 ? 'selected':''}}>Products</option>
+              <option value="{{$quotation->client_id}}" {{$quotation->client_id != 0 ? 'selected':''}}>Pricing book</option>
+            </select>
+          </div>
+          @endif
           <div class="form-group">
               <label for="select item">Item</label>
               <select class="edit_item_selector" style="width: 100%" name="product_id" id="edit_product_{{$item->id}}">
                 <option value="">Select Item</option>
                 @forelse ($products as $product)
-                  <option value="{{$quotation->client_id != 0 ? $product->product->id : $product->id}}" {{$quotation->client_id != 0 && $product->product->id == $item->product->id ? 'selected':''}}>{{$quotation->client_id != 0 ? $product->product->product_name : $product->product_name}}</option>
+                  <option value="{{$quotation->client_id != 0 ? $product->product->id : $product->id}}" {{$quotation->client_id != 0 ? ($product->product->id == $item->product->id ? 'selected':'') :( $product->id == $item->product->id ? 'selected' : '')}}>{{$quotation->client_id != 0 ? $product->product->product_name : $product->product_name}}</option>
                 
                 @empty
                   <option value="" disabled>No products</option>

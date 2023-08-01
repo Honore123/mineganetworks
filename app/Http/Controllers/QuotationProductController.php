@@ -56,8 +56,15 @@ class QuotationProductController extends Controller
         if ($existing) {
             return redirect()->back()->with('error', 'Item is already on the list! You can edit it and delete this one');
         }
-        $product = Products::where('id', $data['product_id'])->first();
-        $data['unit_price'] = $product->product_unit_price;
+        $source = request()->input('item_source');
+        if ($quotation->client_id != 0 && $source != 0) {
+            $product = PricingBook::where('customer_id', $quotation->client_id)->where('product_id', $data['product_id'])->first();
+            $data['unit_price'] = $product->unit_price;
+        } else {
+            $product = Products::where('id', $data['product_id'])->first();
+            $data['unit_price'] = $product->product_unit_price;
+        }
+
         $data['total_price'] = $data['unit_price'] * $data['quantity'];
         $quotationProduct->update($data);
 

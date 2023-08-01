@@ -14,7 +14,7 @@
           <div class="form-group">
             <label for="exampleInputUsername1">Source</label>
             <select name="item_source" id="item_source" onchange="setSource(this)" class="form-control">
-              <option value="">~~Choose Source~~</option>
+              <option value="" disabled>~~Choose Source~~</option>
               <option value="0" {{$quotation->client_id == 0 ? 'selected':''}}>Products</option>
               <option value="{{$quotation->client_id}}" {{$quotation->client_id != 0 ? 'selected':''}}>Pricing book</option>
             </select>
