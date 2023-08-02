@@ -52,6 +52,12 @@
           </ul>
         </div>
       </li>
+      <li class="nav-item {{setActive('documents')}} {{setActive('documents/*')}}">
+        <a class="nav-link" href="{{route('document.index')}}">
+          <i class="ti-notepad menu-icon"></i>
+          <span class="menu-title">Documents</span>
+        </a>
+      </li>
       <li class="nav-item {{setActive('customers')}} {{setActive('customers/*')}}">
         <a class="nav-link" href="{{route('customer.index')}}">
           <i class="ti-user menu-icon"></i>

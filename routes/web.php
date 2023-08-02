@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceItemController;
@@ -19,7 +20,7 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UploadFrameworkController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
-use App\Models\Rigger;
+use App\Models\Document;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,7 +82,12 @@ Route::prefix('products')->middleware(['auth'])->group(function () {
     Route::put('{product}', [ProductsController::class, 'update'])->name('product.update');
     Route::delete('{product}', [ProductsController::class, 'delete'])->name('product.delete');
 });
-
+Route::prefix('documents')->middleware(['auth'])->group(function () {
+    Route::get('', [DocumentController::class, 'index'])->name('document.index');
+    Route::post('', [DocumentController::class, 'store'])->name('document.store');
+    Route::put('{document}', [DocumentController::class, 'update'])->name('document.update');
+    Route::delete('{document}', [DocumentController::class, 'destroy'])->name('document.delete');
+});
 Route::prefix('customers')->middleware(['auth'])->group(function () {
     Route::get('', [CustomerController::class, 'index'])->name('customer.index');
     Route::post('', [CustomerController::class, 'store'])->name('customer.store');
