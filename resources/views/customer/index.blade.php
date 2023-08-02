@@ -6,7 +6,7 @@
             <h3>Customers</h3>
         </div>
         <div class="col-md-12 d-flex justify-content-end">
-            <a class="btn btn-primary rounded-0 mr-4" data-toggle="modal" data-target="#new_customer">New Customer</a>
+            <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#new_customer">New Customer</a>
         </div>
         @include('customer.partials.add')
         <div class="col-md-12 mt-3">
