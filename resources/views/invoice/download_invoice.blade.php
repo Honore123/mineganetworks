@@ -69,6 +69,7 @@
                         <p class="mb-0">KICUKIRO - GIKONDO - KANSEREGE</p>
                         <p class="mb-0"><a href="mailto:info@mineganetworks.rw">E-mail: info@mineganetworks.rw</a></p>
                         <p class="mb-0"><a class="text-dark" href="tel:+250788312962">Telephone: +250788312962</a></p>
+                        <p class="mb-0">TIN: 103242639</p>
                     </div>
                     <div class="mt-3">
                         <p class="mb-0" style="font-size: 16px; font-family: 'century_bold'">To</p>
