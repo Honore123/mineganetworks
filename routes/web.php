@@ -11,11 +11,14 @@ use App\Http\Controllers\MeasurementUnitController;
 use App\Http\Controllers\PricingBookController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectRiskController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchaseProductController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\QuotationProductController;
 use App\Http\Controllers\RiggerController;
+use App\Http\Controllers\RiskController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UploadFrameworkController;
 use App\Http\Controllers\UserController;
@@ -81,6 +84,25 @@ Route::prefix('products')->middleware(['auth'])->group(function () {
     Route::post('upload', [ProductsController::class, 'upload'])->name('product.upload');
     Route::put('{product}', [ProductsController::class, 'update'])->name('product.update');
     Route::delete('{product}', [ProductsController::class, 'delete'])->name('product.delete');
+});
+
+Route::prefix('projects')->middleware(['auth'])->group(function () {
+    Route::get('', [ProjectController::class, 'index'])->name('projects-risks.index');
+    Route::post('', [ProjectController::class, 'store'])->name('project.store');
+    Route::put('{project}', [ProjectController::class, 'update'])->name('project.update');
+    Route::delete('{project}', [ProjectController::class, 'destroy'])->name('project.delete');
+
+    Route::prefix('risk-management')->middleware(['auth'])->group(function () {
+        Route::get('{project}', [ProjectRiskController::class, 'index'])->name('risk-management.index');
+        Route::post('{project}', [ProjectRiskController::class, 'store'])->name('risk-management.store');
+        Route::delete('{projectRisk}', [ProjectRiskController::class, 'destroy'])->name('risk-management.delete');
+    });
+});
+Route::prefix('risks')->middleware(['auth'])->group(function () {
+    Route::get('', [RiskController::class, 'index'])->name('risk.index');
+    Route::post('', [RiskController::class, 'store'])->name('risk.store');
+    Route::put('{risk}', [RiskController::class, 'update'])->name('risk.update');
+    Route::delete('{risk}', [RiskController::class, 'destroy'])->name('risk.delete');
 });
 Route::prefix('documents')->middleware(['auth'])->group(function () {
     Route::get('', [DocumentController::class, 'index'])->name('document.index');
