@@ -92,14 +92,14 @@ Route::prefix('projects')->middleware(['auth'])->group(function () {
     Route::put('{project}', [ProjectController::class, 'update'])->name('project.update');
     Route::delete('{project}', [ProjectController::class, 'destroy'])->name('project.delete');
 
-    Route::prefix('risk-management')->middleware(['auth'])->group(function () {
+    Route::prefix('issue-management')->middleware(['auth'])->group(function () {
         Route::get('{project}', [ProjectRiskController::class, 'index'])->name('risk-management.index');
         Route::get('chart/data/{project}', [ProjectRiskController::class, 'chart'])->name('risk-management.chart');
         Route::post('{project}', [ProjectRiskController::class, 'store'])->name('risk-management.store');
         Route::delete('{projectRisk}', [ProjectRiskController::class, 'destroy'])->name('risk-management.delete');
     });
 });
-Route::prefix('risks')->middleware(['auth'])->group(function () {
+Route::prefix('issues')->middleware(['auth'])->group(function () {
     Route::get('', [RiskController::class, 'index'])->name('risk.index');
     Route::post('', [RiskController::class, 'store'])->name('risk.store');
     Route::put('{risk}', [RiskController::class, 'update'])->name('risk.update');
