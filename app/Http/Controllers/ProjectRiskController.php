@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\ProjectRisk;
 use App\Models\Risk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectRiskController extends Controller
 {
@@ -33,6 +34,18 @@ class ProjectRiskController extends Controller
             'project' => $project,
             'risks' => Risk::all(),
         ]);
+    }
+
+    public function chart(Project $project)
+    {
+        $response = DB::table('project_risks')
+        ->join('risks', 'risks.id', '=', 'project_risks.risk_id')
+        ->select('project_risks.risk_id', 'risks.risk_name', DB::raw('count(risk_id) as total_risks'))
+        ->groupBy('project_risks.risk_id')
+        ->where('project_risks.project_id', $project->id)
+        ->get();
+
+        return response()->json($response);
     }
 
     /**
