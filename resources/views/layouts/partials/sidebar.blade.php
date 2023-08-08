@@ -52,16 +52,16 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{setActive('projects')}}{{setActive('risks')}} {{setActive('projects/*')}}{{setActive('risks/*')}}">
+      <li class="nav-item {{setActive('projects')}}{{setActive('issues')}} {{setActive('projects/*')}}{{setActive('issues/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#project-risks-drop" aria-expanded="false" aria-controls="project-risks-drop">
           <i class="ti-notepad menu-icon"></i>
-          <span class="menu-title">Risk Management</span>
+          <span class="menu-title">Issue Management</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse {{showCollapse('projects')}} {{showCollapse('projects/*')}} {{showCollapse('risks')}} {{showCollapse('risks/*')}}" id="project-risks-drop">
+        <div class="collapse {{showCollapse('projects')}} {{showCollapse('projects/*')}} {{showCollapse('issues')}} {{showCollapse('issues/*')}}" id="project-risks-drop">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item {{setActive('projects')}} {{setActive('projects/*')}}"> <a class="nav-link" href="{{route('projects-risks.index')}}">Projects</a></li>
-            <li class="nav-item {{setActive('risks')}} {{setActive('risks/*')}}"> <a class="nav-link" href="{{route('risk.index')}}">Risks</a></li>
+            <li class="nav-item {{setActive('issues')}} {{setActive('issues/*')}}"> <a class="nav-link" href="{{route('risk.index')}}">Issues</a></li>
           </ul>
         </div>
       </li>

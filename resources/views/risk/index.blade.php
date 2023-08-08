@@ -3,10 +3,10 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h3>Risk</h3>
+            <h3>Issues</h3>
         </div>
         <div class="col-md-12 d-flex justify-content-end">
-            <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#risk_add">New Risk</a>
+            <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#risk_add">New Issue</a>
         </div>
        @include('risk.partials.add')
         <div class="col-md-12 mt-3">

@@ -3,11 +3,11 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 d-flex flex-wrap justify-content-between">
-            <h3>Risk management</h3>
+            <h3>Issue management</h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('projects-risks.index')}}">Projects</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{$project->project_name}}'s risks</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$project->project_name}}'s issues</li>
                 </ol>
             </nav>
         </div>
@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Risk</th>
+                            <th>Issue</th>
                             <th>Reportee</th>
                             <th>Date</th>
                             <th>Option</th>
@@ -67,7 +67,7 @@
                     data: {
                         labels:dateTime,
                         datasets: [{
-                            label: 'Risks Level',
+                            label: 'Issue',
                             data: ecgData,
                             borderWidth: 1,
                            backgroundColor: 'rgba(54, 162, 235, 0.2)',

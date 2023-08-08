@@ -4,20 +4,20 @@
           @csrf
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Risk</h5>
+          <h5 class="modal-title" id="exampleModalLabel">New Issue</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">
             <div class="form-group">
-                <label for="">Risk/Query</label>
+                <label for="">Issue</label>
                <select name="risk_id" class="item_selector" style="width: 100%" id="risk_id">
-                <option value="" disabled>~~SELECT RISK~~</option>
+                <option value="" disabled>~~SELECT ISSUE~~</option>
                 @forelse($risks as $risk)
                 <option value="{{$risk->id}}">{{$risk->risk_name}}</option>
                 @empty
-                <option value="" disabled>No risk</option>
+                <option value="" disabled>No issue</option>
                 @endforelse
                </select>
             </div> 
