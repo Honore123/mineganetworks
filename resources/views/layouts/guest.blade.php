@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{asset('assets/ti-icons/css/themify-icons.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/vendor.bundle.base.css')}}">
         <link rel="stylesheet" href="{{asset('custom/css/vertical-layout-light/style.css')}}">
-        <link rel="shortcut icon" href="{{asset('images/favicon.png')}}" />
+        <link rel="shortcut icon" href="{{asset('images/logo1.min.png')}}" />
 
     </head>
     <body>

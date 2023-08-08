@@ -17,8 +17,14 @@
         </div>
        {{-- @include('risk.partials.edit') --}}
         <div class="col-md-12 mt-3 bg-white p-3">
-            <div class="col-md-12 mt-3 mb-4 pr-0 d-flex justify-content-end">
+            
+            <div class="mt-3 mb-4 pr-0 d-flex justify-content-between">
+                <h4>Statistical report</h4>
                 <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#risk_add">New Inquiry</a>
+            </div>
+            <canvas id="risks_chart"></canvas>
+            <div class="mt-5 mb-4">
+                <h4>Detail report</h4>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover" id="customers-table" style="width:100%">
@@ -45,6 +51,49 @@
 <script>
      $(document).ready(function(){
             $('#risk_id').select2();
+            const url = "{{route('risk-management.chart',$project->id)}}";
+            var dateTime = new Array();
+            var ecgData = new Array();
+            $.get(url, function(response){
+                response.forEach(function(data){
+                    console.log(data);
+                    dateTime.push(data.risk_name);
+                    ecgData.push(data.total_risks);
+                });
+                var ecgChart = document.getElementById("risks_chart").getContext('2d');
+
+                var ecgDiagram = new Chart(ecgChart, {
+                    type: 'bar',
+                    data: {
+                        labels:dateTime,
+                        datasets: [{
+                            label: 'Risks Level',
+                            data: ecgData,
+                            borderWidth: 1,
+                           backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                           borderColor:'rgb(54, 162, 235)'
+                        }]
+                    },
+                    options: {
+                        animation:{
+                            duration: 0
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true,
+                                    userCallback: function(label, index, labels) {
+                    
+                                        if (Math.floor(label) === label) {
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }],
+                        }
+                    }
+                });
+            });
            
         });
         function deleteAlert(id, name){
