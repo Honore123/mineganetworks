@@ -4,7 +4,7 @@
           @csrf
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Issue</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Record Issue</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -22,8 +22,8 @@
                </select>
             </div> 
           <div class="form-group">
-              <label for="">Reportee</label>
-              <input type="text" class="form-control" name="reportee" id="reportee" placeholder="Reportee name">
+              <label for="">Reporter</label>
+              <input type="text" class="form-control" name="reportee" id="reportee" placeholder="Reporter name">
           </div> 
         </div>
         <div class="modal-footer d-flex justify-content-between">

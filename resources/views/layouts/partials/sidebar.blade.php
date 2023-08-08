@@ -55,7 +55,7 @@
       <li class="nav-item {{setActive('projects')}}{{setActive('issues')}} {{setActive('projects/*')}}{{setActive('issues/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#project-risks-drop" aria-expanded="false" aria-controls="project-risks-drop">
           <i class="ti-notepad menu-icon"></i>
-          <span class="menu-title">Issue Management</span>
+          <span class="menu-title">Issue log</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse {{showCollapse('projects')}} {{showCollapse('projects/*')}} {{showCollapse('issues')}} {{showCollapse('issues/*')}}" id="project-risks-drop">
