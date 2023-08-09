@@ -20,7 +20,7 @@
             
             <div class="mt-3 mb-4 pr-0 d-flex justify-content-between">
                 <h4>Statistical report</h4>
-                <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#risk_add">New Inquiry</a>
+                <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#risk_add">Record issue</a>
             </div>
             <canvas id="risks_chart"></canvas>
             <div class="mt-5 mb-4">
