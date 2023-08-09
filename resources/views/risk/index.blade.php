@@ -19,6 +19,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Severity</th>
                         <th>Option</th>
                     </tr>
                 </thead>
@@ -75,6 +76,7 @@
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'risk_name', "name": 'risk_name',"className":"text-middle"},
+                { "data": 'risk_severity', "name": 'risk_severity',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
         })

@@ -15,7 +15,17 @@
               <label for="">name</label>
               <input type="text" class="form-control" name="risk_name" id="edit_risk_name" placeholder="Risk name">
           </div> 
+          <div class="form-group">
+            <label for="">Severity</label>
+            <select type="text" class="form-control" name="risk_severity" id="risk_severity">
+              <option value="" disabled>~~SELECT SEVERITY</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+        </div> 
         </div>
+        
         <div class="modal-footer d-flex justify-content-between">
           <button type="button" class="btn btn-outline-danger rounded-0" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary rounded-0">Update</button>
