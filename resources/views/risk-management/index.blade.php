@@ -18,9 +18,23 @@
        {{-- @include('risk.partials.edit') --}}
         <div class="col-md-12 mt-3 bg-white p-3">
             
-            <div class="mt-3 mb-4 pr-0 d-flex justify-content-between">
+            <div class="mt-3 mb-3 pr-0 d-flex justify-content-between">
                 <h4>Statistical report</h4>
                 <a class="btn btn-primary rounded-0" data-toggle="modal" data-target="#risk_add">Record issue</a>
+            </div>
+            <div class="mb-3 d-flex flex-wrap justify-content-md-center">
+                <div class="d-flex mr-2 mr-md-5 mb-2 mb-md-0">
+                    <span class="px-3 py-0" style="background: rgba(255, 99, 132, 1)"></span>
+                    <p class="ml-1 mb-0">HIGH Severity</p>
+                </div>
+                <div class="d-flex mr-2 mr-md-5 mb-2 mb-md-0">
+                    <span class="px-3 py-0" style="background: rgba(255, 205, 86, 1)"></span>
+                    <p class="ml-1 mb-0">MEDIUM Severity</p>
+                </div>
+                <div class="d-flex mr-2 mr-md-5 mb-2 mb-md-0">
+                    <span class="px-3 py-0" style="background: rgba(54, 162, 235, 1)"></span>
+                    <p class="ml-1 mb-0">LOW Severity</p>
+                </div>
             </div>
             <canvas id="risks_chart"></canvas>
             <div class="mt-5 mb-4">
@@ -32,7 +46,7 @@
                         <tr>
                             <th>#</th>
                             <th>Issue</th>
-                            <th>Reportee</th>
+                            <th>Reporter</th>
                             <th>Date</th>
                             <th>Option</th>
                         </tr>
@@ -54,11 +68,23 @@
             const url = "{{route('risk-management.chart',$project->id)}}";
             var dateTime = new Array();
             var ecgData = new Array();
+            var colors = new Array();
+            var borderColors = new Array();
             $.get(url, function(response){
                 response.forEach(function(data){
                     console.log(data);
                     dateTime.push(data.risk_name);
                     ecgData.push(data.total_risks);
+                    if(data.risk_severity == 'High'){
+                        colors.push('rgba(255, 99, 132, 1)');
+                        borderColors.push('rgb(255, 99, 132)');
+                    } else if(data.risk_severity == 'Medium'){
+                        colors.push('rgba(255, 205, 86, 1)');
+                        borderColors.push('rgb(255, 205, 86)');
+                    }else {
+                        colors.push('rgba(54, 162, 235, 1)');
+                        borderColors.push('rgb(54, 162, 235)');
+                    }
                 });
                 var ecgChart = document.getElementById("risks_chart").getContext('2d');
 
@@ -67,14 +93,17 @@
                     data: {
                         labels:dateTime,
                         datasets: [{
-                            label: 'Issue',
+                            label: 'Report Count',
                             data: ecgData,
                             borderWidth: 1,
-                           backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                           borderColor:'rgb(54, 162, 235)'
+                           backgroundColor: colors,
+                           borderColor:borderColors
                         }]
                     },
                     options: {
+                        legend: {
+                            display: false
+                        },
                         animation:{
                             duration: 0
                         },
