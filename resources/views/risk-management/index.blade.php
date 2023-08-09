@@ -72,7 +72,6 @@
             var borderColors = new Array();
             $.get(url, function(response){
                 response.forEach(function(data){
-                    console.log(data);
                     dateTime.push(data.risk_name);
                     ecgData.push(data.total_risks);
                     if(data.risk_severity == 'High'){

@@ -41,7 +41,7 @@ class ProjectRiskController extends Controller
         $response = DB::table('project_risks')
         ->join('risks', 'risks.id', '=', 'project_risks.risk_id')
         ->select('project_risks.risk_id', 'risks.risk_name', 'risks.risk_severity', DB::raw('count(risk_id) as total_risks'))
-        ->groupBy('project_risks.risk_id', 'risks.risk_name')
+        ->groupBy('project_risks.risk_id', 'risks.risk_name', 'risks.risk_severity')
         ->where('project_risks.project_id', $project->id)
         ->get();
 
