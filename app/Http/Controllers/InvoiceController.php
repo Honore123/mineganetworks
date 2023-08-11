@@ -9,6 +9,7 @@ use App\Models\QuotationType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -20,11 +21,38 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoice::orderBy('created_at', 'DESC')->get();
+
         if (request()->ajax()) {
+            function calculateTotal($invoice)
+            {
+                $total = DB::table('invoice_items')
+                            ->select('invoice_id', DB::raw('sum(total_price) as total_amount'))
+                            ->groupBy('invoice_id')
+                            ->where('invoice_id', $invoice->id)
+                            ->get();
+
+                return count($total) > 0 ? intval($total[0]->total_amount) : 0;
+            }
+
             return datatables($invoices)
                 ->editColumn('option', 'invoice.partials.action')
                 ->editColumn('date', function ($invoice) {
                     return $invoice->created_at->format('d-m-Y');
+                })
+                ->editColumn('total_amount', function ($invoice) {
+                    $total = calculateTotal($invoice);
+
+                    return number_format($total, 0, '.', ',').' Rwf';
+                })
+                ->editColumn('vat', function ($invoice) {
+                    $vat = calculateTotal($invoice) * 0.18;
+
+                    return number_format($vat, 0, '.', ',').' Rwf';
+                })
+                ->editColumn('total_inc_vat', function ($invoice) {
+                    $total_inc_vat = (calculateTotal($invoice) * 0.18) + calculateTotal($invoice);
+
+                    return number_format($total_inc_vat, 0, '.', ',').' Rwf';
                 })
                 ->rawColumns(['option'])
                 ->addIndexColumn()

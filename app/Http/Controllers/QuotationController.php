@@ -10,6 +10,7 @@ use App\Models\QuotationProduct;
 use App\Models\QuotationType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Support\Facades\DB;
 
 class QuotationController extends Controller
 {
@@ -17,10 +18,36 @@ class QuotationController extends Controller
     {
         $quotations = Quotation::orderBy('created_at', 'DESC')->get();
         if (request()->ajax()) {
+            function calculateTotal($quotation)
+            {
+                $total = DB::table('quotation_products')
+                            ->select('quotation_id', DB::raw('sum(total_price) as total_amount'))
+                            ->groupBy('quotation_id')
+                            ->where('quotation_id', $quotation->id)
+                            ->get();
+
+                return count($total) > 0 ? intval($total[0]->total_amount) : 0;
+            }
+
             return datatables($quotations)
                 ->editColumn('option', 'quotation.partials.action')
                 ->editColumn('date', function ($quotation) {
                     return $quotation->created_at->format('d-m-Y');
+                })
+                ->editColumn('total_amount', function ($quotation) {
+                    $total = calculateTotal($quotation);
+
+                    return number_format($total, 0, '.', ',').' Rwf';
+                })
+                ->editColumn('vat', function ($quotation) {
+                    $vat = calculateTotal($quotation) * 0.18;
+
+                    return number_format($vat, 0, '.', ',').' Rwf';
+                })
+                ->editColumn('total_inc_vat', function ($quotation) {
+                    $total_inc_vat = (calculateTotal($quotation) * 0.18) + calculateTotal($quotation);
+
+                    return number_format($total_inc_vat, 0, '.', ',').' Rwf';
                 })
                 ->rawColumns(['option'])
                 ->addIndexColumn()

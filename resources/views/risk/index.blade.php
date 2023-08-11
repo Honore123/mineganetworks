@@ -58,9 +58,26 @@
 
     function showModal(id){
         const risks = @json($risks);
+        var options = [
+            { value: 'Low', text: 'Low' },
+            { value: 'Medium', text: 'Medium' },
+            { value: 'High', text: 'High' }
+        ];
         let risk = risks.find(risk=> risk.id == id);
         $("#edit_risk_name").val(risk.risk_name);
         $("#edit_risk_description").val(risk.risk_description);
+        $.each(options, function(index, option) {
+            var $option = $('<option>', {
+                value: option.value,
+                text: option.text
+            });
+
+            if (option.value === risk.risk_severity) {
+                $option.attr('selected', 'selected');
+            }
+
+            $('#edit_risk_severity').append($option);
+        });
         $('#edit_risk_form').attr("action","{{route('risk.index')}}/"+id)
         $('#risk_edit').modal('show');
        }
