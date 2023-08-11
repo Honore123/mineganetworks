@@ -1,5 +1,11 @@
 @extends('layouts.app')
-
+@push('styles')
+    <style>
+        .table td{
+            white-space: normal;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -19,6 +25,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Description</th>
                         <th>Severity</th>
                         <th>Option</th>
                     </tr>
@@ -53,6 +60,7 @@
         const risks = @json($risks);
         let risk = risks.find(risk=> risk.id == id);
         $("#edit_risk_name").val(risk.risk_name);
+        $("#edit_risk_description").val(risk.risk_description);
         $('#edit_risk_form').attr("action","{{route('risk.index')}}/"+id)
         $('#risk_edit').modal('show');
        }
@@ -75,8 +83,9 @@
             },
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
-                { "data": 'risk_name', "name": 'risk_name',"className":"text-middle"},
-                { "data": 'risk_severity', "name": 'risk_severity',"className":"text-middle"},
+                { "data": 'risk_name', "name": 'risk_name',"className":"w-25"},
+                {"data": 'risk_description', "name":'risk_description',"defaultContent":'-',"className":"w-25"},
+                { "data": 'risk_severity', "name": 'risk_severity',"className":"text-center"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
         })

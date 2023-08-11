@@ -15,6 +15,10 @@
               <input type="text" class="form-control" name="risk_name" id="risk_name" placeholder="Risk name">
           </div>
           <div class="form-group">
+            <label for="Description">Description</label>
+            <textarea class="form-control" name="risk_description" id="risk_description" cols="30" rows="10" placeholder="Issue description"></textarea>
+          </div>
+          <div class="form-group">
             <label for="">Severity</label>
             <select type="text" class="form-control" name="risk_severity" id="risk_severity">
               <option value="" disabled>~~SELECT SEVERITY</option>

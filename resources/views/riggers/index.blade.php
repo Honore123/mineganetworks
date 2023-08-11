@@ -1,9 +1,7 @@
 @extends('layouts.app')
 @push('styles')
     <style>
-        .table td{
-            white-space: normal;
-        }
+       
     </style>
 @endpush
 @section('content')
@@ -22,7 +20,7 @@
         </div>
         @include('riggers.partials.edit')
         <div class="col-md-12 mt-4 bg-white p-3">
-            <table class="table table-bordered table-striped table-hover" id="customers-table" style="width:100%">
+            <table class="table table-bordered table-striped table-hover table-responsive" id="customers-table" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -69,14 +67,14 @@
        }
         $('#customers-table').DataTable({
             'dom':'lBfrtip',
-            'scrollX': true,
+            'scrollX': false,
             'paging': true,
             'lengthChange': true,
             'searching': true,
             'ordering': true,
             'info': true,
             'autoWidth': false,
-            'responsive': true,
+            'responsive': false,
             "aLengthMenu": [[10,25, 50, 75, -1], [10,25, 50, 75, "All"]],
             "iDisplayLength": 10,
             "processing":true,
@@ -86,11 +84,11 @@
                 "type": 'GET',
             },
             "columns": [
-                {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
-                { "data": 'name', "name": 'name',"className":"text-middle"},
-                { "data": 'phone', "name": 'phone',"className":"text-middle"},
-                { "data": 'nid', "name": 'nid',"className":"text-middle"},
-                { "data": 'document', "name": 'document',"className":"text-middle", searchable:false},
+                {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle","width":"1%"},
+                { "data": 'name', "name": 'name',"className":"text-middle","width":"30%"},
+                { "data": 'phone', "name": 'phone',"className":"text-middle","width":"20%"},
+                { "data": 'nid', "name": 'nid',"className":"text-middle","width":"20%"},
+                { "data": 'document', "name": 'document',"className":"text-middle","width":"20%", searchable:false},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ],
             "buttons": [
