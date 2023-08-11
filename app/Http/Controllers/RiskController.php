@@ -21,11 +21,11 @@ class RiskController extends Controller
             ->editColumn('option', 'risk.partials.action')
             ->editColumn('risk_severity', function ($risk) {
                 if ($risk->risk_severity == 'High') {
-                    return '<span class="badge badge-danger px-3 py-2">'.$risk->risk_severity.'</span>';
+                    return '<span class="badge badge-danger px-3 py-2 w-100">'.$risk->risk_severity.'</span>';
                 } elseif ($risk->risk_severity == 'Medium') {
-                    return '<span class="badge badge-warning px-3 py-2">'.$risk->risk_severity.'</span>';
+                    return '<span class="badge badge-warning px-3 py-2 w-100">'.$risk->risk_severity.'</span>';
                 } else {
-                    return '<span class="badge badge-success px-3 py-2">'.$risk->risk_severity.'</span>';
+                    return '<span class="badge badge-success px-3 py-2 w-100">'.$risk->risk_severity.'</span>';
                 }
             })
             ->rawColumns(['option', 'risk_severity'])
@@ -59,6 +59,7 @@ class RiskController extends Controller
         $data = request()->validate([
             'risk_name' => ['required', 'string'],
             'risk_severity' => ['required', 'string'],
+            'risk_description' => ['nullable', 'string'],
         ]);
 
         Risk::create($data);
@@ -100,6 +101,7 @@ class RiskController extends Controller
         $data = request()->validate([
             'risk_name' => ['required', 'string'],
             'risk_severity' => ['required', 'string'],
+            'risk_description' => ['nullable', 'string'],
         ]);
 
         $risk->update($data);

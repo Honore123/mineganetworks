@@ -21,7 +21,7 @@
             @include('layouts.partials.notification')
         </div>
         <div class="col-md-12 mt-4 bg-white p-3">
-            <table class="table table-bordered table-striped table-hover" id="products-table">
+            <table class="table table-bordered table-striped table-hover table-responsive" id="products-table">
                 <thead>
                     <tr>
                         <th>#</th>

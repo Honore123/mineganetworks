@@ -14,7 +14,7 @@
         </div>
         @include('vendor.partials.edit')
         <div class="col-md-12 mt-4 bg-white p-3">
-            <table class="table table-bordered table-striped table-hover" id="customers-table" style="width:100%">
+            <table class="table table-bordered table-striped table-hover table-responsive" id="customers-table" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -82,13 +82,13 @@
                 "type": 'GET',
             },
             "columns": [
-                {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
-                { "data": 'vendor_name', "name": 'vendor_name',"className":"text-middle"},
-                { "data": 'email', "name": 'email',"className":"text-middle","defaultContent":"Not available"},
+                {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle","width":"1%"},
+                { "data": 'vendor_name', "name": 'vendor_name',"className":"text-middle","width":"30%"},
+                { "data": 'email', "name": 'email',"className":"text-middle","defaultContent":"Not available","width":"30%"},
                 { "data": 'phone_number', "name": 'phone_number',"className":"text-middle","defaultContent":"Not available"},
                 { "data": 'tin', "name": 'tin',"className":"text-middle","defaultContent":"Not available"},
                 { "data": 'contract_status', "name": 'contract_status',"className":"text-middle"},
-                { "data": 'end_date', "name": 'end_date',"className":"text-middle"},
+                { "data": 'end_date', "name": 'end_date',"className":"text-middle","width":"20%"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
         })
