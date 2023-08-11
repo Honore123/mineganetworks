@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @push('styles')
     <style>
-       
+        .table td{
+            white-space: normal;
+        }
     </style>
 @endpush
 @section('content')
@@ -85,10 +87,10 @@
             },
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle","width":"1%"},
-                { "data": 'name', "name": 'name',"className":"text-middle","width":"30%"},
-                { "data": 'phone', "name": 'phone',"className":"text-middle","width":"20%"},
-                { "data": 'nid', "name": 'nid',"className":"text-middle","width":"20%"},
-                { "data": 'document', "name": 'document',"className":"text-middle","width":"20%", searchable:false},
+                { "data": 'name', "name": 'name',"className":"text-middle","width":"20%"},
+                { "data": 'phone', "name": 'phone',"className":"text-middle","width":"10%"},
+                { "data": 'nid', "name": 'nid',"className":"text-middle","width":"10%"},
+                { "data": 'document', "name": 'document',"className":"text-middle","width":"50%", searchable:false},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ],
             "buttons": [

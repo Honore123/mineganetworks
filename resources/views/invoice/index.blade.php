@@ -23,23 +23,24 @@
             <div class="mt-3 mb-4 d-flex justify-content-end">
                 <a class="btn btn-primary rounded-0" href="{{route('invoice.add')}}">New Invoice</a>
             </div>
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover" id="quotations-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Invoice ID</th>
-                            <th>Company / Individual</th>
-                            <th>Project Name</th>
-                            <th>Created date</th>
-                            <th>Option</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-bordered table-striped table-hover table-responsive" id="quotations-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Invoice ID</th>
+                        <th>Company / Individual</th>
+                        <th>Project Name</th>
+                        <th>Total amount</th>
+                        <th>VAT(18%)</th>
+                        <th>Total Incl. VAT</th>
+                        <th>Created date</th>
+                        <th>Option</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
         </div>
         @include('invoice.partials.edit_invoice_info')
     </div>
@@ -130,8 +131,11 @@
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'invoice_code', "name": 'invoice_code'},
-                { "data": 'company_name', "name": 'company_name',"className":"text-middle"},
-                { "data": 'project_title', "name": 'project_title',"className":"text-middle"},
+                { "data": 'company_name', "name": 'company_name',"className":"w-25"},
+                { "data": 'project_title', "name": 'project_title',"className":"w-25"},
+                { "data": 'total_amount', "name": 'total_amount',"className":"text-middle"},
+                { "data": 'vat', "name": 'vat',"className":"text-middle"},
+                { "data": 'total_inc_vat', "name": 'total_inc_vat',"className":"text-middle"},
                 { "data": 'date', "name": 'date',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]

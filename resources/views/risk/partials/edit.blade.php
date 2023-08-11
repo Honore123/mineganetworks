@@ -21,11 +21,8 @@
           </div>
           <div class="form-group">
             <label for="">Severity</label>
-            <select type="text" class="form-control" name="risk_severity" id="risk_severity">
-              <option value="" disabled>~~SELECT SEVERITY</option>
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
+            <select type="text" class="form-control" name="risk_severity" id="edit_risk_severity">
+             
             </select>
         </div> 
         </div>
