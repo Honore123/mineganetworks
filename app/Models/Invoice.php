@@ -19,4 +19,9 @@ class Invoice extends Model
         return LogOptions::defaults()
         ->logAll();
     }
+
+    public function purchaseOrder()
+    {
+        return $this->hasOne(CustomerPurchaseOrder::class, 'id', 'customer_purchase_order_id');
+    }
 }

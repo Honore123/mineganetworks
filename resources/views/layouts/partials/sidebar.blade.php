@@ -26,10 +26,16 @@
           </ul>
         </div>
       </li>
+      <li class="nav-item {{setActive('customer-pruchase-order')}} {{setActive('customer-pruchase-order/*')}}">
+        <a class="nav-link" href="{{route('customer-po.index')}}">
+          <i class="ti-notepad menu-icon"></i>
+          <span class="menu-title">Customer's P.O</span>
+        </a>
+      </li>
       <li class="nav-item {{setActive('purchase-order')}} {{setActive('purchase-order/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#purchase-order-drop" aria-expanded="false" aria-controls="purchase-order-drop">
           <i class="ti-notepad menu-icon"></i>
-          <span class="menu-title">Purchase Order</span>
+          <span class="menu-title">Contractor's P.O</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse {{showCollapse('purchase-order')}} {{showCollapse('purchase-order/*')}}" id="purchase-order-drop">
