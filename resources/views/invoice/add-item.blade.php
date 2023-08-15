@@ -35,11 +35,13 @@
                     <h5 for="project_name">Project:</h5>
                     <p class="mt-3">{{$invoice->project_title}}</p>
                   </div>
+                  @if($invoice->status != 0 && $invoice->status != 2)
                   <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-primary rounded-0" data-toggle="modal" data-target="#add_item">Add Item</button>
                   </div>
                   @include('invoice.partials.add_item')
                   @include('invoice.partials.edit_item')
+                  @endif
                   <div class="mt-4 table-responsive">
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
@@ -49,7 +51,9 @@
                                 <th>Unit Price</th>
                                 <th>Quantity</th>
                                 <th>Total Price</th>
+                                @if($invoice->status != 0 && $invoice->status != 2)
                                 <th>Option</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -60,6 +64,7 @@
                                 <td>{{number_format($item->unit_price,0,'.',',')}} Rwf</td>
                                 <td>{{$item->quantity}}</td>
                                 <td>{{number_format($item->total_price,0,'.',',')}} Rwf</td>
+                                @if($invoice->status != 0 && $invoice->status != 2)
                                 <td>
                                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">Option</button>
                                     <div class="dropdown-menu">
@@ -72,23 +77,24 @@
                                     <button onclick="deleteAlert({{$item->id}},'{{$item->item_name}}')" class="dropdown-item">Delete</button>
                                     </div> 
                                 </td>
+                                @endif
                             </tr>
                             @empty
                             <tr>
-                                <td class="text-center" colspan="6">No items yet!</td>
+                                <td class="text-center" colspan="{{$invoice->status != 0 || $invoice->status != 2 ? '6' :'5'}}">No items yet!</td>
                             </tr>
                             
                             @endforelse
                             <tr>
-                                <td colspan="5" class="text-center"><b>Total</b></td>
+                                <td colspan="{{$invoice->status != 0 && $invoice->status != 2 ? '5' :'4'}}" class="text-center"><b>Total</b></td>
                                 <td><b>{{$total}} Rwf</b></td>
                             </tr>
                             <tr>
-                                <td colspan="5" class="text-center"><b>VAT(18%)</b> </td>
+                                <td colspan="{{$invoice->status != 0 && $invoice->status != 2 ? '5' :'4'}}" class="text-center"><b>VAT(18%)</b> </td>
                                 <td><b>{{$vat}} Rwf</b></td>
                             </tr> 
                             <tr>
-                                <td colspan="5" class="text-center"><b>Total Incl. VAT</b></td>
+                                <td colspan="{{$invoice->status != 0 && $invoice->status != 2 ? '5' :'4'}}" class="text-center"><b>Total Incl. VAT</b></td>
                                 <td><b>{{$totalVat}} Rwf</b></td>
                             </tr> 
                         </tbody>
@@ -96,7 +102,9 @@
                   </div>
                   <div class="mt-5 mb-3 d-flex justify-content-between">
                     <button onclick="deleteInvoice({{$invoice->id}},'{{$invoice->company_name}}')" class="btn btn-outline-danger rounded-0">Delete</button>
+                    @if($invoice->status != 0)
                     <a href="{{route('invoice.download', $invoice->id)}}" class="btn btn-primary rounded-0 mr-2">Download</a>
+                    @endif
                   </div>
                   <form action="{{route('invoice.delete',$invoice->id)}}" method="POST" id="delete-invoice-{{$invoice->id}}">
                     @csrf

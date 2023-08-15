@@ -59,6 +59,17 @@
                     <label for="project_name">Project Name</label>
                     <input type="text" class="form-control" id="project_title" name="project_title" placeholder="Project title" value="{{old('project_title')}}">
                   </div>
+                  <div class="form-group d-none" id="customer_purchase_order_form_group">
+                    <label for="">P.O Number</label>
+                   <select name="customer_purchase_order_id" class="item_selector" style="width:100%" id="customer_purchase_order_id">
+                    <option value="" disabled selected>~~SELECT P.O~~</option>
+                    @forelse($purchaseOrders as $purchaseOrder)
+                    <option value="{{$purchaseOrder->id}}">{{$purchaseOrder->po_number}}</option>
+                    @empty
+                    <option value="" disabled>No P.O</option>
+                    @endforelse
+                   </select>
+                  </div> 
                   <div class="mt-5 mb-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary rounded-0 mr-2 d-none" id="submit_btn">Save & Continue</button>
                   </div>
@@ -71,6 +82,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+          $('#customer_purchase_order_id').select2();
           $('#new_invoice_form').on('submit', function() {
             $('#submit_btn').prop('disabled', true);
           });
@@ -84,6 +96,7 @@
           $('#address_form_group').addClass('d-none');
           $('#submit_btn').removeClass('d-none');
           $('#project_title_form_group').removeClass('d-none');
+          $('#customer_purchase_order_form_group').removeClass('d-none');
         } else if(customer_type == 2) {
           $('#company_name_form_group').removeClass('d-none');
           $('#customer_form_group').addClass('d-none');
@@ -91,6 +104,7 @@
           $('#address_form_group').removeClass('d-none');
           $('#submit_btn').removeClass('d-none');
           $('#project_title_form_group').removeClass('d-none');
+          $('#customer_purchase_order_form_group').removeClass('d-none');
         } else {
           $('#company_name_form_group').addClass('d-none');
           $('#customer_form_group').addClass('d-none');
@@ -98,6 +112,7 @@
           $('#address_form_group').addClass('d-none');
           $('#project_title_form_group').addClass('d-none')
           $('#submit_btn').addClass('d-none');
+          $('#customer_purchase_order_form_group').addClass('d-none');
         }
       }
     </script>

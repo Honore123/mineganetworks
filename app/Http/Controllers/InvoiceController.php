@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\CustomerPurchaseOrder;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\QuotationType;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class InvoiceController extends Controller
 {
@@ -20,7 +21,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::orderBy('created_at', 'DESC')->get();
+        $invoices = Invoice::with(['purchaseOrder'])->orderBy('created_at', 'DESC')->get();
 
         if (request()->ajax()) {
             function calculateTotal($invoice)
@@ -39,22 +40,21 @@ class InvoiceController extends Controller
                 ->editColumn('date', function ($invoice) {
                     return $invoice->created_at->format('d-m-Y');
                 })
-                ->editColumn('total_amount', function ($invoice) {
-                    $total = calculateTotal($invoice);
-
-                    return number_format($total, 0, '.', ',').' Rwf';
-                })
-                ->editColumn('vat', function ($invoice) {
-                    $vat = calculateTotal($invoice) * 0.18;
-
-                    return number_format($vat, 0, '.', ',').' Rwf';
+                ->editColumn('status', function ($invoice) {
+                    if ($invoice->status == '1') {
+                        return '<span class="badge bg-warning w-100">Pending</span>';
+                    } elseif ($invoice->status == '2') {
+                        return '<span class="badge bg-success text-white w-100">Paid</span>';
+                    } else {
+                        return '<span class="badge bg-danger text-white w-100">Canceled</span>';
+                    }
                 })
                 ->editColumn('total_inc_vat', function ($invoice) {
                     $total_inc_vat = (calculateTotal($invoice) * 0.18) + calculateTotal($invoice);
 
                     return number_format($total_inc_vat, 0, '.', ',').' Rwf';
                 })
-                ->rawColumns(['option'])
+                ->rawColumns(['option', 'status'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -63,6 +63,7 @@ class InvoiceController extends Controller
             'invoices' => $invoices,
             'types' => QuotationType::all(),
             'customers' => Customer::all(),
+            'purchaseOrders' => CustomerPurchaseOrder::where('status', 1)->orderBy('created_at', 'DESC')->get(),
         ]);
     }
 
@@ -76,6 +77,7 @@ class InvoiceController extends Controller
         return view('invoice.add', [
             'types' => QuotationType::all(),
             'customers' => Customer::all(),
+            'purchaseOrders' => CustomerPurchaseOrder::orderBy('created_at', 'DESC')->get(),
         ]);
     }
 
@@ -89,6 +91,7 @@ class InvoiceController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
+            'customer_purchase_order_id' => ['required', 'unique:invoices'],
         ]);
 
         $clientId = request()->input('selected_client');
@@ -115,6 +118,8 @@ class InvoiceController extends Controller
             $data['invoice_code'] = '0001';
         }
         $invoice = Invoice::create($data);
+        $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
+        $purchaseOrder->update(['status' => 2]);
 
         return redirect()->route('invoiceItem.index', $invoice->id)->with('success', 'Invoice created! Now you can start adding items');
     }
@@ -152,6 +157,7 @@ class InvoiceController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
+            'customer_purchase_order_id' => ['required', Rule::unique('invoices')->ignore($invoice->id)],
         ]);
 
         $clientId = request()->input('selected_client');
@@ -169,8 +175,27 @@ class InvoiceController extends Controller
             return redirect()->back()->with('error', 'Please fill form correctly');
         }
         $invoice->update($data);
+        $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
+        $purchaseOrder->update(['status' => 2]);
 
         return redirect()->back()->with('success', 'Invoice updated!');
+    }
+
+    public function status(Invoice $invoice)
+    {
+        $data = request()->validate([
+            'status' => ['required'],
+        ]);
+
+        $invoice->update($data);
+        $purchaseOrder = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
+        if ($data['status'] == '2') {
+            $purchaseOrder->update(['status' => 3]);
+        } else {
+            $purchaseOrder->update(['status' => 0]);
+        }
+
+        return redirect()->back()->with('success', $purchaseOrder->po_number.' invoice updated');
     }
 
     public function download(Invoice $invoice)

@@ -30,8 +30,8 @@
                         <th>Invoice ID</th>
                         <th>Company / Individual</th>
                         <th>Project Name</th>
-                        <th>Total amount</th>
-                        <th>VAT(18%)</th>
+                        <th>Status</th>
+                        <th>P.O No</th>
                         <th>Total Incl. VAT</th>
                         <th>Created date</th>
                         <th>Option</th>
@@ -48,8 +48,13 @@
 @push('scripts')
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            $('#edit_customer_purchase_order_id').select2();
+        });
         function editInvoiceInfo(id){
             const invoices = @json($invoices);
+            const purchaseOrders = @json($purchaseOrders);
+            
             const invoice = invoices.find(invoice => invoice.id == id);
             if(invoice.client_id != 0) {
                 $('#customer_type option[value="1"]').prop('selected', true);
@@ -57,6 +62,18 @@
                 $('#tin_number').val(invoice.tin_number);
                 $('#address').val(invoice.address);
                 $('#project_title').val(invoice.project_title);
+                $.each(purchaseOrders, function(index, purchaseOrder) {
+                    var $option = $('<option>', {
+                        value: purchaseOrder.id,
+                        text: purchaseOrder.po_number
+                    });
+
+                    if (purchaseOrder.id === invoice.customer_purchase_order_id) {
+                        $option.attr('selected', 'selected');
+                    }
+
+                    $('#edit_customer_purchase_order_id').append($option);
+                });
                 customerType(document.getElementById('customer_type'));
             } else {
                 $('#customer_type option[value="2"]').prop('selected', true);
@@ -64,6 +81,18 @@
                 $('#tin_number').val(invoice.tin_number);
                 $('#address').val(invoice.address);
                 $('#project_title').val(invoice.project_title);
+                $.each(purchaseOrders, function(index, purchaseOrder) {
+                    var $option = $('<option>', {
+                        value: purchaseOrder.id,
+                        text: purchaseOrder.po_number
+                    });
+
+                    if (purchaseOrder.id === invoice.customer_purchase_order_id) {
+                        $option.attr('selected', 'selected');
+                    }
+
+                    $('#edit_customer_purchase_order_id').append($option);
+                });
                 customerType(document.getElementById('customer_type'));
             }
             $('#edit_invoice_info').modal('show');
@@ -81,6 +110,7 @@
             $('#address_form_group').addClass('d-none');
             $('#submit_btn').removeClass('d-none');
             $('#project_title_form_group').removeClass('d-none');
+            $('#customer_purchase_order_form_group').removeClass('d-none');
             } else if(customer_type == 2) {
             $('#company_name_form_group').removeClass('d-none');
             $('#customer_form_group').addClass('d-none');
@@ -88,6 +118,7 @@
             $('#address_form_group').removeClass('d-none');
             $('#submit_btn').removeClass('d-none');
             $('#project_title_form_group').removeClass('d-none');
+            $('#customer_purchase_order_form_group').removeClass('d-none');
             } else {
             $('#company_name_form_group').addClass('d-none');
             $('#customer_form_group').addClass('d-none');
@@ -95,6 +126,7 @@
             $('#address_form_group').addClass('d-none');
             $('#project_title_form_group').addClass('d-none')
             $('#submit_btn').addClass('d-none');
+            $('#customer_purchase_order_form_group').addClass('d-none');
             }
         }
         function deleteAlert(id, name){
@@ -133,8 +165,8 @@
                 { "data": 'invoice_code', "name": 'invoice_code'},
                 { "data": 'company_name', "name": 'company_name',"className":"w-25"},
                 { "data": 'project_title', "name": 'project_title',"className":"w-25"},
-                { "data": 'total_amount', "name": 'total_amount',"className":"text-middle"},
-                { "data": 'vat', "name": 'vat',"className":"text-middle"},
+                { "data": 'status', "name": 'status',"className":"text-middle"},
+                { "data": 'purchase_order.po_number', "name": 'purchase_order.po_number',"defaultContent":'-',"className":"text-middle"},
                 { "data": 'total_inc_vat', "name": 'total_inc_vat',"className":"text-middle"},
                 { "data": 'date', "name": 'date',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},

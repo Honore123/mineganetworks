@@ -49,6 +49,12 @@
                 <label for="project_name">Project Name</label>
                 <input type="text" class="form-control" id="project_title" name="project_title" placeholder="Project title" value="{{old('project_title')}}">
               </div>
+              <div class="form-group d-none" id="customer_purchase_order_form_group">
+                <label for="">P.O Number</label>
+               <select name="customer_purchase_order_id" class="item_selector" style="width:100%" id="edit_customer_purchase_order_id">
+                
+               </select>
+              </div> 
         </div>
         <div class="modal-footer d-flex justify-content-between">
           <button type="button" class="btn btn-outline-danger rounded-0" data-dismiss="modal">Close</button>

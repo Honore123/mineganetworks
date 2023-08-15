@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerPurchaseOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DriverController;
@@ -53,7 +54,12 @@ Route::prefix('quotation')->middleware(['auth'])->group(function () {
     Route::delete('products/{quotation}', [QuotationProductController::class, 'delete'])->name('quotation-product.delete');
     Route::delete('{quotation}', [QuotationController::class, 'delete'])->name('quotation.delete');
 });
-
+Route::prefix('customer-purchase-order')->middleware(['auth'])->group(function () {
+    Route::get('', [CustomerPurchaseOrderController::class, 'index'])->name('customer-po.index');
+    Route::post('', [CustomerPurchaseOrderController::class, 'store'])->name('customer-po.store');
+    Route::put('{customerPurchaseOrder}', [CustomerPurchaseOrderController::class, 'update'])->name('customer-po.update');
+    Route::delete('{customerPurchaseOrder}', [CustomerPurchaseOrderController::class, 'destroy'])->name('customer-po.delete');
+});
 Route::prefix('purchase-order')->middleware(['auth'])->group(function () {
     Route::get('', [PurchaseOrderController::class, 'index'])->name('purchase-order.index');
     Route::get('new_po', [PurchaseOrderController::class, 'add'])->name('purchase-order.add');
@@ -74,6 +80,7 @@ Route::prefix('invoice')->middleware(['auth'])->group(function () {
     Route::post('{invoice}', [InvoiceItemController::class, 'store'])->name('invoiceItem.store');
     Route::put('{item}', [InvoiceItemController::class, 'update'])->name('invoiceItem.update');
     Route::put('update/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
+    Route::put('status/{invoice}', [InvoiceController::class, 'status'])->name('invoice.status');
     Route::delete('{invoice}', [InvoiceController::class, 'destroy'])->name('invoice.delete');
     Route::delete('items/{item}', [InvoiceItemController::class, 'destroy'])->name('invoiceItem.delete');
 });
