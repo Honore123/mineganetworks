@@ -23,7 +23,7 @@ class CustomerPurchaseOrderController extends Controller
                     if ($purchaseOrder->status == '1') {
                         return '<span class="badge bg-warning w-100">Pending</span>';
                     } elseif ($purchaseOrder->status == '2') {
-                        return '<span class="badge bg-primary text-white w-100">Invoiced</span>';
+                        return '<span class="badge bg-primary text-white w-100">In progress</span>';
                     } elseif ($purchaseOrder->status == '3') {
                         return '<span class="badge bg-success text-white w-100">Completed</span>';
                     } else {
@@ -34,7 +34,10 @@ class CustomerPurchaseOrderController extends Controller
                     return $purchaseOrder->created_at->format('d-m-Y');
                 })
                 ->editColumn('total_amount', function ($purchaseOrder) {
-                    return number_format($purchaseOrder->total_amount, 0, '.', ',').' Rwf';
+                    return number_format((int) $purchaseOrder->total_amount, 0, '.', ',').' Rwf';
+                })
+                ->editColumn('remaining_amount', function ($purchaseOrder) {
+                    return number_format((int) $purchaseOrder->remaining_amount, 0, '.', ',').' Rwf';
                 })
                 ->editColumn('option', 'customer_po.partials.action')
                 ->rawColumns(['option', 'status'])
@@ -79,6 +82,7 @@ class CustomerPurchaseOrderController extends Controller
         $data['po_document'] = uniqid().'_'.trim($file->getClientOriginalName());
         $file->storeAs('customer_POs/', $data['po_document'], 'public');
         $data['status'] = 1;
+        $data['remaining_amount'] = $data['total_amount'];
         CustomerPurchaseOrder::create($data);
 
         return redirect()->back()->with('success', 'PO added!');
@@ -127,7 +131,7 @@ class CustomerPurchaseOrderController extends Controller
             $data['po_document'] = uniqid().'_'.trim($file->getClientOriginalName());
             $file->storeAs('customer_POs/', $data['po_document'], 'public');
         }
-
+        $data['remaining_amount'] = $data['total_amount'];
         $customerPurchaseOrder->update($data);
 
         return redirect()->back()->with('success', 'PO updated!');

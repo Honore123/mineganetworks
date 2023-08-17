@@ -91,7 +91,7 @@ class InvoiceController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
-            'customer_purchase_order_id' => ['required', 'unique:invoices'],
+            'customer_purchase_order_id' => ['required'],
         ]);
 
         $clientId = request()->input('selected_client');
@@ -99,7 +99,10 @@ class InvoiceController extends Controller
         $data['tin_number'] = request()->input('tin_number');
         $data['address'] = request()->input('address');
         $customerType = request()->input('customer_type');
-
+        $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
+        if ((int) $purchaseOrder->remaining_amount == 0) {
+            return redirect()->back()->with('error', 'Selected PO already completed. Please select pending or in progress PO');
+        }
         if ($customerType == 1 && ! is_null($clientId)) {
             $client = Customer::where('id', $clientId)->first();
             $data['company_name'] = $client->customer_name;
@@ -118,7 +121,7 @@ class InvoiceController extends Controller
             $data['invoice_code'] = '0001';
         }
         $invoice = Invoice::create($data);
-        $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
+
         $purchaseOrder->update(['status' => 2]);
 
         return redirect()->route('invoiceItem.index', $invoice->id)->with('success', 'Invoice created! Now you can start adding items');
@@ -157,7 +160,7 @@ class InvoiceController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
-            'customer_purchase_order_id' => ['required', Rule::unique('invoices')->ignore($invoice->id)],
+            'customer_purchase_order_id' => ['required'],
         ]);
 
         $clientId = request()->input('selected_client');
@@ -189,9 +192,9 @@ class InvoiceController extends Controller
 
         $invoice->update($data);
         $purchaseOrder = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
-        if ($data['status'] == '2') {
+        if ($data['status'] == '2' && (int) $purchaseOrder->remaining_amount == 0) {
             $purchaseOrder->update(['status' => 3]);
-        } else {
+        } elseif ($data['status'] == '0') {
             $purchaseOrder->update(['status' => 0]);
         }
 

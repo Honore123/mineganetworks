@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerPurchaseOrder;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class InvoiceItemController extends Controller
             'total' => number_format($data['total'], 0, '.', ','),
             'vat' => number_format($data['vat'], 0, '.', ','),
             'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+            'customer_po' => CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first(),
         ]);
     }
 
@@ -55,8 +57,15 @@ class InvoiceItemController extends Controller
         ]);
 
         $data['invoice_id'] = $invoice->id;
-
+        $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
+        if ((int) $data['total_price'] > (int) $customer_po->remaining_amount) {
+            return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
+        }
         InvoiceItem::create($data);
+
+        $customer_po->update([
+            'remaining_amount' => strval((int) $customer_po->remaining_amount - (int) $data['total_price']),
+        ]);
 
         return redirect()->back()->with('success', 'Item added');
     }
