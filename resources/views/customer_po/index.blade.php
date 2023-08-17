@@ -29,6 +29,7 @@
                         <th>Project</th>
                         <th>Status</th>
                         <th>Total amount</th>
+                        <th>Remaining amount</th>
                         <th>Created date</th>
                         <th>Option</th>
                     </tr>
@@ -92,6 +93,7 @@
                 {"data": 'project_title', "name":'project_title',"defaultContent":'-',"className":"w-25"},
                 { "data": 'status', "name": 'status',"className":"text-center"},
                 { "data": 'total_amount', "name": 'total_amount',"className":"text-center"},
+                { "data": 'remaining_amount', "name": 'remaining_amount',"className":"text-center"},
                 { "data": 'created_at', "name": 'created_at',"className":"text-center"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]

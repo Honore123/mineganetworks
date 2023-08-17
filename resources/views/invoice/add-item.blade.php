@@ -31,18 +31,39 @@
                     <p>{{$invoice->address}}</p>
                     @endif
                   </div>
-                  <div class="form-group w-25">
+                  <div class="form-group w-25 border-1">
                     <h5 for="project_name">Project:</h5>
                     <p class="mt-3">{{$invoice->project_title}}</p>
                   </div>
-                  @if($invoice->status != 0 && $invoice->status != 2)
-                  <div class="d-flex justify-content-end">
+                
+                  <div class="d-flex flex-wrap justify-content-between">
+                        <div>
+                            <h6 class="mb-3">Purchase Order Information (No. {{$customer_po->po_number}})</h6>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr><th>P.O total amount</th><th>Paid amount</th> <th>Remaining amount</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{number_format( (int)$customer_po->total_amount,0,'.',',')}} Rwf</td>
+                                        <td>{{number_format( ((int)$customer_po->total_amount - (int)$customer_po->remaining_amount),0,'.',',')}} Rwf</td>
+                                        <td>{{number_format( (int)$customer_po->remaining_amount,0,'.',',')}} Rwf</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                       <div>
+                        @if($invoice->status != 0 && $invoice->status != 2)
                         <button type="button" class="btn btn-primary rounded-0" data-toggle="modal" data-target="#add_item">Add Item</button>
+                        @endif
+                       </div>
                   </div>
+                  @if($invoice->status != 0 && $invoice->status != 2)
                   @include('invoice.partials.add_item')
                   @include('invoice.partials.edit_item')
                   @endif
                   <div class="mt-4 table-responsive">
+                    <h6 class="mb-3">Invoice Information ({{$invoice->invoice_code}})</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
@@ -100,16 +121,20 @@
                         </tbody>
                     </table>
                   </div>
-                  <div class="mt-5 mb-3 d-flex justify-content-between">
+                  <div class="mt-5 mb-3 d-flex {{$invoice->status != 0 && $invoice->status != 2 ? 'justify-content-between':'justify-content-end'}}">
+                    @if($invoice->status != 0 && $invoice->status != 2)
                     <button onclick="deleteInvoice({{$invoice->id}},'{{$invoice->company_name}}')" class="btn btn-outline-danger rounded-0">Delete</button>
+                    @endif
                     @if($invoice->status != 0)
                     <a href="{{route('invoice.download', $invoice->id)}}" class="btn btn-primary rounded-0 mr-2">Download</a>
                     @endif
                   </div>
+                  @if($invoice->status != 0 && $invoice->status != 2)
                   <form action="{{route('invoice.delete',$invoice->id)}}" method="POST" id="delete-invoice-{{$invoice->id}}">
                     @csrf
                     @method('DELETE')
                    </form>
+                   @endif
               </div>
             </div>
           </div>

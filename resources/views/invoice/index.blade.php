@@ -144,6 +144,36 @@
                 }
             });
         }
+        function paidInvoice(id, name, company){
+            swal.fire( {
+                title:'Confirmation',
+                text:'Are you sure this invoice ' + name+' of '+company+' is paid?' ,
+                icon: 'warning',
+                confirmButtonText: 'Yes',
+                cancelButtonText:'No',
+                showCancelButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('update-paid-'+ id).submit();
+                }
+            });
+        }
+        function cancelInvoice(id, name){
+            swal.fire( {
+                title:'Confirmation',
+                text:'Do you want to cancel invoice ' + name+" ?",
+                icon: 'warning',
+                confirmButtonText: 'Yes',
+                cancelButtonText:'No',
+                showCancelButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('update-cancel-'+ id).submit();
+                }
+            });
+        }
          $('#quotations-table').DataTable({
             'paging': true,
             'lengthChange': true,
