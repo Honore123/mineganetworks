@@ -212,8 +212,8 @@ class InvoiceController extends Controller
             'invoice' => $invoice,
             'items' => $items,
             'total' => number_format($data['total'], 0, '.', ','),
-            'vat' => number_format($data['vat'], 0, '.', ','),
-            'totalVat' => number_format($data['totalVat'], 0, '.', ','),
+            'vat' => number_format($data['vat'], 2, '.', ','),
+            'totalVat' => number_format($data['totalVat'], 2, '.', ','),
         ]);
 
         return $pdf->download($invoice->company_name.'_invoice.pdf');
