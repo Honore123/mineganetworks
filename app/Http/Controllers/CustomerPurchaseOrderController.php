@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerPurchaseOrder;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -34,10 +36,10 @@ class CustomerPurchaseOrderController extends Controller
                     return $purchaseOrder->created_at->format('d-m-Y');
                 })
                 ->editColumn('total_amount', function ($purchaseOrder) {
-                    return number_format((int) $purchaseOrder->total_amount, 0, '.', ',').' Rwf';
+                    return number_format((float) $purchaseOrder->total_amount, 2, '.', ',').' Rwf';
                 })
                 ->editColumn('remaining_amount', function ($purchaseOrder) {
-                    return number_format((int) $purchaseOrder->remaining_amount, 0, '.', ',').' Rwf';
+                    return number_format((float) $purchaseOrder->remaining_amount, 2, '.', ',').' Rwf';
                 })
                 ->editColumn('option', 'customer_po.partials.action')
                 ->rawColumns(['option', 'status'])
@@ -131,7 +133,14 @@ class CustomerPurchaseOrderController extends Controller
             $data['po_document'] = uniqid().'_'.trim($file->getClientOriginalName());
             $file->storeAs('customer_POs/', $data['po_document'], 'public');
         }
+        $invoices = Invoice::where('customer_purchase_order_id', $customerPurchaseOrder->id)->get();
         $data['remaining_amount'] = $data['total_amount'];
+        if ($invoices) {
+            foreach ($invoices as $invoice) {
+                $invoiceItemsTotal = InvoiceItem::where('invoice_id', $invoice->id)->get()->sum('total_price');
+                $data['remaining_amount'] -= ($invoiceItemsTotal + ($invoiceItemsTotal * 0.18));
+            }
+        }
         $customerPurchaseOrder->update($data);
 
         return redirect()->back()->with('success', 'PO updated!');

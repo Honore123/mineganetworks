@@ -25,7 +25,7 @@
           </div>
           <div class="form-group">
             <label for="">Total amount</label>
-            <input type="number" class="form-control" name="total_amount" id="edit_total_amount" placeholder="Total amount">
+            <input type="number" class="form-control" name="total_amount" id="edit_total_amount" step=".01" placeholder="Total amount">
           </div>
           <div>
             <label for="">P.O File</label>
