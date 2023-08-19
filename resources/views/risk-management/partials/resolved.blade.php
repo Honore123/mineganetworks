@@ -16,7 +16,7 @@
               <input type="text" class="form-control" id="datetimepicker" id="resolved_at" name="resolved_at" value="{{old('resolved_at')}}" />
           </div>
           <div class="form-group">
-              <label for="">Reporter</label>
+              <label for="">Solution</label>
               <textarea name="solution" id="solution" class="form-control" cols="30" rows="10" placeholder="Solution or comment">{{old('solution')}}</textarea>
           </div> 
         </div>
