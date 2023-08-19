@@ -103,6 +103,8 @@ Route::prefix('projects')->middleware(['auth'])->group(function () {
         Route::get('{project}', [ProjectRiskController::class, 'index'])->name('risk-management.index');
         Route::get('chart/data/{project}', [ProjectRiskController::class, 'chart'])->name('risk-management.chart');
         Route::post('{project}', [ProjectRiskController::class, 'store'])->name('risk-management.store');
+        Route::put('{projectRisk}', [ProjectRiskController::class, 'update'])->name('risk-management.update');
+        Route::put('resolved/{projectRisk}', [ProjectRiskController::class, 'resolve'])->name('risk-management.resolve');
         Route::delete('{projectRisk}', [ProjectRiskController::class, 'destroy'])->name('risk-management.delete');
     });
 });
