@@ -45,9 +45,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{number_format( (int)$customer_po->total_amount,0,'.',',')}} Rwf</td>
-                                        <td>{{number_format( ((int)$customer_po->total_amount - (int)$customer_po->remaining_amount),0,'.',',')}} Rwf</td>
-                                        <td>{{number_format( (int)$customer_po->remaining_amount,0,'.',',')}} Rwf</td>
+                                        <td>{{number_format( (float)$customer_po->total_amount,2,'.',',')}} Rwf</td>
+                                        <td>{{number_format( ((float)$customer_po->total_amount - (float)$customer_po->remaining_amount),2,'.',',')}} Rwf</td>
+                                        <td>{{number_format( (float)$customer_po->remaining_amount,2,'.',',')}} Rwf</td>
                                     </tr>
                                 </tbody>
                             </table>
