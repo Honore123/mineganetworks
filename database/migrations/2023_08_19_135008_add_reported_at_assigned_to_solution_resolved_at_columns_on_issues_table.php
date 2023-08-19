@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::table('project_risks', function (Blueprint $table) {
             $table->string('assigned_to');
             $table->text('solution')->nullable();
-            $table->timestamp('reported_at');
+            $table->timestamp('reported_at')->nullable();
             $table->timestamp('resolved_at')->nullable();
         });
     }
