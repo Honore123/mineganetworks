@@ -21,10 +21,18 @@
                 @endforelse
                </select>
             </div> 
+            <div class="form-group">
+              <label for="datetimepicker">Select Date and Time:</label>
+              <input type="text" class="form-control" id="datetimepicker" id="reported_at" name="reported_at" />
+          </div>
           <div class="form-group">
               <label for="">Reporter</label>
               <input type="text" class="form-control" name="reportee" id="reportee" placeholder="Reporter name">
           </div> 
+          <div class="form-group">
+            <label for="">Assigned to</label>
+            <input type="text" class="form-control" name="assigned_to" id="assigned_to" placeholder="Assignee name">
+        </div> 
         </div>
         <div class="modal-footer d-flex justify-content-between">
           <button type="button" class="btn btn-outline-danger rounded-0" data-dismiss="modal">Close</button>

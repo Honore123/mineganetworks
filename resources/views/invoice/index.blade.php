@@ -56,6 +56,7 @@
             const purchaseOrders = @json($purchaseOrders);
             
             const invoice = invoices.find(invoice => invoice.id == id);
+            $('#edit_customer_purchase_order_id').append('<option value="" disabled selected>Choose P.O</option>');
             if(invoice.client_id != 0) {
                 $('#customer_type option[value="1"]').prop('selected', true);
                 $('#selected_client option[value="'+invoice.client_id+'"]').prop('selected', true);

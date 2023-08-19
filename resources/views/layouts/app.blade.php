@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="{{asset('assets/select2/select2.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/datatable_buttons/buttons.dataTables.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/datetimepicker/datetime_picker.css')}}">
         <!-- End plugin css for this page -->
         <!-- inject:css -->
         <link rel="stylesheet" href="{{asset('custom/css/vertical-layout-light/style.css')}}">
@@ -59,7 +60,9 @@
         <script src="{{asset('assets/datatable_buttons/buttons.html5.min.js')}}"></script>
         <script src="{{asset('assets/datatable_buttons/buttons_1.colVis.min.js')}}"></script>
         <script src="{{asset('assets/select2/select2.min.js')}}"></script>
+        <script src="{{asset('assets/momentum/momentum.js')}}"></script>
         <script src="{{asset('custom/js/dataTables.select.min.js')}}"></script>
+        <script src="{{asset('assets/datetimepicker/datetime_picker.min.js')}}"></script>
        
       
         <!-- End plugin js for this page -->

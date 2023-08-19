@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectRisk;
 use App\Models\Risk;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,7 +27,14 @@ class ProjectRiskController extends Controller
                 ->editColumn('created_at', function ($risk) {
                     return $risk->created_at->format('d/m/Y');
                 })
-                ->rawColumns(['option'])
+                ->editColumn('solution', function ($risk) {
+                    if (! is_null($risk->solution)) {
+                        return $risk->solution;
+                    }
+
+                    return '<span class="badge bg-warning w-100">Pending</span>';
+                })
+                ->rawColumns(['option', 'solution'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -33,6 +42,7 @@ class ProjectRiskController extends Controller
         return view('risk-management.index', [
             'project' => $project,
             'risks' => Risk::all(),
+            'projectRisks' => $risks,
         ]);
     }
 
@@ -69,11 +79,14 @@ class ProjectRiskController extends Controller
         $data = request()->validate([
             'risk_id' => ['required'],
             'reportee' => ['required', 'string'],
+            'reported_at' => ['required'],
+            'assigned_to' => ['required'],
         ]);
         $data['project_id'] = $project->id;
+        $data['reported_at'] = Carbon::parse($data['reported_at'])->toDateTimeString();
         ProjectRisk::create($data);
 
-        return redirect()->back()->with('success', 'Risk registered!');
+        return redirect()->back()->with('success', 'Issue registered!');
     }
 
     /**
@@ -107,7 +120,29 @@ class ProjectRiskController extends Controller
      */
     public function update(Request $request, ProjectRisk $projectRisk)
     {
-        //
+        $data = request()->validate([
+            'risk_id' => ['required'],
+            'reportee' => ['required', 'string'],
+            'reported_at' => ['required'],
+            'assigned_to' => ['required'],
+        ]);
+
+        $data['reported_at'] = Carbon::parse($data['reported_at'])->toDateTimeString();
+        $projectRisk->update($data);
+
+        return redirect()->back()->with('success', 'Project issue updated!');
+    }
+
+    public function resolve(ProjectRisk $projectRisk)
+    {
+        $data = request()->validate([
+            'solution' => ['required'],
+            'resolved_at' => ['required'],
+        ]);
+        $data['resolved_at'] = Carbon::parse($data['resolved_at'])->toDateTimeString();
+        $projectRisk->update($data);
+
+        return redirect()->back()->with('success', 'Issue resolved successfully!');
     }
 
     /**

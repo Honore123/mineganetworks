@@ -63,7 +63,7 @@ class InvoiceController extends Controller
             'invoices' => $invoices,
             'types' => QuotationType::all(),
             'customers' => Customer::all(),
-            'purchaseOrders' => CustomerPurchaseOrder::where('status', 1)->orderBy('created_at', 'DESC')->get(),
+            'purchaseOrders' => CustomerPurchaseOrder::orderBy('created_at', 'DESC')->get(),
         ]);
     }
 
@@ -177,9 +177,37 @@ class InvoiceController extends Controller
         } elseif (is_null($data['company_name']) || is_null($data['tin_number']) || is_null($data['address'])) {
             return redirect()->back()->with('error', 'Please fill form correctly');
         }
-        $invoice->update($data);
         $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
-        $purchaseOrder->update(['status' => 2]);
+        if ($invoice->customer_purchase_order_id != $data['customer_purchase_order_id']) {
+            $addUpBalance = InvoiceItem::where('invoice_id', $invoice->id)->sum('total_price');
+            $oldPO = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
+            if (($addUpBalance + ($addUpBalance * 0.18)) <= $purchaseOrder->remaining_amount) {
+                $otherInvoices = Invoice::where('id', '!=', $invoice->id)->where('customer_purchase_order_id', $invoice->customer_purchase_order_id)->first();
+                $newStatus = 1;
+                if ($otherInvoices) {
+                    $newStatus = 2;
+                }
+                $oldPO->update([
+                    'status' => $newStatus,
+                    'remaining_amount' => $oldPO->remaining_amount + ($addUpBalance + ($addUpBalance * 0.18)),
+                ]);
+            } else {
+                return redirect()->back()->with('error', "The Chosen PO doesn't have enough remaining amount!");
+            }
+        }
+        $invoice->update($data);
+
+        $poInvoices = Invoice::where('customer_purchase_order_id', $purchaseOrder->id)->get();
+        $remainingAmount = $purchaseOrder->total_amount;
+
+        if ($poInvoices) {
+            foreach ($poInvoices as $poInvoice) {
+                $invoiceItemsTotal = InvoiceItem::where('invoice_id', $poInvoice->id)->get()->sum('total_price');
+                $remainingAmount -= ($invoiceItemsTotal + ($invoiceItemsTotal * 0.18));
+            }
+        }
+
+        $purchaseOrder->update(['status' => 2, 'remaining_amount' => $remainingAmount]);
 
         return redirect()->back()->with('success', 'Invoice updated!');
     }

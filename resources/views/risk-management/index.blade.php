@@ -15,7 +15,8 @@
         <div class="col-md-12 mt-3">
             @include('layouts.partials.notification')
         </div>
-       {{-- @include('risk.partials.edit') --}}
+       @include('risk-management.partials.edit')
+       @include('risk-management.partials.resolved')
         <div class="col-md-12 mt-3 bg-white p-3">
             
             <div class="mt-3 mb-3 pr-0 d-flex justify-content-between">
@@ -47,7 +48,10 @@
                             <th>#</th>
                             <th>Issue</th>
                             <th>Reporter</th>
-                            <th>Date</th>
+                            <th>Assigned to</th>
+                            <th>Reported at</th>
+                            <th>Resolved at</th>
+                            <th>Solution</th>
                             <th>Option</th>
                         </tr>
                     </thead>
@@ -64,7 +68,17 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
      $(document).ready(function(){
+        flatpickr('#datetimepicker', {
+            enableTime: true,
+            dateFormat: 'Y-m-d H:i',
+        });
+        flatpickr('#edit_datetimepicker', {
+            enableTime: true,
+            dateFormat: 'Y-m-d H:i',
+        });
+            
             $('#risk_id').select2();
+            $('#edit_risk_id').select2();
             const url = "{{route('risk-management.chart',$project->id)}}";
             var dateTime = new Array();
             var ecgData = new Array();
@@ -124,6 +138,39 @@
             });
            
         });
+        
+        function issueResolved(id){
+            var url = '{{ route("risk-management.resolve", ":id") }}';
+            url = url.replace(':id',id);
+            $('#issue_resolved_form').attr("action",url)
+            $('#resolved_modal').modal('show');
+           
+        }
+        function editProjectRisk(id){
+            const projectRisks = @json($projectRisks);
+            const risks = @json($risks);
+            const projectRisk = projectRisks.find(projectRisk => projectRisk.id == id)
+
+            $.each(risks, function(index, risk) {
+                var $option = $('<option>', {
+                    value: risk.id,
+                    text: risk.risk_name
+                });
+
+                if (risk.id === projectRisk.risk_id) {
+                    $option.attr('selected', 'selected');
+                }
+
+                $('#edit_risk').append($option);
+            });
+            $('#edit_reportee').val(projectRisk.reportee);
+            $('#edit_assigned_to').val(projectRisk.assigned_to);
+            $('#edit_datetimepicker').val(projectRisk.reported_at);
+            var url = '{{ route("risk-management.update", ":id") }}';
+            url = url.replace(':id',id);
+            $('#edit_risk_project').attr("action",url)
+            $('#risk_edit').modal('show');
+        }
         function deleteAlert(id, name){
             swal.fire( {
                 title:'Confirmation',
@@ -159,7 +206,10 @@
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'risk.risk_name', "name": 'risk.risk_name',"className":"text-middle"},
                 { "data": 'reportee', "name": 'reportee',"className":"text-middle"},
-                { "data": 'created_at', "name": 'risk.created_at',"className":"text-middle"},
+                { "data": 'assigned_to', "name": 'assigned_to',"className":"text-middle","defaultContent":"-"},
+                { "data": 'reported_at', "name": 'reported_at',"className":"text-middle", "defaultContent":"-"},
+                { "data": 'resolved_at', "name": 'resolved_at',"className":"text-middle", "defaultContent":"-"},
+                { "data": 'solution', "name": 'solution',"className":"text-middle", "defaultContent":"-"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
         })
