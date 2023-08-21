@@ -222,6 +222,7 @@ class InvoiceController extends Controller
         if (! $invoice->customer_purchase_order_id) {
             return redirect()->back()->with('error', 'The invoice '.$invoice->invoice_code.' of '.$invoice->company_name." doesn't have a PO");
         }
+        $invoice->update($data);
         $purchaseOrder = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
         if ($data['status'] == '2' && (int) $purchaseOrder->remaining_amount == 0) {
             $invoice->update($data);
