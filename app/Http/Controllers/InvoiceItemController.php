@@ -16,6 +16,9 @@ class InvoiceItemController extends Controller
      */
     public function index(Invoice $invoice)
     {
+        if (! $invoice->customer_purchase_order_id) {
+            return redirect()->back()->with('error', 'The invoice '.$invoice->invoice_code.' of '.$invoice->company_name." doesn't have a PO. Please assign a PO before adding items");
+        }
         $items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
         $data['total'] = $items->sum('total_price');
         $data['vat'] = ($data['total'] * 0.18);

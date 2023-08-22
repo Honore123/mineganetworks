@@ -187,10 +187,12 @@ class InvoiceController extends Controller
                 if ($otherInvoices) {
                     $newStatus = 2;
                 }
-                $oldPO->update([
-                    'status' => $newStatus,
-                    'remaining_amount' => $oldPO->remaining_amount + ($addUpBalance + ($addUpBalance * 0.18)),
-                ]);
+                if ($oldPO) {
+                    $oldPO->update([
+                        'status' => $newStatus,
+                        'remaining_amount' => $oldPO->remaining_amount + ($addUpBalance + ($addUpBalance * 0.18)),
+                    ]);
+                }
             } else {
                 return redirect()->back()->with('error', "The Chosen PO doesn't have enough remaining amount!");
             }
@@ -217,10 +219,12 @@ class InvoiceController extends Controller
         $data = request()->validate([
             'status' => ['required'],
         ]);
-
-        $invoice->update($data);
+        if (! $invoice->customer_purchase_order_id) {
+            return redirect()->back()->with('error', 'The invoice '.$invoice->invoice_code.' of '.$invoice->company_name." doesn't have a PO");
+        }
         $purchaseOrder = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
         if ($data['status'] == '2' && (int) $purchaseOrder->remaining_amount == 0) {
+            $invoice->update($data);
             $purchaseOrder->update(['status' => 3]);
         } elseif ($data['status'] == '0') {
             $purchaseOrder->update(['status' => 0]);
