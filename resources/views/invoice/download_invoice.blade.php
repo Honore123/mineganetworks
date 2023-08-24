@@ -78,6 +78,7 @@
                         @if(!is_null($invoice->address))
                         <p class="mb-0">{{$invoice->address}}</p>
                         @endif
+                        <p class="mb-0">PO: {{$invoice->purchaseOrder->po_number}}</p>
                     </div>
                     <div class="mt-3 mb-3" style="display: flex; align-items:center">
                         <p class="mb-0" style="font-size: 16px; font-family: 'century_bold'">Project: </p>
