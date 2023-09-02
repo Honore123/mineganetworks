@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Project;
+use App\Models\QuotationType;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 
@@ -27,7 +29,12 @@ class ProjectController extends Controller
                 ->make(true);
         }
 
-        return view('projects.index', ['projects' => $projects]);
+        return view('projects.index', [
+            'projects' => $projects,
+            'types' => QuotationType::all(),
+            'customers' => Customer::all(),
+
+        ]);
     }
 
     /**
@@ -50,7 +57,6 @@ class ProjectController extends Controller
     {
         $data = request()->validate([
             'project_name' => ['required', 'string'],
-            'company_name' => ['required', 'string'],
         ]);
 
         $projectCode = [
@@ -61,6 +67,16 @@ class ProjectController extends Controller
             'reset_on_prefix_change' => true,
         ];
         $data['project_code'] = IdGenerator::generate($projectCode);
+        $clientId = request()->input('selected_client');
+        $customerType = request()->input('customer_type');
+        $data['company_name'] = request()->input('company_name');
+        if ($customerType == 1 && ! is_null($clientId)) {
+            $client = Customer::where('id', $clientId)->first();
+            $data['company_name'] = $client->customer_name;
+            $data['client_id'] = $clientId;
+        } elseif (is_null($data['company_name'])) {
+            return redirect()->back()->with('error', 'Please fill form correctly');
+        }
         Project::create($data);
 
         return redirect()->back()->with('success', 'Project created!');
@@ -99,9 +115,19 @@ class ProjectController extends Controller
     {
         $data = request()->validate([
             'project_name' => ['required', 'string'],
-            'company_name' => ['required', 'string'],
         ]);
 
+        $clientId = request()->input('selected_client');
+        $customerType = request()->input('customer_type');
+        $data['company_name'] = request()->input('company_name');
+        $data['client_id'] = 0;
+        if ($customerType == 1 && ! is_null($clientId)) {
+            $client = Customer::where('id', $clientId)->first();
+            $data['company_name'] = $client->customer_name;
+            $data['client_id'] = $clientId;
+        } elseif (is_null($data['company_name'])) {
+            return redirect()->back()->with('error', 'Please fill form correctly');
+        }
         $project->update($data);
 
         return redirect()->back()->with('success', 'Project updated');
