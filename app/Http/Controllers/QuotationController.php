@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\PricingBook;
 use App\Models\Products;
+use App\Models\Project;
 use App\Models\Quotation;
 use App\Models\QuotationProduct;
 use App\Models\QuotationType;
@@ -16,7 +17,8 @@ class QuotationController extends Controller
 {
     public function index()
     {
-        $quotations = Quotation::orderBy('created_at', 'DESC')->get();
+        $quotations = Quotation::with(['project'])->orderBy('created_at', 'DESC')->get();
+
         if (request()->ajax()) {
             function calculateTotal($quotation)
             {
@@ -57,7 +59,9 @@ class QuotationController extends Controller
         return view('quotation.index', [
             'quotations' => $quotations,
             'types' => QuotationType::all(),
-            'customers' => Customer::all(), ]);
+            'customers' => Customer::all(),
+            'projects' => Project::all(),
+        ]);
     }
 
     public function add()
@@ -65,6 +69,7 @@ class QuotationController extends Controller
         return view('quotation.add', [
             'types' => QuotationType::all(),
             'customers' => Customer::all(),
+            'projects' => Project::all(),
         ]);
     }
 
@@ -129,7 +134,8 @@ class QuotationController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
-        ]);
+            'project_id' => ['required'],
+        ], ['project_id' => 'Project name is required']);
         $quotationCode = [
             'table' => 'quotations',
             'field' => 'quotation_code',
@@ -158,7 +164,8 @@ class QuotationController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
-        ]);
+            'project_id' => ['required'],
+        ], ['project_id' => 'Project name is required']);
 
         $clientId = request()->input('selected_client');
         $data['client_name'] = request()->input('client_name');

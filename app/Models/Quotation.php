@@ -19,4 +19,9 @@ class Quotation extends Model
         return LogOptions::defaults()
         ->logAll();
     }
+
+    public function project()
+    {
+        return $this->hasOne(Project::class, 'id', 'project_id');
+    }
 }

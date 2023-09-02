@@ -30,9 +30,8 @@
                         <th>#</th>
                         <th>Quotation ID</th>
                         <th>Company</th>
-                        <th>Project Name</th>
-                        <th>Total amount</th>
-                        <th>VAT(18%)</th>
+                        <th>Project name</th>
+                        <th>Quotation title</th>
                         <th>Total Incl. VAT</th>
                         <th>Created date</th>
                         <th>Option</th>
@@ -49,9 +48,11 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+       
         function editCustomerInfo(id){
             const quotations = @json($quotations);
             const quotation = quotations.find(quotation => quotation.id == id);
+            $('#selected_project option[value=""]').prop('selected', true);
             if(quotation.client_id != 0) {
                 $('#customer_type option[value="1"]').prop('selected', true);
                 $('#selected_client option[value="'+quotation.client_id+'"]').prop('selected', true);
@@ -63,6 +64,8 @@
                 $('#project_title').val(quotation.project_title);
                 customerType(document.getElementById('customer_type'));
             }
+            $('#selected_project option[value="'+quotation.project_id+'"]').prop('selected', true);
+            $('#selected_project').select2();
             $('#edit_customer_info').modal('show');
             $("#edit_quotation_title_modal").text("Edit "+quotation.client_name+"'s quotation");
             var url = '{{ route("quotation.update", ":id") }}';
@@ -75,16 +78,19 @@
         if(customer_type == 1) {
           $('#customer_form_group').removeClass('d-none');
           $('#client_form_group').addClass('d-none');
+          $('#project_form_group').removeClass('d-none');
           $('#title_form_group').removeClass('d-none');
           $('#submit_btn').removeClass('d-none');
         } else if(customer_type == 2) {
           $('#client_form_group').removeClass('d-none');
           $('#customer_form_group').addClass('d-none');
+          $('#project_form_group').removeClass('d-none');
           $('#title_form_group').removeClass('d-none');
           $('#submit_btn').removeClass('d-none');
         } else {
           $('#customer_form_group').addClass('d-none');
           $('#client_form_group').addClass('d-none');
+          $('#project_form_group').addClass('d-none');
           $('#title_form_group').addClass('d-none');
           $('#submit_btn').addClass('d-none');
         }
@@ -124,9 +130,8 @@
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'quotation_code', "name": 'quotation_code'},
                 { "data": 'client_name', "name": 'client_name',"className":"w-25"},
+                { "data": 'project.project_name', "name": 'project.project_name',"defaultContent":"-","className":"text-middle w-25"},
                 { "data": 'project_title', "name": 'project_title',"className":"w-25"},
-                { "data": 'total_amount', "name": 'total_amount',"className":"text-middle"},
-                { "data": 'vat', "name": 'vat',"className":"text-middle"},
                 { "data": 'total_inc_vat', "name": 'total_inc_vat',"className":"text-middle"},
                 { "data": 'date', "name": 'date',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},

@@ -37,6 +37,17 @@
                   @endforelse
                 </select>
               </div>
+              <div class="form-group d-none" id="project_form_group">
+                <label for="exampleInputName1">Project name</label>
+                <select name="project_id" id="selected_project" style="width: 100%" class="item-selector">
+                  <option value="">~~Select project~~</option>
+                  @forelse ($projects as $project)
+                      <option value="{{$project->id}}">{{$project->project_name}} ({{$project->company_name}})</option>
+                  @empty
+                  <option value="" disabled>No project</option>
+                  @endforelse
+                </select>
+              </div>
               <div class="form-group d-none" id="title_form_group">
                 <label for="project_name">Project Name</label>
                 <input type="text" class="form-control" id="project_title" name="project_title" placeholder="Project title">
