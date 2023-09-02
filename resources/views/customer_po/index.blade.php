@@ -44,7 +44,10 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-
+     $(document).ready(function() {
+          $('#selected_project').select2();
+          
+      });
     function deleteAlert(id, name){
         swal.fire( {
             title:'Confirmation',
@@ -63,10 +66,11 @@
     function showModal(id){
         const purchaseOrders = @json($purchaseOrders);
         let purchaseOrder = purchaseOrders.find(purchaseOrder=> purchaseOrder.id == id);
+        $('#edit_selected_project option[value=""]').prop('selected', true);
         $("#edit_po_number").val(purchaseOrder.po_number);
-        $("#edit_company_name").val(purchaseOrder.company_name);
-        $("#edit_project_title").val(purchaseOrder.project_title);
+        $('#edit_selected_project option[value="'+purchaseOrder.project_id+'"]').prop('selected', true);
         $("#edit_total_amount").val(purchaseOrder.total_amount);
+        $('#edit_selected_project').select2();
         $('#edit_customer_po_form').attr("action","{{route('customer-po.index')}}/"+id)
         $('#customer_po_edit').modal('show');
        }

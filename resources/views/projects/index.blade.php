@@ -50,6 +50,57 @@
                 }
             });
         }
+        function editProjectInfo(id){
+            const projects = @json($projects);
+            const project = projects.find(project => project.id == id);
+            if(project.client_id != 0) {
+                $('#edit_customer_type option[value="1"]').prop('selected', true);
+                $('#edit_selected_client option[value="'+project.client_id+'"]').prop('selected', true);
+                $('#edit_project_name').val(project.project_name);
+                EditCustomerType(document.getElementById('edit_customer_type'));
+            } else {
+                $('#edit_customer_type option[value="2"]').prop('selected', true);
+                $('#edit_company_name').val(project.company_name);
+                $('#edit_project_name').val(project.project_name);
+                EditCustomerType(document.getElementById('edit_customer_type'));
+            }
+            $('#project_edit').modal('show');
+            var url = '{{ route("project.update", ":id") }}';
+            url = url.replace(':id',id);
+            $('#edit_project_form').attr('action',url);
+        }
+        function EditCustomerType(sel){
+        const customer_type = sel.value;
+        if(customer_type == 1) {
+          $('#edit_customer_form_group').removeClass('d-none');
+          $('#edit_client_form_group').addClass('d-none');
+          $('#edit_title_form_group').removeClass('d-none');
+        } else if(customer_type == 2) {
+          $('#edit_client_form_group').removeClass('d-none');
+          $('#edit_customer_form_group').addClass('d-none');
+          $('#edit_title_form_group').removeClass('d-none');
+        } else {
+          $('#edit_customer_form_group').addClass('d-none');
+          $('#edit_client_form_group').addClass('d-none');
+          $('#edit_title_form_group').addClass('d-none');
+        }
+      }
+    function customerType(sel){
+        const customer_type = sel.value;
+        if(customer_type == 1) {
+          $('#customer_form_group').removeClass('d-none');
+          $('#client_form_group').addClass('d-none');
+          $('#title_form_group').removeClass('d-none');
+        } else if(customer_type == 2) {
+          $('#client_form_group').removeClass('d-none');
+          $('#customer_form_group').addClass('d-none');
+          $('#title_form_group').removeClass('d-none');
+        } else {
+          $('#customer_form_group').addClass('d-none');
+          $('#client_form_group').addClass('d-none');
+          $('#title_form_group').addClass('d-none');
+        }
+      }
 
     function showModal(id){
         const projects = @json($projects);

@@ -13,9 +13,15 @@
           <span class="menu-title">Products</span>
         </a>
       </li>
+      <li class="nav-item {{setActive('projects')}}">
+        <a class="nav-link" href="{{route('projects-risks.index')}}">
+          <i class="ti-notepad menu-icon"></i>
+          <span class="menu-title">Projects</span>
+        </a>
+      </li>
       <li class="nav-item {{setActive('quotation')}} {{setActive('quotation/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#quotation-drop" aria-expanded="false" aria-controls="quotation-drop">
-          <i class="ti-pencil-alt menu-icon"></i>
+          <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Quotations</span>
           <i class="menu-arrow"></i>
         </a>
@@ -47,7 +53,7 @@
       </li>
       <li class="nav-item {{setActive('invoice')}} {{setActive('invoice/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#invoice-drop" aria-expanded="false" aria-controls="invoice-drop">
-          <i class="ti-envelope menu-icon"></i>
+          <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Invoices</span>
           <i class="menu-arrow"></i>
         </a>
@@ -58,7 +64,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{setActive('projects')}}{{setActive('issues')}} {{setActive('projects/*')}}{{setActive('issues/*')}}">
+      {{-- <li class="nav-item {{setActive('projects')}}{{setActive('issues')}} {{setActive('projects/*')}}{{setActive('issues/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#project-risks-drop" aria-expanded="false" aria-controls="project-risks-drop">
           <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Issue log</span>
@@ -67,10 +73,10 @@
         <div class="collapse {{showCollapse('projects')}} {{showCollapse('projects/*')}} {{showCollapse('issues')}} {{showCollapse('issues/*')}}" id="project-risks-drop">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item {{setActive('projects')}} {{setActive('projects/*')}}"> <a class="nav-link" href="{{route('projects-risks.index')}}">Projects</a></li>
-            <li class="nav-item {{setActive('issues')}} {{setActive('issues/*')}}"> <a class="nav-link" href="{{route('risk.index')}}">Issues</a></li>
+            
           </ul>
         </div>
-      </li>
+      </li> --}}
       <li class="nav-item {{setActive('documents')}} {{setActive('documents/*')}}">
         <a class="nav-link" href="{{route('document.index')}}">
           <i class="ti-notepad menu-icon"></i>
@@ -115,6 +121,7 @@
         </a>
         <div class="collapse" id="settings-drop">
           <ul class="nav flex-column sub-menu">
+            <li class="nav-item {{setActive('issues')}} {{setActive('issues/*')}}"> <a class="nav-link" href="{{route('risk.index')}}">Issues</a></li>
             <li class="nav-item {{setActive('settings/categories')}} {{setActive('settings/categories/*')}}"> <a class="nav-link" href="{{route('category.index')}}">Categories</a></li>
             <li class="nav-item {{setActive('settings/subcategories')}} {{setActive('settings/subcategories/*')}}"> <a class="nav-link" href="{{route('subcategory.index')}}">Sub-Categories</a></li>
             <li class="nav-item {{setActive('settings/measurement_unit')}} {{setActive('settings/measurement_unit/*')}}"> <a class="nav-link" href="{{route('measurement.index')}}">Measurement Unit</a></li>
