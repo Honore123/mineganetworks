@@ -12,8 +12,8 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            $table->foreignId('project_id')->default(2)->after('client_id')->references('id')->on('projects')->onDelete(null);
+        Schema::table('customer_purchase_orders', function (Blueprint $table) {
+            $table->foreignId('project_id')->default(2)->after('po_number')->references('id')->on('projects')->onDelete(null);
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('quotations', function (Blueprint $table) {
+        Schema::table('customer_purchase_orders', function (Blueprint $table) {
             $table->dropColumn('project_id');
         });
     }

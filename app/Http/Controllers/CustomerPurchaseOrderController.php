@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CustomerPurchaseOrder;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -49,6 +50,7 @@ class CustomerPurchaseOrderController extends Controller
 
         return view('customer_po.index', [
             'purchaseOrders' => $customersPo,
+            'projects' => Project::all(),
         ]);
     }
 
@@ -72,15 +74,22 @@ class CustomerPurchaseOrderController extends Controller
     {
         $data = request()->validate([
             'po_number' => ['required', 'unique:customer_purchase_orders'],
-            'company_name' => ['required'],
-            'project_title' => ['required'],
+            'project_id' => ['required', 'unique:customer_purchase_orders'],
             'total_amount' => ['required'],
+        ], [
+            'project_id' => 'Project name required',
+            'project_id.unique' =>'Project name already used',
         ]);
         $file = request()->file('file');
-
+        $project = Project::where('id', $data['project_id'])->first();
+        if (! $project) {
+            return redirect()->back()->with('error', 'Project name not found');
+        }
         if (! $file) {
             return redirect()->back()->with('error', 'Please add a P.O file');
         }
+        $data['company_name'] = $project->company_name;
+        $data['project_title'] = $project->project_name;
         $data['po_document'] = uniqid().'_'.trim($file->getClientOriginalName());
         $file->storeAs('customer_POs/', $data['po_document'], 'public');
         $data['status'] = 1;
@@ -123,12 +132,14 @@ class CustomerPurchaseOrderController extends Controller
     {
         $data = request()->validate([
             'po_number' => ['required', Rule::unique('customer_purchase_orders')->ignore($customerPurchaseOrder->id)],
-            'company_name' => ['required'],
-            'project_title' => ['required'],
+            'project_id' => ['required', Rule::unique('customer_purchase_orders')->ignore($customerPurchaseOrder->id)],
             'total_amount' => ['required'],
-        ]);
+        ], ['project_id' => 'Project name required', 'project_id.unique' =>'Project name already used']);
         $file = request()->file('file');
-
+        $project = Project::where('id', $data['project_id'])->first();
+        if (! $project) {
+            return redirect()->back()->with('error', 'Project name not found');
+        }
         if ($file) {
             $data['po_document'] = uniqid().'_'.trim($file->getClientOriginalName());
             $file->storeAs('customer_POs/', $data['po_document'], 'public');
@@ -141,6 +152,8 @@ class CustomerPurchaseOrderController extends Controller
                 $data['remaining_amount'] -= ($invoiceItemsTotal + ($invoiceItemsTotal * 0.18));
             }
         }
+        $data['company_name'] = $project->company_name;
+        $data['project_title'] = $project->project_name;
         $customerPurchaseOrder->update($data);
 
         return redirect()->back()->with('success', 'PO updated!');

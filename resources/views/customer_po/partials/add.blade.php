@@ -14,13 +14,16 @@
               <label for="">PO Number</label>
               <input type="text" class="form-control" name="po_number" id="po_number" placeholder="PO Number">
           </div>
-          <div class="form-group">
-            <label for="">Project title</label>
-            <input type="text" class="form-control" name="project_title" id="project_title" placeholder="Project title">
-          </div>
-          <div class="form-group">
-            <label for="">Company name</label>
-            <input type="text" class="form-control" name="company_name" id="company_name" placeholder="Company Name">
+          <div class="form-group" id="project_form_group">
+            <label for="exampleInputName1">Project name</label>
+            <select name="project_id" id="selected_project" style="width: 100%" class="item-selector">
+              <option value="">~~Select project~~</option>
+              @forelse ($projects as $project)
+                  <option value="{{$project->id}}">{{$project->project_name}} ({{$project->company_name}})</option>
+              @empty
+              <option value="" disabled>No project</option>
+              @endforelse
+            </select>
           </div>
           <div class="form-group">
             <label for="">Total amount</label>

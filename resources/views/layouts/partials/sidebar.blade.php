@@ -15,13 +15,13 @@
       </li>
       <li class="nav-item {{setActive('projects')}}">
         <a class="nav-link" href="{{route('projects-risks.index')}}">
-          <i class="ti-shopping-cart-full menu-icon"></i>
+          <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Projects</span>
         </a>
       </li>
       <li class="nav-item {{setActive('quotation')}} {{setActive('quotation/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#quotation-drop" aria-expanded="false" aria-controls="quotation-drop">
-          <i class="ti-pencil-alt menu-icon"></i>
+          <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Quotations</span>
           <i class="menu-arrow"></i>
         </a>
@@ -53,7 +53,7 @@
       </li>
       <li class="nav-item {{setActive('invoice')}} {{setActive('invoice/*')}}">
         <a class="nav-link" data-toggle="collapse" href="#invoice-drop" aria-expanded="false" aria-controls="invoice-drop">
-          <i class="ti-envelope menu-icon"></i>
+          <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Invoices</span>
           <i class="menu-arrow"></i>
         </a>
