@@ -13,7 +13,7 @@
           <span class="menu-title">Products</span>
         </a>
       </li>
-      <li class="nav-item {{setActive('projects')}}">
+      <li class="nav-item {{setActive('projects')}} {{setActive('projects/*')}}">
         <a class="nav-link" href="{{route('projects-risks.index')}}">
           <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Projects</span>
