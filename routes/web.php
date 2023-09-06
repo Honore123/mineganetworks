@@ -96,6 +96,9 @@ Route::prefix('products')->middleware(['auth'])->group(function () {
 Route::prefix('projects')->middleware(['auth'])->group(function () {
     Route::get('', [ProjectController::class, 'index'])->name('projects-risks.index');
     Route::get('{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('quotation/{project}', [ProjectController::class, 'quotation'])->name('project.quotation');
+    Route::get('customer_po/{project}', [ProjectController::class, 'customerPo'])->name('project.customer-po');
+    Route::get('invoice/{project}', [ProjectController::class, 'invoice'])->name('project.invoice');
     Route::post('', [ProjectController::class, 'store'])->name('project.store');
     Route::put('{project}', [ProjectController::class, 'update'])->name('project.update');
     Route::delete('{project}', [ProjectController::class, 'destroy'])->name('project.delete');
