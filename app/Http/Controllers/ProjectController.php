@@ -6,8 +6,10 @@ use App\Models\Customer;
 use App\Models\CustomerPurchaseOrder;
 use App\Models\Invoice;
 use App\Models\Project;
+use App\Models\ProjectRisk;
 use App\Models\Quotation;
 use App\Models\QuotationType;
+use App\Models\Risk;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -94,10 +96,14 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $risks = ProjectRisk::with(['risk', 'project'])->where('project_id', $project->id)->orderBy('created_at', 'DESC')->get();
+
         return view('projects.show', [
             'types' => QuotationType::all(),
             'customers' => Customer::all(),
             'project' => $project,
+            'risks' => Risk::all(),
+            'projectRisks' => $risks,
         ]);
     }
 
@@ -214,6 +220,28 @@ class ProjectController extends Controller
                     return number_format($total_inc_vat, 0, '.', ',').' Rwf';
                 })
                 ->rawColumns(['option', 'status'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
+
+    public function issues(Project $project)
+    {
+        $risks = ProjectRisk::with(['risk', 'project'])->where('project_id', $project->id)->orderBy('created_at', 'DESC')->get();
+        if (request()->ajax()) {
+            return datatables($risks)
+                ->editColumn('option', 'projects.partials.risk-management.partials.action')
+                ->editColumn('created_at', function ($risk) {
+                    return $risk->created_at->format('d/m/Y');
+                })
+                ->editColumn('solution', function ($risk) {
+                    if (! is_null($risk->solution)) {
+                        return $risk->solution;
+                    }
+
+                    return '<span class="badge bg-warning w-100">Pending</span>';
+                })
+                ->rawColumns(['option', 'solution'])
                 ->addIndexColumn()
                 ->make(true);
         }

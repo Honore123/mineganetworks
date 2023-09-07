@@ -40,7 +40,7 @@
                 </div>
               </div>
               <div class="tab-pane fade" id="pills-issues" role="tabpanel" aria-labelledby="pills-issues-tab">
-                <h5>Issues</h5>
+                  @include('projects.partials.risk-management.index')
               </div>
             </div>
           </div>
@@ -127,5 +127,152 @@
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
         })
+        $(document).ready(function(){
+        flatpickr('#datetimepicker', {
+            enableTime: true,
+            dateFormat: 'Y-m-d H:i',
+        });
+        flatpickr('#edit_datetimepicker', {
+            enableTime: true,
+            dateFormat: 'Y-m-d H:i',
+        });
+            
+            $('#risk_id').select2();
+            $('#edit_risk_id').select2();
+            const url = "{{route('risk-management.chart',$project->id)}}";
+            var dateTime = new Array();
+            var ecgData = new Array();
+            var colors = new Array();
+            var borderColors = new Array();
+            $.get(url, function(response){
+                response.forEach(function(data){
+                    dateTime.push(data.risk_name);
+                    ecgData.push(data.total_risks);
+                    if(data.risk_severity == 'High'){
+                        colors.push('rgba(255, 99, 132, 1)');
+                        borderColors.push('rgb(255, 99, 132)');
+                    } else if(data.risk_severity == 'Medium'){
+                        colors.push('rgba(255, 205, 86, 1)');
+                        borderColors.push('rgb(255, 205, 86)');
+                    }else {
+                        colors.push('rgba(54, 162, 235, 1)');
+                        borderColors.push('rgb(54, 162, 235)');
+                    }
+                });
+                var ecgChart = document.getElementById("risks_chart").getContext('2d');
+
+                var ecgDiagram = new Chart(ecgChart, {
+                    type: 'bar',
+                    data: {
+                        labels:dateTime,
+                        datasets: [{
+                            label: 'Report Count',
+                            data: ecgData,
+                            borderWidth: 1,
+                           backgroundColor: colors,
+                           borderColor:borderColors
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        animation:{
+                            duration: 0
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true,
+                                    userCallback: function(label, index, labels) {
+                    
+                                        if (Math.floor(label) === label) {
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }],
+                        }
+                    }
+                });
+            });
+           
+        });
+        
+        function issueResolved(id){
+            var url = '{{ route("risk-management.resolve", ":id") }}';
+            url = url.replace(':id',id);
+            $('#issue_resolved_form').attr("action",url)
+            $('#resolved_modal').modal('show');
+           
+        }
+        function editProjectRisk(id){
+            const projectRisks = @json($projectRisks);
+            const risks = @json($risks);
+            const projectRisk = projectRisks.find(projectRisk => projectRisk.id == id)
+
+            $.each(risks, function(index, risk) {
+                var $option = $('<option>', {
+                    value: risk.id,
+                    text: risk.risk_name
+                });
+
+                if (risk.id === projectRisk.risk_id) {
+                    $option.attr('selected', 'selected');
+                }
+
+                $('#edit_risk').append($option);
+            });
+            $('#edit_reportee').val(projectRisk.reportee);
+            $('#edit_assigned_to').val(projectRisk.assigned_to);
+            $('#edit_datetimepicker').val(projectRisk.reported_at);
+            var url = '{{ route("risk-management.update", ":id") }}';
+            url = url.replace(':id',id);
+            $('#edit_risk_project').attr("action",url)
+            $('#risk_edit').modal('show');
+        }
+        function deleteAlert(id, name){
+            swal.fire( {
+                title:'Confirmation',
+                text:'Are you sure you want to remove '+ name + ' risk ?',
+                icon: 'warning',
+                confirmButtonText: 'Yes',
+                cancelButtonText:'No',
+                showCancelButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-risk-project-'+ id).submit();
+                }
+            });
+        }
+     $('#project-risk-table').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false,
+            'responsive': true,
+            "aLengthMenu": [[10,25, 50, 75, -1], [10,25, 50, 75, "All"]],
+            "iDisplayLength": 10,
+            "processing":true,
+            "serverSide":true,
+            "ajax": {
+                "url": "{{route('project.issues',$project->id)}}",
+                "type": 'GET',
+            },
+            "columns": [
+                {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
+                { "data": 'risk.risk_name', "name": 'risk.risk_name',"className":"text-middle"},
+                { "data": 'reportee', "name": 'reportee',"className":"text-middle"},
+                { "data": 'assigned_to', "name": 'assigned_to',"className":"text-middle","defaultContent":"-"},
+                { "data": 'reported_at', "name": 'reported_at',"className":"text-middle", "defaultContent":"-"},
+                { "data": 'resolved_at', "name": 'resolved_at',"className":"text-middle", "defaultContent":"-"},
+                { "data": 'solution', "name": 'solution',"className":"text-middle", "defaultContent":"-"},
+                {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
+            ]
+        })
+
 </script>
 @endpush
