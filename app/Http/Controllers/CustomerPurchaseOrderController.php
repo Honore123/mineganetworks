@@ -74,7 +74,7 @@ class CustomerPurchaseOrderController extends Controller
     {
         $data = request()->validate([
             'po_number' => ['required', 'unique:customer_purchase_orders'],
-            'project_id' => ['required', 'unique:customer_purchase_orders'],
+            'project_id' => ['required'],
             'total_amount' => ['required'],
         ], [
             'project_id' => 'Project name required',
@@ -132,7 +132,7 @@ class CustomerPurchaseOrderController extends Controller
     {
         $data = request()->validate([
             'po_number' => ['required', Rule::unique('customer_purchase_orders')->ignore($customerPurchaseOrder->id)],
-            'project_id' => ['required', Rule::unique('customer_purchase_orders')->ignore($customerPurchaseOrder->id)],
+            'project_id' => ['required'],
             'total_amount' => ['required'],
         ], ['project_id' => 'Project name required', 'project_id.unique' =>'Project name already used']);
         $file = request()->file('file');
