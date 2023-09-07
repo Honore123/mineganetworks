@@ -4,7 +4,12 @@
     <div class="col-md-12  ">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">{{$project->project_name}} project</h4>
+            <div class="d-flex justify-content-between">
+                <h4 class="card-title">{{$project->project_name}} project</h4>
+                <div>
+                    <a href="{{url()->previous()}}" class="btn btn-outline-primary rounded-0">Go Back</a>
+                </div>
+            </div>
             <p class="card-description">All documents are below</p>
             <ul class="nav nav-pills nav-pills-primary" id="pills-tab" role="tablist">
               <li class="nav-item">
