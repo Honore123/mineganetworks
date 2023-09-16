@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\CustomerPurchaseOrder;
 use App\Models\Invoice;
 use App\Models\Project;
+use App\Models\ProjectAcceptance;
 use App\Models\ProjectRisk;
 use App\Models\Quotation;
 use App\Models\QuotationType;
@@ -97,6 +98,9 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $risks = ProjectRisk::with(['risk', 'project'])->where('project_id', $project->id)->orderBy('created_at', 'DESC')->get();
+        $acceptance = ProjectAcceptance::whereHas('purchase', function ($query) use ($project) {
+            $query->where('project_id', $project->id);
+        })->with(['purchase'])->orderBy('created_at', 'DESC')->get();
 
         return view('projects.show', [
             'types' => QuotationType::all(),
@@ -104,6 +108,8 @@ class ProjectController extends Controller
             'project' => $project,
             'risks' => Risk::all(),
             'projectRisks' => $risks,
+            'customerPOs' => CustomerPurchaseOrder::where('project_id', $project->id)->get(),
+            'acceptances' => $acceptance,
         ]);
     }
 
