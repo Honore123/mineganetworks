@@ -16,8 +16,12 @@ class InvoiceItemController extends Controller
      */
     public function index(Invoice $invoice)
     {
-        if (! $invoice->customer_purchase_order_id) {
-            return redirect()->back()->with('error', 'The invoice '.$invoice->invoice_code.' of '.$invoice->company_name." doesn't have a PO. Please assign a PO before adding items");
+        $customer_po = null;
+        if ($invoice->invoice_type == 1) {
+            if (! $invoice->customer_purchase_order_id) {
+                return redirect()->back()->with('error', 'The invoice '.$invoice->invoice_code.' of '.$invoice->company_name." doesn't have a PO. Please assign a PO before adding items");
+            }
+            $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
         }
         $items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
         $data['total'] = $items->sum('total_price');
@@ -30,7 +34,7 @@ class InvoiceItemController extends Controller
             'total' => number_format($data['total'], 0, '.', ','),
             'vat' => number_format($data['vat'], 2, '.', ','),
             'totalVat' => number_format($data['totalVat'], 2, '.', ','),
-            'customer_po' => CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first(),
+            'customer_po' => $customer_po,
         ]);
     }
 
@@ -60,15 +64,19 @@ class InvoiceItemController extends Controller
         ]);
 
         $data['invoice_id'] = $invoice->id;
-        $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
-        if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > (float) $customer_po->remaining_amount) {
-            return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
+        $customer_po = null;
+        if ($invoice->invoice_type == 1) {
+            $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
+            if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > (float) $customer_po->remaining_amount) {
+                return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
+            }
         }
         InvoiceItem::create($data);
-
-        $customer_po->update([
-            'remaining_amount' => strval((float) $customer_po->remaining_amount - ((int) $data['total_price'] + ((int) $data['total_price'] * 0.18))),
-        ]);
+        if (! is_null($customer_po)) {
+            $customer_po->update([
+                'remaining_amount' => strval((float) $customer_po->remaining_amount - ((int) $data['total_price'] + ((int) $data['total_price'] * 0.18))),
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Item added');
     }
@@ -112,17 +120,20 @@ class InvoiceItemController extends Controller
         ]);
         $invoice = Invoice::where('id', $item->invoice_id)->first();
         $old_total_price = (int) $item->total_price + ((int) $item->total_price * 0.18);
-        $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
+        $customer_po = null;
+        if ($invoice->invoice_type == 1) {
+            $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
 
-        if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > (float) $customer_po->remaining_amount) {
-            return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
+            if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > (float) $customer_po->remaining_amount) {
+                return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
+            }
         }
-
         $item->update($data);
-
-        $customer_po->update([
-            'remaining_amount' => strval(((float) $customer_po->remaining_amount + (float) $old_total_price) - ((int) $data['total_price'] + ((int) $data['total_price'] * 0.18))),
-        ]);
+        if (! is_null($customer_po)) {
+            $customer_po->update([
+                'remaining_amount' => strval(((float) $customer_po->remaining_amount + (float) $old_total_price) - ((int) $data['total_price'] + ((int) $data['total_price'] * 0.18))),
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Item updated');
     }
@@ -136,15 +147,16 @@ class InvoiceItemController extends Controller
     public function destroy(InvoiceItem $item)
     {
         $invoice = Invoice::where('id', $item->invoice_id)->first();
-        $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
-        $remaining_amount = strval((float) $customer_po->remaining_amount + ((int) $item->total_price + ((int) $item->total_price * 0.18)));
-        if ((float) $remaining_amount > (float) $customer_po->total_amount) {
-            $remaining_amount = $customer_po->total_amount;
+        if ($invoice->invoice_type == 1) {
+            $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
+            $remaining_amount = strval((float) $customer_po->remaining_amount + ((int) $item->total_price + ((int) $item->total_price * 0.18)));
+            if ((float) $remaining_amount > (float) $customer_po->total_amount) {
+                $remaining_amount = $customer_po->total_amount;
+            }
+            $customer_po->update([
+                'remaining_amount' => $remaining_amount,
+            ]);
         }
-        $customer_po->update([
-            'remaining_amount' => $remaining_amount,
-        ]);
-
         $item->delete();
 
         return redirect()->back()->with('success', 'Item removed');

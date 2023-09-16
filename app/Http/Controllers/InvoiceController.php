@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\CustomerPurchaseOrder;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\InvoiceTypes;
 use App\Models\QuotationType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -63,6 +64,7 @@ class InvoiceController extends Controller
             'invoices' => $invoices,
             'types' => QuotationType::all(),
             'customers' => Customer::all(),
+            'invoiceTypes' => InvoiceTypes::all(),
             'purchaseOrders' => CustomerPurchaseOrder::orderBy('created_at', 'DESC')->get(),
         ]);
     }
@@ -76,6 +78,7 @@ class InvoiceController extends Controller
     {
         return view('invoice.add', [
             'types' => QuotationType::all(),
+            'invoiceTypes' => InvoiceTypes::all(),
             'customers' => Customer::all(),
             'purchaseOrders' => CustomerPurchaseOrder::orderBy('created_at', 'DESC')->get(),
         ]);
@@ -91,7 +94,7 @@ class InvoiceController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
-            'customer_purchase_order_id' => ['required'],
+            'invoice_type' => ['required'],
         ]);
 
         $clientId = request()->input('selected_client');
@@ -99,9 +102,18 @@ class InvoiceController extends Controller
         $data['tin_number'] = request()->input('tin_number');
         $data['address'] = request()->input('address');
         $customerType = request()->input('customer_type');
-        $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
-        if ((int) $purchaseOrder->remaining_amount == 0) {
-            return redirect()->back()->with('error', 'Selected PO already completed. Please select pending or in progress PO');
+        $data['customer_purchase_order_id'] = request()->input('customer_purchase_order_id');
+        $purchaseOrder = null;
+        if (is_null($data['customer_purchase_order_id']) && $data['invoice_type'] == 1) {
+            return redirect()->back()->with('error', 'Select P.O');
+        }
+        if ($data['customer_purchase_order_id'] && $data['invoice_type'] == 1) {
+            $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
+            if ((int) $purchaseOrder->remaining_amount == 0) {
+                return redirect()->back()->with('error', 'Selected PO already completed. Please select pending or in progress PO');
+            }
+        } else {
+            $data['customer_purchase_order_id'] = 0;
         }
         if ($customerType == 1 && ! is_null($clientId)) {
             $client = Customer::where('id', $clientId)->first();
@@ -121,8 +133,9 @@ class InvoiceController extends Controller
             $data['invoice_code'] = '0001';
         }
         $invoice = Invoice::create($data);
-
-        $purchaseOrder->update(['status' => 2]);
+        if (! is_null($purchaseOrder)) {
+            $purchaseOrder->update(['status' => 2]);
+        }
 
         return redirect()->route('invoiceItem.index', $invoice->id)->with('success', 'Invoice created! Now you can start adding items');
     }
@@ -160,14 +173,16 @@ class InvoiceController extends Controller
     {
         $data = request()->validate([
             'project_title' => ['required', 'string'],
-            'customer_purchase_order_id' => ['required'],
+            'invoice_type' => ['required'],
         ]);
 
         $clientId = request()->input('selected_client');
         $data['company_name'] = request()->input('company_name');
         $data['tin_number'] = request()->input('tin_number');
         $data['address'] = request()->input('address');
+        $data['customer_purchase_order_id'] = request()->input('customer_purchase_order_id');
         $customerType = request()->input('customer_type');
+        $purchaseOrder = null;
         if ($customerType == 1 && ! is_null($clientId)) {
             $client = Customer::where('id', $clientId)->first();
             $data['company_name'] = $client->customer_name;
@@ -177,39 +192,44 @@ class InvoiceController extends Controller
         } elseif (is_null($data['company_name']) || is_null($data['tin_number']) || is_null($data['address'])) {
             return redirect()->back()->with('error', 'Please fill form correctly');
         }
-        $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
-        if ($invoice->customer_purchase_order_id != $data['customer_purchase_order_id']) {
-            $addUpBalance = InvoiceItem::where('invoice_id', $invoice->id)->sum('total_price');
-            $oldPO = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
-            if (($addUpBalance + ($addUpBalance * 0.18)) <= $purchaseOrder->remaining_amount) {
-                $otherInvoices = Invoice::where('id', '!=', $invoice->id)->where('customer_purchase_order_id', $invoice->customer_purchase_order_id)->first();
-                $newStatus = 1;
-                if ($otherInvoices) {
-                    $newStatus = 2;
+        if ($data['customer_purchase_order_id'] && $data['invoice_type'] == 1) {
+            $purchaseOrder = CustomerPurchaseOrder::where('id', $data['customer_purchase_order_id'])->first();
+            if ($invoice->customer_purchase_order_id != $data['customer_purchase_order_id']) {
+                $addUpBalance = InvoiceItem::where('invoice_id', $invoice->id)->sum('total_price');
+                $oldPO = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
+                if (($addUpBalance + ($addUpBalance * 0.18)) <= $purchaseOrder->remaining_amount) {
+                    $otherInvoices = Invoice::where('id', '!=', $invoice->id)->where('customer_purchase_order_id', $invoice->customer_purchase_order_id)->first();
+                    $newStatus = 1;
+                    if ($otherInvoices) {
+                        $newStatus = 2;
+                    }
+                    if ($oldPO) {
+                        $oldPO->update([
+                            'status' => $newStatus,
+                            'remaining_amount' => $oldPO->remaining_amount + ($addUpBalance + ($addUpBalance * 0.18)),
+                        ]);
+                    }
+                } else {
+                    return redirect()->back()->with('error', "The Chosen PO doesn't have enough remaining amount!");
                 }
-                if ($oldPO) {
-                    $oldPO->update([
-                        'status' => $newStatus,
-                        'remaining_amount' => $oldPO->remaining_amount + ($addUpBalance + ($addUpBalance * 0.18)),
-                    ]);
-                }
-            } else {
-                return redirect()->back()->with('error', "The Chosen PO doesn't have enough remaining amount!");
             }
+        } else {
+            $data['customer_purchase_order_id'] = 0;
         }
         $invoice->update($data);
+        if (! is_null($purchaseOrder)) {
+            $poInvoices = Invoice::where('customer_purchase_order_id', $purchaseOrder->id)->get();
+            $remainingAmount = $purchaseOrder->total_amount;
 
-        $poInvoices = Invoice::where('customer_purchase_order_id', $purchaseOrder->id)->get();
-        $remainingAmount = $purchaseOrder->total_amount;
-
-        if ($poInvoices) {
-            foreach ($poInvoices as $poInvoice) {
-                $invoiceItemsTotal = InvoiceItem::where('invoice_id', $poInvoice->id)->get()->sum('total_price');
-                $remainingAmount -= ($invoiceItemsTotal + ($invoiceItemsTotal * 0.18));
+            if ($poInvoices) {
+                foreach ($poInvoices as $poInvoice) {
+                    $invoiceItemsTotal = InvoiceItem::where('invoice_id', $poInvoice->id)->get()->sum('total_price');
+                    $remainingAmount -= ($invoiceItemsTotal + ($invoiceItemsTotal * 0.18));
+                }
             }
-        }
 
-        $purchaseOrder->update(['status' => 2, 'remaining_amount' => $remainingAmount]);
+            $purchaseOrder->update(['status' => 2, 'remaining_amount' => $remainingAmount]);
+        }
 
         return redirect()->back()->with('success', 'Invoice updated!');
     }
