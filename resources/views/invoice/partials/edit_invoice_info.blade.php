@@ -11,7 +11,18 @@
           </button>
         </div>
         <div class="modal-body">
-            <div class="form-group">
+          <div class="form-group">
+            <label for="exampleInputName1">Invoice type</label>
+            <select name="invoice_type" id="invoice_type" onchange="invoiceType(this)" class="form-control">
+              <option value="0">~~Select invoice type~~</option>
+              @forelse ($invoiceTypes as $invoiceType)
+                <option value="{{$invoiceType->id}}">{{$invoiceType->type_name}}</option>
+              @empty
+                <option value="0" disabled>No type</option>
+              @endforelse
+            </select>
+          </div>
+            <div class="form-group d-none" id="customer_type_form_group">
                 <label for="exampleInputName1">Client type</label>
                 <select name="customer_type" id="customer_type" onchange="customerType(this)" class="form-control">
                   <option value="0">~~Select Client type~~</option>

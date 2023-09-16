@@ -22,6 +22,17 @@
                 <form class="forms-sample mt-3" action="{{route('invoice.store')}}" method="POST" id="new_invoice_form">
                   @csrf
                   <div class="form-group">
+                    <label for="exampleInputName1">Invoice type</label>
+                    <select name="invoice_type" id="invoice_type" onchange="invoiceType(this)" class="form-control">
+                      <option value="0">~~Select invoice type~~</option>
+                      @forelse ($invoiceTypes as $invoiceType)
+                        <option value="{{$invoiceType->id}}">{{$invoiceType->type_name}}</option>
+                      @empty
+                        <option value="0" disabled>No type</option>
+                      @endforelse
+                    </select>
+                  </div>
+                  <div class="form-group d-none" id="customer_type_form_group">
                     <label for="exampleInputName1">Client type</label>
                     <select name="customer_type" id="customer_type" onchange="customerType(this)" class="form-control">
                       <option value="0">~~Select Client type~~</option>
@@ -87,6 +98,21 @@
             $('#submit_btn').prop('disabled', true);
           });
       });
+      function invoiceType(sel){
+        const invoice_type = sel.value;
+        if(invoice_type == 1){
+          $('#customer_purchase_order_form_group').removeClass('d-none');
+          $('#customer_type_form_group').removeClass('d-none');
+        } else if(invoice_type == 2){
+          $('#customer_purchase_order_form_group').addClass('d-none');
+          $('#customer_type_form_group').removeClass('d-none');
+        } else {
+          $('#customer_purchase_order_form_group').addClass('d-none');
+          $('#customer_type_form_group').addClass('d-none');
+          const customer = $('#customer_type').val(0);
+          customerType(customer);
+        }
+      }
       function customerType(sel){
         const customer_type = sel.value;
         if(customer_type == 1) {
@@ -96,7 +122,6 @@
           $('#address_form_group').addClass('d-none');
           $('#submit_btn').removeClass('d-none');
           $('#project_title_form_group').removeClass('d-none');
-          $('#customer_purchase_order_form_group').removeClass('d-none');
         } else if(customer_type == 2) {
           $('#company_name_form_group').removeClass('d-none');
           $('#customer_form_group').addClass('d-none');
@@ -104,7 +129,6 @@
           $('#address_form_group').removeClass('d-none');
           $('#submit_btn').removeClass('d-none');
           $('#project_title_form_group').removeClass('d-none');
-          $('#customer_purchase_order_form_group').removeClass('d-none');
         } else {
           $('#company_name_form_group').addClass('d-none');
           $('#customer_form_group').addClass('d-none');
@@ -112,7 +136,6 @@
           $('#address_form_group').addClass('d-none');
           $('#project_title_form_group').addClass('d-none')
           $('#submit_btn').addClass('d-none');
-          $('#customer_purchase_order_form_group').addClass('d-none');
         }
       }
     </script>

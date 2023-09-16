@@ -53,62 +53,33 @@
         <div class="col-md-6">
             <div class="row">
               <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Uninvoiced P.O amount</h4>
-                    <div class="d-flex justify-content-between">
-                      <h6>{{number_format($total_unpaid_amount,2,'.',',') }} Rwf</h6>
-                      <p class="text-muted">Now</p>
-                    </div>
-                    <div class="progress progress-md">
-                      <div class="progress-bar bg-danger w-100"></div>
-                    </div>
-                  </div>
-                </div>
+                    <table class="table table-bordered bg-white table-striped">
+                      <thead>
+                        <tr>
+                          <th class="bg-primary text-white">Item</th>
+                          <th class="bg-success text-white">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><h5>Uninvoiced P.O amount</h5></td>
+                          <td><h6>{{number_format($total_unpaid_amount,2,'.',',') }} Rwf</h6></td>
+                        </tr>
+                        <tr>
+                          <td><h5>Invoiced P.Os amount</h5></td>
+                          <td><h6>{{number_format($total_invoiced_amount,2,'.',',') }} Rwf</h6></td>
+                        </tr>
+                        <tr>
+                          <td><h5>Paid P.Os amount</h5></td>
+                          <td><h6>{{number_format($total_paid_amount,2,'.',',') }} Rwf</h6></td>
+                        </tr>
+                        <tr>
+                          <td><h5>Total P.Os amount</h5></td>
+                          <td><h6>{{number_format($total_po_amount,2,'.',',')}} Rwf</h6></td>
+                        </tr>
+                      </tbody>
+                    </table>
               </div>
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Invoiced P.Os amount</h4>
-                    <div class="d-flex justify-content-between">
-                      <h6>{{number_format($total_invoiced_amount,2,'.',',') }} Rwf</h6>
-                      <p class="text-muted">Now</p>
-                    </div>
-                    <div class="progress progress-md">
-                      <div class="progress-bar bg-warning w-100"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Paid P.Os amount</h4>
-                    <div class="d-flex justify-content-between">
-                      <h6>{{number_format($total_paid_amount,2,'.',',') }} Rwf</h6>
-                      <p class="text-muted">Now</p>
-                    </div>
-                    <div class="progress progress-md">
-                      <div class="progress-bar bg-info w-100"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Total P.Os amount</h4>                      
-                    <div class="d-flex justify-content-between">
-                      <h6 class="">{{number_format($total_po_amount,2,'.',',')}} Rwf</h6>
-                      <p class="text-muted">Now</p>
-                    </div>
-                    <div class="progress progress-md">
-                      <div class="progress-bar bg-success w-100" ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
             </div>
         </div>
     </div>

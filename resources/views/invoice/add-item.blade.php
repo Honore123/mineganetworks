@@ -38,6 +38,7 @@
                 
                   <div class="d-flex flex-wrap justify-content-between">
                         <div>
+                            @if(!is_null($customer_po))
                             <h6 class="mb-3">Purchase Order Information (No. {{$customer_po->po_number}})</h6>
                             <table class="table table-bordered">
                                 <thead>
@@ -51,6 +52,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            @endif
                         </div>
                        <div>
                         @if($invoice->status != 0 && $invoice->status != 2)

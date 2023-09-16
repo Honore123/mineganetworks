@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\QuotationType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MeasurementUnitSeeder::class);
         $this->call(SubcategorySeeder::class);
         $this->call(QuotationTypeSeeder::class);
+        $this->call(InvoiceTypeSeeder::class);
     }
 }

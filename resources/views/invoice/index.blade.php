@@ -57,6 +57,12 @@
             
             const invoice = invoices.find(invoice => invoice.id == id);
             $('#edit_customer_purchase_order_id').append('<option value="" disabled selected>Choose P.O</option>');
+            if(invoice.invoice_type === 1){
+                $('#invoice_type option[value="1"]').prop('selected', true);
+            } else {
+                $('#invoice_type option[value="2"]').prop('selected', true);
+            }
+            invoiceType(document.getElementById('invoice_type'));
             if(invoice.client_id != 0) {
                 $('#customer_type option[value="1"]').prop('selected', true);
                 $('#selected_client option[value="'+invoice.client_id+'"]').prop('selected', true);
@@ -102,6 +108,23 @@
             url = url.replace(':id',id);
             $('#edit_invoice_form').attr('action',url);
         }
+
+        function invoiceType(sel){
+        const invoice_type = sel.value;
+        if(invoice_type == 1){
+          $('#customer_purchase_order_form_group').removeClass('d-none');
+          $('#customer_type_form_group').removeClass('d-none');
+        } else if(invoice_type == 2){
+          $('#customer_purchase_order_form_group').addClass('d-none');
+          $('#customer_type_form_group').removeClass('d-none');
+        } else {
+          $('#customer_purchase_order_form_group').addClass('d-none');
+          $('#customer_type_form_group').addClass('d-none');
+          const customer = $('#customer_type').val(0);
+          customerType(customer);
+        }
+      }
+
         function customerType(sel){
             const customer_type = sel.value;
             if(customer_type == 1) {
@@ -111,7 +134,6 @@
             $('#address_form_group').addClass('d-none');
             $('#submit_btn').removeClass('d-none');
             $('#project_title_form_group').removeClass('d-none');
-            $('#customer_purchase_order_form_group').removeClass('d-none');
             } else if(customer_type == 2) {
             $('#company_name_form_group').removeClass('d-none');
             $('#customer_form_group').addClass('d-none');
@@ -119,7 +141,6 @@
             $('#address_form_group').removeClass('d-none');
             $('#submit_btn').removeClass('d-none');
             $('#project_title_form_group').removeClass('d-none');
-            $('#customer_purchase_order_form_group').removeClass('d-none');
             } else {
             $('#company_name_form_group').addClass('d-none');
             $('#customer_form_group').addClass('d-none');
@@ -127,7 +148,6 @@
             $('#address_form_group').addClass('d-none');
             $('#project_title_form_group').addClass('d-none')
             $('#submit_btn').addClass('d-none');
-            $('#customer_purchase_order_form_group').addClass('d-none');
             }
         }
         function deleteAlert(id, name){

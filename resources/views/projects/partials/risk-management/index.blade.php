@@ -24,7 +24,9 @@
                     <p class="ml-1 mb-0">LOW Severity</p>
                 </div>
             </div>
-            <canvas id="risks_chart"></canvas>
+            <div>
+                <canvas id="risks_chart"></canvas>
+            </div>
             <div class="mt-5 mb-4">
                 <h4>Detail report</h4>
             </div>

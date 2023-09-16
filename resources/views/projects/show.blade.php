@@ -164,6 +164,7 @@
                         borderColors.push('rgb(54, 162, 235)');
                     }
                 });
+                ecgData.push(Chart.helpers.max(ecgData)+1);
                 var ecgChart = document.getElementById("risks_chart").getContext('2d');
 
                 var ecgDiagram = new Chart(ecgChart, {
@@ -197,6 +198,11 @@
                                     }
                                 }
                             }],
+                            xAxes: [{
+                                // Change here
+                                barPercentage: 0.2,
+                                categoryPercentage:1
+                            }]
                         }
                     }
                 });
