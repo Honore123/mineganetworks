@@ -12,6 +12,7 @@ use App\Http\Controllers\MeasurementUnitController;
 use App\Http\Controllers\PricingBookController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProjectAcceptanceController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectRiskController;
 use App\Http\Controllers\PurchaseOrderController;
@@ -103,7 +104,9 @@ Route::prefix('projects')->middleware(['auth'])->group(function () {
     Route::post('', [ProjectController::class, 'store'])->name('project.store');
     Route::put('{project}', [ProjectController::class, 'update'])->name('project.update');
     Route::delete('{project}', [ProjectController::class, 'destroy'])->name('project.delete');
-
+    Route::prefix('acceptance')->middleware(['auth'])->group(function () {
+        Route::post('', [ProjectAcceptanceController::class, 'store'])->name('acceptance.store');
+    });
     Route::prefix('issue-management')->middleware(['auth'])->group(function () {
         Route::get('{project}', [ProjectRiskController::class, 'index'])->name('risk-management.index');
         Route::get('chart/data/{project}', [ProjectRiskController::class, 'chart'])->name('risk-management.chart');

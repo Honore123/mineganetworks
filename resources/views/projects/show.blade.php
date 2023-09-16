@@ -19,6 +19,9 @@
                 <a class="nav-link" id="pills-po-tab" data-toggle="pill" href="#pills-po" role="tab" aria-controls="pills-po" aria-selected="false">Purchase order</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" id="pills-acceptance-tab" data-toggle="pill" href="#pills-acceptance" role="tab" aria-controls="pills-acceptance" aria-selected="false">Acceptance docs</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" id="pills-invoices-tab" data-toggle="pill" href="#pills-invoices" role="tab" aria-controls="pills-invoices" aria-selected="false">Invoices</a>
               </li>
               <li class="nav-item">
@@ -36,6 +39,11 @@
                 <h5>Purchase orders</h5>
                 <div class="row">
                   @include('projects.partials.customer_po')
+                </div>
+              </div>
+              <div class="tab-pane fade" id="pills-acceptance" role="tabpanel" aria-labelledby="pills-acceptance-tab">
+                <div class="row">
+                  @include('projects.partials.acceptance.index')
                 </div>
               </div>
               <div class="tab-pane fade" id="pills-invoices" role="tabpanel" aria-labelledby="pills-invoices-tab">
@@ -141,6 +149,7 @@
             enableTime: true,
             dateFormat: 'Y-m-d H:i',
         });
+        $('#customer_purchase_order_id').select2();
             
             $('#risk_id').select2();
             $('#edit_risk_id').select2();
