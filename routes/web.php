@@ -25,7 +25,6 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UploadFrameworkController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
-use App\Models\Document;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -106,6 +105,8 @@ Route::prefix('projects')->middleware(['auth'])->group(function () {
     Route::delete('{project}', [ProjectController::class, 'destroy'])->name('project.delete');
     Route::prefix('acceptance')->middleware(['auth'])->group(function () {
         Route::post('', [ProjectAcceptanceController::class, 'store'])->name('acceptance.store');
+        Route::put('{acceptance}', [ProjectAcceptanceController::class, 'update'])->name('acceptance.update');
+        Route::delete('{acceptance}', [ProjectAcceptanceController::class, 'destroy'])->name('acceptance.delete');
     });
     Route::prefix('issue-management')->middleware(['auth'])->group(function () {
         Route::get('{project}', [ProjectRiskController::class, 'index'])->name('risk-management.index');

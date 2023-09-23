@@ -10,6 +10,9 @@
                     <a href="{{url()->previous()}}" class="btn btn-outline-primary rounded-0">Go Back</a>
                 </div>
             </div>
+            <div class="mt-2">
+                @include('layouts.partials.notification')
+            </div>
             <p class="card-description">All documents are below</p>
             <ul class="nav nav-pills nav-pills-primary" id="pills-tab" role="tablist">
               <li class="nav-item">
@@ -150,7 +153,7 @@
             dateFormat: 'Y-m-d H:i',
         });
         $('#customer_purchase_order_id').select2();
-            
+       
             $('#risk_id').select2();
             $('#edit_risk_id').select2();
             const url = "{{route('risk-management.chart',$project->id)}}";
@@ -226,6 +229,10 @@
             $('#resolved_modal').modal('show');
            
         }
+        function editAcceptance(id){
+            $('#edit_customer_purchase_order_id_'+id).select2();
+
+        }
         function editProjectRisk(id){
             const projectRisks = @json($projectRisks);
             const risks = @json($risks);
@@ -263,6 +270,21 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('delete-risk-project-'+ id).submit();
+                }
+            });
+        }
+        function deleteAcceptance(id, name){
+            swal.fire( {
+                title:'Confirmation',
+                text:'Are you sure you want to remove acceptance document with PO number: '+ name + '?',
+                icon: 'warning',
+                confirmButtonText: 'Yes',
+                cancelButtonText:'No',
+                showCancelButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete_acceptance_form_'+ id).submit();
                 }
             });
         }
