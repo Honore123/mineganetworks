@@ -15,9 +15,9 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        $quotation = Quotation::where('created_at', '>', Carbon::now()->subDays(30))->count();
-        $invoice = Invoice::where('created_at', '>', Carbon::now()->subDays(30))->count();
-        $purchaseOrder = PurchaseOrder::where('created_at', '>', Carbon::now()->subDays(30))->count();
+        $quotation = Quotation::all()->count();
+        $invoice = Invoice::all()->count();
+        $purchaseOrder = PurchaseOrder::all()->count();
         $rigger = Rigger::all()->count();
         $totalPOAmount = CustomerPurchaseOrder::where('status', '!=', '0')->sum('total_amount');
         $invoicedPOAmount = DB::table('invoice_items')
