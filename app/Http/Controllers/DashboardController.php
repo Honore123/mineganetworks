@@ -30,6 +30,15 @@ class DashboardController extends Controller
         $unpaidPOAmount = CustomerPurchaseOrder::where('status', '2')->orWhere('status', '1')->sum('remaining_amount');
         $paidPOAmount = $totalPOAmount - ($unpaidPOAmount + $invoicedAmount);
 
+        if (request()->ajax()) {
+            return response()->json(
+                ['total_po_amount' =>  $totalPOAmount,
+                    'total_invoiced_amount' => $invoicedAmount,
+                    'total_paid_amount' => $paidPOAmount,
+                    'total_unpaid_amount' => $unpaidPOAmount, ]
+            );
+        }
+
         return view('dashboard.dashboard', [
             'quotation' => $quotation,
             'invoice' => $invoice,
