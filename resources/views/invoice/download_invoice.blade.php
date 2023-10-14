@@ -61,7 +61,7 @@
                     </div>
                     <div><p class="mb-0 text-center" style="font-size: 18px; font-family: 'century_bold'">Invoice {{$invoice->invoice_code}}</p></div>
                     <div>
-                        <p class="mb-0 text-right" style="font-size: 16px; font-family: 'century_bold'">Date: {{$invoice->created_at->format('d/m/Y')}}</p>
+                        <p class="mb-0 text-right" style="font-size: 16px; font-family: 'century_bold'">Date: {{$invoice->updated_at->format('d/m/Y')}}</p>
                        </div>
                     <div>
                         <p class="mb-0" style="font-size: 16px;font-family: 'century_bold'">Supplier details</p>

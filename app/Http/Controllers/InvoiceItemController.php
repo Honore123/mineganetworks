@@ -72,6 +72,9 @@ class InvoiceItemController extends Controller
             }
         }
         InvoiceItem::create($data);
+        $invoice->update([
+            'updated_at' => now(),
+        ]);
         if (! is_null($customer_po)) {
             $customer_po->update([
                 'remaining_amount' => strval((float) $customer_po->remaining_amount - ((int) $data['total_price'] + ((int) $data['total_price'] * 0.18))),
@@ -129,6 +132,9 @@ class InvoiceItemController extends Controller
             }
         }
         $item->update($data);
+        $invoice->update([
+            'updated_at' => now(),
+        ]);
         if (! is_null($customer_po)) {
             $customer_po->update([
                 'remaining_amount' => strval(((float) $customer_po->remaining_amount + (float) $old_total_price) - ((int) $data['total_price'] + ((int) $data['total_price'] * 0.18))),
@@ -158,6 +164,9 @@ class InvoiceItemController extends Controller
             ]);
         }
         $item->delete();
+        $invoice->update([
+            'updated_at' => now(),
+        ]);
 
         return redirect()->back()->with('success', 'Item removed');
     }

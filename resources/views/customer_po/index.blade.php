@@ -101,12 +101,12 @@
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'po_number', "name": 'po_number'},
-                { "data": 'company_name', "name": 'company_name'},
+                { "data": 'company_name', "name": 'company_name',"width":"12%"},
                 {"data": 'project_title', "name":'project_title',"defaultContent":'-',"className":"w-25"},
                 { "data": 'status', "name": 'status',"className":"text-center"},
                 { "data": 'total_amount', "name": 'total_amount',"className":"text-center"},
                 { "data": 'remaining_amount', "name": 'remaining_amount',"className":"text-center"},
-                { "data": 'created_at', "name": 'created_at',"className":"text-center"},
+                { "data": 'created_at', "name": 'created_at',"className":"text-center","width":"12%"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
         })
