@@ -107,6 +107,10 @@
                     colors.push('rgba(54, 162, 235, 1)');
                     borderColors.push('rgb(54, 162, 235)');
                     dateTime.push('Total P.Os amount');
+                }else if(key == 'contact_unpaid_invoice'){
+                    colors.push('rgba(255, 99, 71, 1)');
+                    borderColors.push('rgb(255, 99, 71)');
+                    dateTime.push('Unpaid contract invoices');
                 } else if(key == 'total_invoiced_amount'){
                     colors.push('rgba(255, 205, 86, 1)');
                     borderColors.push('rgb(255, 205, 86)');
@@ -116,8 +120,8 @@
                     borderColors.push('rgb(87, 182, 87)');
                     dateTime.push('Paid P.Os amount');
                 }else {
-                  colors.push('rgba(255, 99, 132, 1)');
-                    borderColors.push('rgb(255, 99, 132)');
+                  colors.push('rgba(255, 99, 71, 1)');
+                    borderColors.push('rgb(255, 99, 71)');
                     dateTime.push('Uninvoiced P.O amount');
                 }
               })
