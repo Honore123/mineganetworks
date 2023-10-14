@@ -46,7 +46,7 @@ class DashboardController extends Controller
 
         if (request()->ajax()) {
             return response()->json(
-                ['total_po_amount' =>  $totalPOAmount,
+                ['total_po_amount' =>  ($totalPOAmount + $contractPaidAmount + $contractUnpaidAmount),
                     'total_invoiced_amount' => $invoicedAmount,
                     'contact_unpaid_invoice' => $contractUnpaidAmount,
                     'total_paid_amount' => $paidPOAmount,
@@ -59,7 +59,8 @@ class DashboardController extends Controller
             'invoice' => $invoice,
             'purchaseOrder' => $purchaseOrder,
             'rigger' => $rigger,
-            'total_po_amount' => $totalPOAmount,
+            'contact_unpaid_invoice' => $contractUnpaidAmount,
+            'total_po_amount' => ($totalPOAmount + $contractPaidAmount + $contractUnpaidAmount),
             'total_invoiced_amount' => $invoicedAmount,
             'total_paid_amount' => $paidPOAmount,
             'total_unpaid_amount' => $unpaidPOAmount,

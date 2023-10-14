@@ -1,8 +1,5 @@
     <div class="row">
        @include('projects.partials.risk-management.partials.add')
-        <div class="col-md-12">
-            @include('layouts.partials.notification')
-        </div>
        @include('projects.partials.risk-management.partials.edit')
        @include('projects.partials.risk-management.partials.resolved')
         <div class="col-md-12 bg-white px-3 pb-3">

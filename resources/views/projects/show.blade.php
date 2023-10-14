@@ -155,6 +155,22 @@
         $('#customer_purchase_order_id').select2();
        
             $('#risk_id').select2();
+            $('#risk_id').on('select2:open',() => {
+                setTimeout(() => {
+                    const risks = @json($risks);
+                const lists = $('#select2-risk_id-results li');
+                lists.each((index, li)=>{
+                    const selectList = $(li);
+                   if(selectList.text() != '~~SELECT ISSUE~~'){
+                    selectList.attr({
+                        "data-toggle":"tooltip",
+                        "data-placement":"top",
+                        "title": risks[index -1 ].risk_description
+                    })
+                   }
+                })
+                }, 100);
+            });
             $('#edit_risk_id').select2();
             const url = "{{route('risk-management.chart',$project->id)}}";
             var dateTime = new Array();

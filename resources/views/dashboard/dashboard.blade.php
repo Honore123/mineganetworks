@@ -78,6 +78,10 @@
                 <td><h6>{{number_format($total_invoiced_amount,2,'.',',') }} Rwf</h6></td>
               </tr>
               <tr>
+                <td><h5>Contract based invoice</h5></td>
+                <td><h6>{{number_format($contact_unpaid_invoice,2,'.',',') }} Rwf</h6></td>
+              </tr>
+              <tr>
                 <td><h5>Paid P.Os amount</h5></td>
                 <td><h6>{{number_format($total_paid_amount,2,'.',',') }} Rwf</h6></td>
               </tr>
