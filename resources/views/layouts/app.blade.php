@@ -78,6 +78,11 @@
         <script src="{{asset('custom/js/Chart.roundedBarCharts.js')}}"></script>
         <script src="{{asset('custom/js/select2.js')}}"></script>
         <script src="{{asset('assets/sweetalert/sweetalert.js')}}"></script>
+        <script>
+               $(function () {
+                  $('[data-toggle="tooltip"]').tooltip()
+                });
+        </script>
         <!-- End custom js for this page-->
         @stack('scripts')
     </body>

@@ -29,6 +29,10 @@
             <label for="">Total amount</label>
             <input type="number" class="form-control" name="total_amount" id="total_amount" step=".01" placeholder="Total amount">
           </div>
+          <div class="form-group">
+            <label for="datetimepicker">PO Date</label>
+            <input type="text" class="form-control" id="datetimepicker" id="po_date" name="po_date" />
+        </div>
           <div>
             <label for="">P.O File</label>
             <input type="file" class="form-control" name="file" id="file" placeholder="PO File">

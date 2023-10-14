@@ -30,7 +30,7 @@
                         <th>Status</th>
                         <th>Total amount</th>
                         <th>Remaining amount</th>
-                        <th>Created date</th>
+                        <th>PO date</th>
                         <th>Option</th>
                     </tr>
                 </thead>
@@ -46,6 +46,14 @@
 <script>
      $(document).ready(function() {
           $('#selected_project').select2();
+          flatpickr('#datetimepicker', {
+            enableTime: false,
+            dateFormat: 'Y-m-d',
+        });
+        flatpickr('#edit_datetimepicker', {
+            enableTime: false,
+            dateFormat: 'Y-m-d',
+        });
           
       });
     function deleteAlert(id, name){

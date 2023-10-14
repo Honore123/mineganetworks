@@ -26,14 +26,29 @@ class DashboardController extends Controller
                             ->where('invoices.status', '1')
                             ->where('invoices.customer_purchase_order_id', '!=', '0')
                             ->get();
+        $contractBasedInvoice = DB::table('invoice_items')
+        ->join('invoices', 'invoice_items.invoice_id', '=', 'invoices.id')
+        ->select(DB::raw('sum(total_price) as total_invoiced'))
+        ->where('invoices.status', '1')
+        ->where('invoices.invoice_type', '2')
+        ->get();
+        $contractBasedPaidInvoice = DB::table('invoice_items')
+        ->join('invoices', 'invoice_items.invoice_id', '=', 'invoices.id')
+        ->select(DB::raw('sum(total_price) as total_invoiced'))
+        ->where('invoices.status', '2')
+        ->where('invoices.invoice_type', '2')
+        ->get();
         $invoicedAmount = $invoicedPOAmount[0]->total_invoiced + ($invoicedPOAmount[0]->total_invoiced * 0.18);
+        $contractPaidAmount = $contractBasedPaidInvoice[0]->total_invoiced + ($contractBasedPaidInvoice[0]->total_invoiced * 0.18);
+        $contractUnpaidAmount = $contractBasedInvoice[0]->total_invoiced + ($contractBasedInvoice[0]->total_invoiced * 0.18);
         $unpaidPOAmount = CustomerPurchaseOrder::where('status', '2')->orWhere('status', '1')->sum('remaining_amount');
-        $paidPOAmount = $totalPOAmount - ($unpaidPOAmount + $invoicedAmount);
+        $paidPOAmount = $totalPOAmount - ($unpaidPOAmount + $invoicedAmount) + $contractPaidAmount;
 
         if (request()->ajax()) {
             return response()->json(
                 ['total_po_amount' =>  $totalPOAmount,
                     'total_invoiced_amount' => $invoicedAmount,
+                    'contact_unpaid_invoice' => $contractUnpaidAmount,
                     'total_paid_amount' => $paidPOAmount,
                     'total_unpaid_amount' => $unpaidPOAmount, ]
             );

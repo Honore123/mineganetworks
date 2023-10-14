@@ -34,7 +34,12 @@ class CustomerPurchaseOrderController extends Controller
                     }
                 })
                 ->editColumn('created_at', function ($purchaseOrder) {
-                    return $purchaseOrder->created_at->format('d-m-Y');
+                    if ($purchaseOrder->po_date == '0000-00-00 00:00:00') {
+                        return 'No date';
+                    }
+                    $po_date = strtotime($purchaseOrder->po_date);
+
+                    return date('d-m-Y', $po_date);
                 })
                 ->editColumn('total_amount', function ($purchaseOrder) {
                     return number_format((float) $purchaseOrder->total_amount, 2, '.', ',').' Rwf';
@@ -76,6 +81,7 @@ class CustomerPurchaseOrderController extends Controller
             'po_number' => ['required', 'unique:customer_purchase_orders'],
             'project_id' => ['required'],
             'total_amount' => ['required'],
+            'po_date' => ['required'],
         ], [
             'project_id' => 'Project name required',
             'project_id.unique' =>'Project name already used',
@@ -134,6 +140,7 @@ class CustomerPurchaseOrderController extends Controller
             'po_number' => ['required', Rule::unique('customer_purchase_orders')->ignore($customerPurchaseOrder->id)],
             'project_id' => ['required'],
             'total_amount' => ['required'],
+            'po_date' => ['required'],
         ], ['project_id' => 'Project name required', 'project_id.unique' =>'Project name already used']);
         $file = request()->file('file');
         $project = Project::where('id', $data['project_id'])->first();

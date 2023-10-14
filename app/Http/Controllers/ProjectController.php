@@ -237,6 +237,11 @@ class ProjectController extends Controller
         if (request()->ajax()) {
             return datatables($risks)
                 ->editColumn('option', 'projects.partials.risk-management.partials.action')
+                ->editColumn('risk_name', function ($risk) {
+                    return '<button type="button" class="btn btn-link text-black" data-toggle="tooltip" data-placement="top" title="'.$risk->risk->risk_description.'">
+                   '.$risk->risk->risk_name.'
+                  </button>';
+                })
                 ->editColumn('created_at', function ($risk) {
                     return $risk->created_at->format('d/m/Y');
                 })
@@ -247,7 +252,7 @@ class ProjectController extends Controller
 
                     return '<span class="badge bg-warning w-100">Pending</span>';
                 })
-                ->rawColumns(['option', 'solution'])
+                ->rawColumns(['option', 'solution', 'risk_name'])
                 ->addIndexColumn()
                 ->make(true);
         }

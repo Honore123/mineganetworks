@@ -306,7 +306,7 @@
             },
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
-                { "data": 'risk.risk_name', "name": 'risk.risk_name',"className":"text-middle"},
+                { "data": 'risk_name', "name": 'risk_name',"className":"text-middle"},
                 { "data": 'reportee', "name": 'reportee',"className":"text-middle"},
                 { "data": 'assigned_to', "name": 'assigned_to',"className":"text-middle","defaultContent":"-"},
                 { "data": 'reported_at', "name": 'reported_at',"className":"text-middle", "defaultContent":"-"},
