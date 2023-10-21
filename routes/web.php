@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerPurchaseOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\MeasurementUnitController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UploadFrameworkController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
+use App\Models\Expenses;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -115,6 +117,11 @@ Route::prefix('projects')->middleware(['auth'])->group(function () {
         Route::put('{projectRisk}', [ProjectRiskController::class, 'update'])->name('risk-management.update');
         Route::put('resolved/{projectRisk}', [ProjectRiskController::class, 'resolve'])->name('risk-management.resolve');
         Route::delete('{projectRisk}', [ProjectRiskController::class, 'destroy'])->name('risk-management.delete');
+    });
+    Route::prefix('expenses')->group(function () {
+        Route::post('{project}', [ExpensesController::class, 'store'])->name('expense.store');
+        Route::put('{expense}', [ExpensesController::class, 'update'])->name('expense.update');
+        Route::delete('{expense}', [ExpensesController::class, 'destroy'])->name('expense.delete');
     });
 });
 Route::prefix('issues')->middleware(['auth'])->group(function () {

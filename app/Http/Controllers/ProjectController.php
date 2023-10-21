@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\CustomerPurchaseOrder;
+use App\Models\Expenses;
 use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\ProjectAcceptance;
@@ -110,6 +111,7 @@ class ProjectController extends Controller
             'projectRisks' => $risks,
             'customerPOs' => CustomerPurchaseOrder::where('project_id', $project->id)->get(),
             'acceptances' => $acceptance,
+            'expenses' => Expenses::where('project_id', $project->id)->get(),
         ]);
     }
 

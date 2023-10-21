@@ -33,6 +33,10 @@
             <label for="">Assigned to</label>
             <input type="text" class="form-control" name="assigned_to" id="assigned_to" placeholder="Assignee name">
         </div> 
+        <div class="form-group">
+          <label for="">Comment</label>
+          <textarea class="form-control" name="comment" id="comment" placeholder="Write here"></textarea>
+      </div> 
         </div>
         <div class="modal-footer d-flex justify-content-between">
           <button type="button" class="btn btn-outline-danger rounded-0" data-dismiss="modal">Close</button>

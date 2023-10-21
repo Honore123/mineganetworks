@@ -168,5 +168,23 @@
                 });
             }
         }
+        function editSetSource(sel,id){
+            if(sel.value){
+                $.get("/quotation/products/source/" + sel.value,(response)=>{
+                    let output = '<option value="">Select Item</option>';
+                    response = JSON.parse(response);
+                    if(sel.value != 0){
+                        $.each(response,(key,item)=>{
+                            output += ' <option value="'+item.product.id+'">'+item.product.product_name+'</option>'
+                        });
+                    } else {
+                        $.each(response,(key,item)=>{
+                            output += ' <option value="'+item.id+'">'+item.product_name+'</option>'
+                        });
+                    }
+                    $("#edit_product_"+id).html(output);
+                });
+            }
+        }
     </script>
 @endpush

@@ -81,6 +81,7 @@ class ProjectRiskController extends Controller
             'reportee' => ['required', 'string'],
             'reported_at' => ['required'],
             'assigned_to' => ['required'],
+            'comment'=>['nullable'],
         ]);
         $data['project_id'] = $project->id;
         $data['reported_at'] = Carbon::parse($data['reported_at'])->toDateTimeString();
@@ -125,6 +126,7 @@ class ProjectRiskController extends Controller
             'reportee' => ['required', 'string'],
             'reported_at' => ['required'],
             'assigned_to' => ['required'],
+            'comment'=>['nullable'],
         ]);
 
         $data['reported_at'] = Carbon::parse($data['reported_at'])->toDateTimeString();
