@@ -30,6 +30,9 @@
               <li class="nav-item">
                 <a class="nav-link" id="pills-issues-tab" data-toggle="pill" href="#pills-issues" role="tab" aria-controls="pills-issues" aria-selected="false">Issues</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-expenses-tab" data-toggle="pill" href="#pills-expenses" role="tab" aria-controls="pills-expenses" aria-selected="false">Expenses</a>
+              </li>
             </ul>
             <div class="tab-content border-0 px-0" id="pills-tabContent">
               <div class="tab-pane fade show active" id="pills-quotation" role="tabpanel" aria-labelledby="pills-quotation-tab">
@@ -57,6 +60,11 @@
               </div>
               <div class="tab-pane fade" id="pills-issues" role="tabpanel" aria-labelledby="pills-issues-tab">
                   @include('projects.partials.risk-management.index')
+              </div>
+              <div class="tab-pane fade" id="pills-expenses" role="tabpanel" aria-labelledby="pills-expenses-tab">
+                <div class="row">
+                  @include('projects.partials.expenses.index')
+                </div>
               </div>
             </div>
           </div>
@@ -301,6 +309,21 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('delete_acceptance_form_'+ id).submit();
+                }
+            });
+        }
+        function deleteExpense(id, name){
+            swal.fire( {
+                title:'Confirmation',
+                text:'Are you sure you want to remove '+ name + ' expense?',
+                icon: 'warning',
+                confirmButtonText: 'Yes',
+                cancelButtonText:'No',
+                showCancelButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete_expense_form_'+ id).submit();
                 }
             });
         }
