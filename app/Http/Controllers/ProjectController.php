@@ -174,6 +174,11 @@ class ProjectController extends Controller
                         return '<span class="badge bg-danger text-white w-100">Canceled</span>';
                     }
                 })
+                ->editColumn('po_name', function ($purchaseOrder) {
+                    $name = explode('_', $purchaseOrder->po_document, 2);
+
+                    return $name[1];
+                })
                 ->editColumn('created_at', function ($purchaseOrder) {
                     return $purchaseOrder->created_at->format('d-m-Y');
                 })

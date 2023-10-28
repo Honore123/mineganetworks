@@ -4,6 +4,7 @@
             <tr>
                 <th>#</th>
                 <th>P.O No</th>
+                <th>P.O Name</th>
                 <th>Status</th>
                 <th>Total amount</th>
                 <th>Remaining amount</th>
