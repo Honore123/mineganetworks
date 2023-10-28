@@ -248,7 +248,9 @@ class InvoiceController extends Controller
             $invoice->update($data);
             $purchaseOrder->update(['status' => 3]);
         } elseif ($data['status'] == '0') {
-            $purchaseOrder->update(['status' => 0]);
+            $invoiceItemsTotal = InvoiceItem::where('invoice_id', $invoice->id)->get()->sum('total_price');
+            $remainingAmount = $purchaseOrder->remaining_amount + ($invoiceItemsTotal + ($invoiceItemsTotal * 0.18));
+            $purchaseOrder->update(['remaining_amount' => ($remainingAmount)]);
         }
 
         return redirect()->back()->with('success', $purchaseOrder->po_number.' invoice updated');
