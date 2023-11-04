@@ -103,6 +103,18 @@ class ProjectController extends Controller
             $query->where('project_id', $project->id);
         })->with(['purchase'])->orderBy('created_at', 'DESC')->get();
 
+        $paidAmountPO = DB::table('invoice_items')
+        ->join('invoices', 'invoice_items.invoice_id', '=', 'invoices.id')
+        ->join('customer_purchase_orders', 'invoices.customer_purchase_order_id', '=', 'customer_purchase_orders.id')
+        ->join('projects', 'customer_purchase_orders.project_id', '=', 'projects.id')
+        ->select(DB::raw('sum(invoice_items.total_price) as total'))
+        ->where('invoices.status', '2')
+        ->where('invoices.customer_purchase_order_id', '!=', '0')
+        ->where('customer_purchase_orders.project_id', $project->id)
+        ->get();
+        $totalAmountPO = CustomerPurchaseOrder::where('project_id', $project->id)->sum('total_amount');
+        $pendingAmountPO = $totalAmountPO - $paidAmountPO[0]->total;
+
         return view('projects.show', [
             'types' => QuotationType::all(),
             'customers' => Customer::all(),
@@ -112,6 +124,9 @@ class ProjectController extends Controller
             'customerPOs' => CustomerPurchaseOrder::where('project_id', $project->id)->get(),
             'acceptances' => $acceptance,
             'expenses' => Expenses::where('project_id', $project->id)->get(),
+            'pendingAmountPO' => $pendingAmountPO,
+            'paidAmountPO' => $paidAmountPO[0]->total,
+            'totalAmountPO' => $totalAmountPO,
         ]);
     }
 

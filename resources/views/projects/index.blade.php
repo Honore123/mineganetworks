@@ -1,5 +1,11 @@
 @extends('layouts.app')
-
+@push('styles')
+    <style>
+        .table td{
+            white-space: normal;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -14,7 +20,7 @@
         </div>
         @include('projects.partials.edit')
         <div class="col-md-12 mt-4 bg-white p-3">
-            <table class="table table-bordered table-striped table-hover" id="customers-table" style="width:100%">
+            <table class="table table-bordered table-striped table-hover table-responsive" id="customers-table" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -130,8 +136,8 @@
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'project_code', "name": 'project_code',"className":"text-middle"},
-                { "data": 'project_name', "name": 'project_name',"className":"text-middle"},
-                { "data": 'company_name', "name": 'company_name',"className":"text-middle"},
+                { "data": 'project_name', "name": 'project_name',"className":"w-50"},
+                { "data": 'company_name', "name": 'company_name',"className":"text-middle w-25"},
                 { "data": 'created_at', "name": 'created_at',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
             ]
