@@ -39,17 +39,17 @@ class QuotationController extends Controller
                 ->editColumn('total_amount', function ($quotation) {
                     $total = calculateTotal($quotation);
 
-                    return number_format($total, 0, '.', ',').' Rwf';
+                    return number_format($total, 0, '.', ',');
                 })
                 ->editColumn('vat', function ($quotation) {
                     $vat = calculateTotal($quotation) * 0.18;
 
-                    return number_format($vat, 0, '.', ',').' Rwf';
+                    return number_format($vat, 0, '.', ',');
                 })
                 ->editColumn('total_inc_vat', function ($quotation) {
                     $total_inc_vat = (calculateTotal($quotation) * 0.18) + calculateTotal($quotation);
 
-                    return number_format($total_inc_vat, 0, '.', ',').' Rwf';
+                    return number_format($total_inc_vat, 0, '.', ',');
                 })
                 ->rawColumns(['option'])
                 ->addIndexColumn()

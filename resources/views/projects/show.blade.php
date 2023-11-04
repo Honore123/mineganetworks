@@ -118,7 +118,7 @@
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'po_number', "name": 'po_number'},
-                {"data":'po_name',"name":'po_name'},
+                {"data":'po_name',"name":'po_name',"className":"w-25"},
                 { "data": 'status', "name": 'status',"className":"text-center"},
                 { "data": 'total_amount', "name": 'total_amount',"className":"text-center"},
                 { "data": 'remaining_amount', "name": 'remaining_amount',"className":"text-center"},

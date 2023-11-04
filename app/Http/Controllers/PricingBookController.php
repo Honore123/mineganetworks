@@ -17,7 +17,7 @@ class PricingBookController extends Controller
         if (request()->ajax()) {
             return datatables($products)
             ->editColumn('unit_price', function ($product) {
-                return number_format($product->unit_price, 0, '.', ',').' Rwf';
+                return number_format($product->unit_price, 0, '.', ',');
             })
             ->editColumn('option', 'pricing-book.partials.action')
             ->rawColumns(['option'])

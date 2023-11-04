@@ -100,9 +100,9 @@
                             <th>#</th>
                             <th>Item name/description</th>
                             <th>UOM</th>
-                            <th>Unit Price (Rwf)</th>
+                            <th>Unit Price</th>
                             <th>Quantity</th>
-                            <th>Total Price (Rwf)</th>
+                            <th>Total Price</th>
                         </tr>
                         <tbody>
                             @forelse($items as $item)
@@ -118,15 +118,15 @@
                             @endforelse
                             <tr class="bg-grey" style="font-family: 'century_bold'">
                                 <td colspan="5" class="text-center"><b>Total Excl. VAT</b></td>
-                                <td style="font-family: 'century_bold'"><b>{{$total}} Rwf</b></td>
+                                <td style="font-family: 'century_bold'"><b>{{$total}}</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
                                 <td colspan="5" class="text-center"><b>VAT(18%)</b> </td>
-                                <td ><b>{{$vat}} Rwf</b></td>
+                                <td ><b>{{$vat}}</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
                                 <td colspan="5" class="text-center"><b>Total Incl. VAT</b></td>
-                                <td><b>{{$totalVat}} Rwf</b></td>
+                                <td><b>{{$totalVat}}</b></td>
                             </tr>
                         </tbody>
                     </table>

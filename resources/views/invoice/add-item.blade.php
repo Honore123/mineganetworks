@@ -46,9 +46,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{number_format( (float)$customer_po->total_amount,2,'.',',')}} Rwf</td>
-                                        <td>{{number_format( ((float)$customer_po->total_amount - (float)$customer_po->remaining_amount),2,'.',',')}} Rwf</td>
-                                        <td>{{number_format( (float)$customer_po->remaining_amount,2,'.',',')}} Rwf</td>
+                                        <td>{{number_format( (float)$customer_po->total_amount,2,'.',',')}}</td>
+                                        <td>{{number_format( ((float)$customer_po->total_amount - (float)$customer_po->remaining_amount),2,'.',',')}}</td>
+                                        <td>{{number_format( (float)$customer_po->remaining_amount,2,'.',',')}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -84,9 +84,9 @@
                             <tr>
                                 <td>{{$loop->iteration++}}</td>
                                 <td>{{$item->item_name}}</td>
-                                <td>{{number_format($item->unit_price,0,'.',',')}} Rwf</td>
+                                <td>{{number_format($item->unit_price,0,'.',',')}}</td>
                                 <td>{{$item->quantity}}</td>
-                                <td>{{number_format($item->total_price,0,'.',',')}} Rwf</td>
+                                <td>{{number_format($item->total_price,0,'.',',')}}</td>
                                 @if($invoice->status != 0 && $invoice->status != 2)
                                 <td>
                                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">Option</button>
@@ -110,15 +110,15 @@
                             @endforelse
                             <tr>
                                 <td colspan="{{$invoice->status != 0 && $invoice->status != 2 ? '5' :'4'}}" class="text-center"><b>Total</b></td>
-                                <td><b>{{$total}} Rwf</b></td>
+                                <td><b>{{$total}}</b></td>
                             </tr>
                             <tr>
                                 <td colspan="{{$invoice->status != 0 && $invoice->status != 2 ? '5' :'4'}}" class="text-center"><b>VAT(18%)</b> </td>
-                                <td><b>{{$vat}} Rwf</b></td>
+                                <td><b>{{$vat}}</b></td>
                             </tr> 
                             <tr>
                                 <td colspan="{{$invoice->status != 0 && $invoice->status != 2 ? '5' :'4'}}" class="text-center"><b>Total Incl. VAT</b></td>
-                                <td><b>{{$totalVat}} Rwf</b></td>
+                                <td><b>{{$totalVat}}</b></td>
                             </tr> 
                         </tbody>
                     </table>

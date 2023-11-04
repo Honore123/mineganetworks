@@ -20,7 +20,7 @@
         </div>
        @include('customer_po.partials.edit')
         <div class="col-md-12 mt-4 bg-white p-3">
-            <table class="table table-bordered table-striped table-hover" id="customers-table" style="width:100%">
+            <table class="table table-bordered table-striped table-hover table-responsive" id="customers-table" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -29,7 +29,7 @@
                         <th>Project</th>
                         <th>Status</th>
                         <th>Total amount</th>
-                        <th>Remaining amount</th>
+                        <th style="width:5%;word-wrap: break-word">Remaining amount</th>
                         <th>PO date</th>
                         <th>Option</th>
                     </tr>

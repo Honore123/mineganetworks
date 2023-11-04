@@ -139,17 +139,17 @@ class ProjectController extends Controller
                 ->editColumn('total_amount', function ($quotation) {
                     $total = calculateTotal($quotation);
 
-                    return number_format($total, 0, '.', ',').' Rwf';
+                    return number_format($total, 0, '.', ',');
                 })
                 ->editColumn('vat', function ($quotation) {
                     $vat = calculateTotal($quotation) * 0.18;
 
-                    return number_format($vat, 0, '.', ',').' Rwf';
+                    return number_format($vat, 0, '.', ',');
                 })
                 ->editColumn('total_inc_vat', function ($quotation) {
                     $total_inc_vat = (calculateTotal($quotation) * 0.18) + calculateTotal($quotation);
 
-                    return number_format($total_inc_vat, 0, '.', ',').' Rwf';
+                    return number_format($total_inc_vat, 0, '.', ',');
                 })
                 ->rawColumns(['option'])
                 ->addIndexColumn()
@@ -183,10 +183,10 @@ class ProjectController extends Controller
                     return $purchaseOrder->created_at->format('d-m-Y');
                 })
                 ->editColumn('total_amount', function ($purchaseOrder) {
-                    return number_format((float) $purchaseOrder->total_amount, 2, '.', ',').' Rwf';
+                    return number_format((float) $purchaseOrder->total_amount, 2, '.', ',');
                 })
                 ->editColumn('remaining_amount', function ($purchaseOrder) {
-                    return number_format((float) $purchaseOrder->remaining_amount, 2, '.', ',').' Rwf';
+                    return number_format((float) $purchaseOrder->remaining_amount, 2, '.', ',');
                 })
                 ->editColumn('option', 'customer_po.partials.action')
                 ->rawColumns(['option', 'status'])
@@ -230,7 +230,7 @@ class ProjectController extends Controller
                 ->editColumn('total_inc_vat', function ($invoice) {
                     $total_inc_vat = (calculateTotal($invoice) * 0.18) + calculateTotal($invoice);
 
-                    return number_format($total_inc_vat, 0, '.', ',').' Rwf';
+                    return number_format($total_inc_vat, 0, '.', ',');
                 })
                 ->rawColumns(['option', 'status'])
                 ->addIndexColumn()

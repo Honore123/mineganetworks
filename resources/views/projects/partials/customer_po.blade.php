@@ -1,5 +1,5 @@
 <div class="col-md-12 mt-4 bg-white p-3">
-    <table class="table table-bordered table-striped table-hover" id="customers-table" style="width:100%">
+    <table class="table table-bordered table-striped table-hover table-responsive" id="customers-table" style="width:100%">
         <thead>
             <tr>
                 <th>#</th>

@@ -53,7 +53,7 @@ class InvoiceController extends Controller
                 ->editColumn('total_inc_vat', function ($invoice) {
                     $total_inc_vat = (calculateTotal($invoice) * 0.18) + calculateTotal($invoice);
 
-                    return number_format($total_inc_vat, 0, '.', ',').' Rwf';
+                    return number_format($total_inc_vat, 0, '.', ',');
                 })
                 ->rawColumns(['option', 'status'])
                 ->addIndexColumn()
