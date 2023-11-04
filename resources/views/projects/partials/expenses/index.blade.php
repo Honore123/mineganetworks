@@ -19,7 +19,7 @@
             <tr>
                 <td>{{$loop->iteration ++}}</td>
                 <td>{{$expense->expense_name}}</td>
-                <td>{{number_format($expense->expense_amount,0,'.',',')}} Rwf</td>
+                <td>{{number_format($expense->expense_amount,0,'.',',')}}</td>
                 <td>{{$expense->created_at->format('d-m-Y')}}</td>
                 <td>
                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">Option</button>

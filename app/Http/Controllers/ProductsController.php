@@ -17,7 +17,7 @@ class ProductsController extends Controller
         if (request()->ajax()) {
             return datatables($products)
                 ->editColumn('product_unit_price', function ($product) {
-                    return number_format($product->product_unit_price, 0, '.', ',').' Rwf';
+                    return number_format($product->product_unit_price, 0, '.', ',');
                 })
                 ->editColumn('option', 'products.partials.action')
                 ->rawColumns(['option'])

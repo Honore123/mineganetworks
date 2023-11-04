@@ -42,10 +42,10 @@ class CustomerPurchaseOrderController extends Controller
                     return date('d-m-Y', $po_date);
                 })
                 ->editColumn('total_amount', function ($purchaseOrder) {
-                    return number_format((float) $purchaseOrder->total_amount, 2, '.', ',').' Rwf';
+                    return number_format((float) $purchaseOrder->total_amount, 2, '.', ',');
                 })
                 ->editColumn('remaining_amount', function ($purchaseOrder) {
-                    return number_format((float) $purchaseOrder->remaining_amount, 2, '.', ',').' Rwf';
+                    return number_format((float) $purchaseOrder->remaining_amount, 2, '.', ',');
                 })
                 ->editColumn('option', 'customer_po.partials.action')
                 ->rawColumns(['option', 'status'])

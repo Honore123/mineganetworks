@@ -57,9 +57,9 @@
                                 <td>{{$item->product->product_code}}</td>
                                 <td>{{$item->product->product_name}}</td>
                                 <td>{{$item->product->unit->unit_name}} ({{$item->product->unit->unit_abbr}})</td>
-                                <td>{{number_format($item->unit_price,0,'.',',')}} Rwf</td>
+                                <td>{{number_format($item->unit_price,0,'.',',')}}</td>
                                 <td>{{$item->quantity}}</td>
-                                <td>{{number_format($item->total_price,0,'.',',')}} Rwf</td>
+                                <td>{{number_format($item->total_price,0,'.',',')}}</td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">Option</button>
                                     <div class="dropdown-menu">
@@ -82,15 +82,15 @@
                             @endforelse
                             <tr>
                                 <td colspan="6" class="text-center"><b>Total Excl. VAT</b></td>
-                                <td><b>{{$total}} Rwf</b></td>
+                                <td><b>{{$total}}</b></td>
                             </tr>
                             <tr>
                                 <td colspan="6" class="text-center"><b>VAT</b> </td>
-                                <td><b>{{$vat}} Rwf</b></td>
+                                <td><b>{{$vat}}</b></td>
                             </tr>
                             <tr>
                                 <td colspan="6" class="text-center"><b>Total Incl. VAT</b></td>
-                                <td><b>{{$totalVat}} Rwf</b></td>
+                                <td><b>{{$totalVat}}</b></td>
                             </tr>
                         </tbody>
                     </table>

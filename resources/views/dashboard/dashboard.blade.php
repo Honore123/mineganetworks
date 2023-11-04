@@ -71,23 +71,23 @@
             <tbody>
               <tr>
                 <td><h5>Uninvoiced P.O amount</h5></td>
-                <td><h6>{{number_format($total_unpaid_amount,2,'.',',') }} Rwf</h6></td>
+                <td><h6>{{number_format($total_unpaid_amount,2,'.',',') }}</h6></td>
               </tr>
               <tr>
                 <td><h5>Invoiced P.Os amount</h5></td>
-                <td><h6>{{number_format($total_invoiced_amount,2,'.',',') }} Rwf</h6></td>
+                <td><h6>{{number_format($total_invoiced_amount,2,'.',',') }}</h6></td>
               </tr>
               <tr>
                 <td><h5>Contract based invoice</h5></td>
-                <td><h6>{{number_format($contact_unpaid_invoice,2,'.',',') }} Rwf</h6></td>
+                <td><h6>{{number_format($contact_unpaid_invoice,2,'.',',') }}</h6></td>
               </tr>
               <tr>
                 <td><h5>Paid P.Os amount</h5></td>
-                <td><h6>{{number_format($total_paid_amount,2,'.',',') }} Rwf</h6></td>
+                <td><h6>{{number_format($total_paid_amount,2,'.',',') }}</h6></td>
               </tr>
               <tr>
                 <td><h5>Total P.Os amount</h5></td>
-                <td><h6>{{number_format($total_po_amount,2,'.',',')}} Rwf</h6></td>
+                <td><h6>{{number_format($total_po_amount,2,'.',',')}}</h6></td>
               </tr>
             </tbody>
           </table>
