@@ -41,7 +41,7 @@
                         <p class="fs-30 mb-2">{{number_format($purchaseOrder,0,'.',',')}}</p>
                         <p>Contractors</p>
                       </a>
-                      <a href="{{route('purchase-order.index')}}" class="col-md-6 text-light text-decoration-none">
+                      <a href="{{route('customer-po.index')}}" class="col-md-6 text-light text-decoration-none">
                         <p class="fs-30 mb-2">{{number_format($customerPO,0,'.',',')}}</p>
                         <p>Customers</p>
                       </a>
