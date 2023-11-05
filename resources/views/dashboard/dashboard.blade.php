@@ -33,13 +33,21 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
-                <a class="card text-light text-decoration-none" href="{{route('purchase-order.index')}}" role="button" style="background: #2f3683">
-                <div class="card-body">
-                    <p class="mb-4">Total POs</p>
-                    <p class="fs-30 mb-2">{{number_format($purchaseOrder,0,'.',',')}}</p>
-                    <p>(All)</p>
+                <div class="card"  role="button" style="background: #2f3683">
+                <div class="card-body text-light">
+                    <p class="mb-4">Purchase Orders</p>
+                    <div class="row">
+                      <a href="{{route('purchase-order.index')}}" class="col-md-6 text-light text-decoration-none">
+                        <p class="fs-30 mb-2">{{number_format($purchaseOrder,0,'.',',')}}</p>
+                        <p>Contractors</p>
+                      </a>
+                      <a href="{{route('purchase-order.index')}}" class="col-md-6 text-light text-decoration-none">
+                        <p class="fs-30 mb-2">{{number_format($customerPO,0,'.',',')}}</p>
+                        <p>Customers</p>
+                      </a>
+                    </div>
                 </div>
-                </a>
+                </div>
             </div>
             <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                 <a class="card text-light text-decoration-none" href="{{route('riggers.index')}}" role="button" style="background: #c7ad36">
@@ -65,7 +73,7 @@
             <thead>
               <tr>
                 <th class="bg-primary text-white">Item</th>
-                <th class="bg-success text-white">Amount</th>
+                <th class="bg-success text-white">Amount (Rwf)</th>
               </tr>
             </thead>
             <tbody>
@@ -78,7 +86,7 @@
                 <td><h6>{{number_format($total_invoiced_amount,2,'.',',') }}</h6></td>
               </tr>
               <tr>
-                <td><h5>Contract based invoice</h5></td>
+                <td><h5>Rigger services</h5></td>
                 <td><h6>{{number_format($contact_unpaid_invoice,2,'.',',') }}</h6></td>
               </tr>
               <tr>
@@ -114,7 +122,7 @@
                 }else if(key == 'contact_unpaid_invoice'){
                     colors.push('rgba(255, 99, 71, 1)');
                     borderColors.push('rgb(255, 99, 71)');
-                    dateTime.push('Unpaid contract invoices');
+                    dateTime.push('Rigger services');
                 } else if(key == 'total_invoiced_amount'){
                     colors.push('rgba(255, 205, 86, 1)');
                     borderColors.push('rgb(255, 205, 86)');

@@ -18,6 +18,7 @@ class DashboardController extends Controller
         $quotation = Quotation::all()->count();
         $invoice = Invoice::all()->count();
         $purchaseOrder = PurchaseOrder::all()->count();
+        $customerPO = CustomerPurchaseOrder::all()->count();
         $rigger = Rigger::all()->count();
         $totalPOAmount = CustomerPurchaseOrder::where('status', '!=', '0')->sum('total_amount');
         $invoicedPOAmount = DB::table('invoice_items')
@@ -58,6 +59,7 @@ class DashboardController extends Controller
             'quotation' => $quotation,
             'invoice' => $invoice,
             'purchaseOrder' => $purchaseOrder,
+            'customerPO' =>$customerPO,
             'rigger' => $rigger,
             'contact_unpaid_invoice' => $contractUnpaidAmount,
             'total_po_amount' => ($totalPOAmount + $contractPaidAmount + $contractUnpaidAmount),

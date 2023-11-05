@@ -32,7 +32,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{setActive('customer-pruchase-order')}} {{setActive('customer-pruchase-order/*')}}">
+      <li class="nav-item {{setActive('customer-purchase-order')}} {{setActive('customer-purchase-order/*')}}">
         <a class="nav-link" href="{{route('customer-po.index')}}">
           <i class="ti-notepad menu-icon"></i>
           <span class="menu-title">Customer's P.O</span>
