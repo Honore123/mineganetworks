@@ -15,7 +15,7 @@ class InvoiceTypeSeeder extends Seeder
      */
     public function run()
     {
-        collect(['P.O based', 'Contract based'])->each(function ($name) {
+        collect(['P.O based', 'Rigger services'])->each(function ($name) {
             InvoiceTypes::firstOrCreate([
                 'type_name' => $name,
             ]);
