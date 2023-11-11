@@ -33,7 +33,7 @@
           </div>
           <div class="form-group">
             <label for="quantity">Quantity</label>
-            <input type="number" class="form-control" id="quantity" name="quantity" step=".01" placeholder="Quantity">
+            <input type="number" class="form-control" id="quantity" name="quantity" step=".001" placeholder="Quantity">
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-between">
