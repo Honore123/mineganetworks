@@ -37,7 +37,6 @@ class InvoiceController extends Controller
             }
 
             return datatables($invoices)
-                ->editColumn('option', 'invoice.partials.action')
                 ->editColumn('date', function ($invoice) {
                     return $invoice->created_at->format('d-m-Y');
                 })
@@ -55,6 +54,7 @@ class InvoiceController extends Controller
 
                     return number_format($total_inc_vat, 0, '.', ',');
                 })
+                ->editColumn('option', 'invoice.partials.action')
                 ->rawColumns(['option', 'status'])
                 ->addIndexColumn()
                 ->make(true);
@@ -242,7 +242,15 @@ class InvoiceController extends Controller
         if (! $invoice->customer_purchase_order_id) {
             return redirect()->back()->with('error', 'The invoice '.$invoice->invoice_code.' of '.$invoice->company_name." doesn't have a PO");
         }
+        $date = request()->input('record_payment_date');
+        if ($data['status'] == '2' && ! $date) {
+            return redirect()->back()->with('error', 'Please select payment date before submitting the form.');
+        }
+        if ($data['status'] == '2' && $date) {
+            $data['payment_date'] = $date;
+        }
         $invoice->update($data);
+
         $purchaseOrder = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
         if ($data['status'] == '2' && (int) $purchaseOrder->remaining_amount == 0) {
             $invoice->update($data);

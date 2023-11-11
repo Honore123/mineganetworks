@@ -43,6 +43,7 @@
             </table>
         </div>
         @include('invoice.partials.edit_invoice_info')
+        @include('invoice.partials.record_payment')
     </div>
 @endsection
 @push('scripts')
@@ -50,6 +51,11 @@
     <script>
         $(document).ready(function() {
             $('#edit_customer_purchase_order_id').select2();
+            flatpickr('#record_payment_date', {
+            enableTime: false,
+            dateFormat: 'Y-m-d',
+            defaultDate: new Date()
+        });
         });
         function editInvoiceInfo(id){
             const invoices = @json($invoices);
@@ -165,20 +171,15 @@
                 }
             });
         }
-        function paidInvoice(id, name, company){
-            swal.fire( {
-                title:'Confirmation',
-                text:'Are you sure this invoice ' + name+' of '+company+' is paid?' ,
-                icon: 'warning',
-                confirmButtonText: 'Yes',
-                cancelButtonText:'No',
-                showCancelButton: true,
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('update-paid-'+ id).submit();
-                }
-            });
+        function paidInvoice(id, name, total){
+            const invoices = @json($invoices);
+            const invoice = invoices.find(invoice=>invoice.id == id);
+            $('#record_amount').val(total);
+            $("#edit_quotation_title_modal").text("Edit "+invoice.company_name+"'s invoice");
+            var url = '{{ route("invoice.status", ":id") }}';
+            url = url.replace(':id',id);
+            $('#record_payment_form').attr('action',url);
+            $('#record_payment').modal('show');
         }
         function cancelInvoice(id, name){
             swal.fire( {
