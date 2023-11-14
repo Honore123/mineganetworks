@@ -22,7 +22,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::with(['purchaseOrder'])->orderBy('created_at', 'DESC')->get();
+        $invoices = Invoice::with(['purchaseOrder'])->orderBy('invoice_code', 'DESC')->get();
 
         if (request()->ajax()) {
             function calculateTotal($invoice)
