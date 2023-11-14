@@ -127,7 +127,7 @@ class InvoiceItemController extends Controller
         if ($invoice->invoice_type == 1) {
             $customer_po = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
 
-            if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > ((float) $customer_po->remaining_amount + (float) $old_total_price)) {
+            if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > (float) $customer_po->remaining_amount) {
                 return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
             }
         }

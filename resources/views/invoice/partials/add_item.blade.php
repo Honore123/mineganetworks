@@ -16,7 +16,7 @@
           </div>
           <div class="form-group">
             <label for="quantity">Quantity</label>
-            <input type="number" class="form-control" oninput="totalPrice()" id="quantity" name="quantity" placeholder="Quantity" step=".001">
+            <input type="number" class="form-control" oninput="totalPrice()" id="quantity" name="quantity" placeholder="Quantity">
           </div>
           <div class="form-group">
             <label for="unit_price">Unit price</label>
