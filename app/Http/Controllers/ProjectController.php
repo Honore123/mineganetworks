@@ -113,7 +113,7 @@ class ProjectController extends Controller
         ->where('customer_purchase_orders.project_id', $project->id)
         ->get();
         $totalAmountPO = CustomerPurchaseOrder::where('project_id', $project->id)->sum('total_amount');
-        $pendingAmountPO = $totalAmountPO - $paidAmountPO[0]->total;
+        $pendingAmountPO = $totalAmountPO - ($paidAmountPO[0]->total + ($paidAmountPO[0]->total * 0.18));
 
         return view('projects.show', [
             'types' => QuotationType::all(),
@@ -125,7 +125,7 @@ class ProjectController extends Controller
             'acceptances' => $acceptance,
             'expenses' => Expenses::where('project_id', $project->id)->get(),
             'pendingAmountPO' => $pendingAmountPO,
-            'paidAmountPO' => $paidAmountPO[0]->total,
+            'paidAmountPO' => ($paidAmountPO[0]->total + ($paidAmountPO[0]->total * 0.18)),
             'totalAmountPO' => $totalAmountPO,
         ]);
     }
