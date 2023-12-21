@@ -62,13 +62,46 @@
         </div>
     </div>
     <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="card card-body h-100">
+          <h4 class="mb-3 border-bottom pb-3">Project per client chart</h4>
+          <canvas id="doughnutChart"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="card card-body h-100 table-responsive">
+          <h4 class="mb-3 border-bottom pb-3">Project per client</h4>
+          <table class="table table-bordered bg-white table-striped">
+            <thead>
+              <tr>
+                <th class="bg-primary text-white">Item</th>
+                <th class="bg-success text-white">No of Projects</th>
+              </tr>
+            </thead>
+            <tbody>
+              @forelse($chart_projects as $projects)
+              <tr>
+                <td><h5>{{$projects->company_name}}</h5></td>
+                <td><h6>{{number_format($projects->total_projects,0,'.',',') }}</h6></td>
+              </tr>
+              @empty
+                  
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-6 mb-4 mb-lg-0">
         <div class="h-100 card card-body">
+          <h4 class="mb-3 border-bottom pb-3">Cashflow chart</h4>
           <canvas id="dashboard_chart"></canvas>
       </div>
       </div>
       <div class="col-md-6 mb-4 mb-lg-0">
         <div class="card card-body table-responsive">
+          <h4 class="mb-3 border-bottom pb-3">Cashflow</h4>
           <table class="table table-bordered bg-white table-striped">
             <thead>
               <tr>
@@ -186,5 +219,52 @@
                     }
                 });
             });
+            var ctx = document.getElementById('doughnutChart').getContext('2d');
+            const chartProjects = @json($chart_projects);
+           
+            if(chartProjects.length > 0){
+              let names = chartProjects.map(obj => obj.company_name);
+              let projects = chartProjects.map(obj => obj.total_projects);
+              let total = projects.reduce((a, b) => a + b, 0);
+              var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: names,
+                    datasets: [{
+                        data:projects,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                plugins: {
+                  afterDraw: (chart) => {
+                      let ctx = chart.ctx;
+                      let width = chart.width;
+                      let height = chart.height;
+                      let posX = width / 2;
+                      let posY = height / 2;
+                      ctx.font = '30px Verdana';
+                      ctx.textAlign = 'center';
+                      ctx.textBaseline = 'middle';
+                      ctx.fillText(total, posX, posY);
+                      ctx.fillText('Total', posX, (posY*1.3))
+                  }
+              }
+            });
+            }
+            
     </script>
 @endpush
