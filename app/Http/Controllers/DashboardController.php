@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomerPurchaseOrder;
 use App\Models\Invoice;
+use App\Models\Project;
 use App\Models\PurchaseOrder;
 use App\Models\Quotation;
 use App\Models\Rigger;
@@ -45,6 +46,11 @@ class DashboardController extends Controller
         $unpaidPOAmount = CustomerPurchaseOrder::where('status', '2')->orWhere('status', '1')->sum('remaining_amount');
         $paidPOAmount = $totalPOAmount - ($unpaidPOAmount + $invoicedAmount) + $contractPaidAmount;
 
+        $chartProjects = DB::table('projects')
+        ->selectRaw('company_name, COUNT(project_code) as total_projects')
+        ->groupBy('company_name')
+        ->get();
+
         if (request()->ajax()) {
             return response()->json(
                 ['total_po_amount' =>  ($totalPOAmount + $contractPaidAmount + $contractUnpaidAmount),
@@ -66,6 +72,8 @@ class DashboardController extends Controller
             'total_invoiced_amount' => $invoicedAmount,
             'total_paid_amount' => $paidPOAmount,
             'total_unpaid_amount' => $unpaidPOAmount,
+            'chart_projects' => $chartProjects,
+
         ]);
     }
 }
