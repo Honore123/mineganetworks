@@ -229,7 +229,6 @@ class ProjectController extends Controller
             }
 
             return datatables($invoices)
-                ->editColumn('option', 'invoice.partials.action')
                 ->editColumn('date', function ($invoice) {
                     return $invoice->created_at->format('d-m-Y');
                 })
@@ -247,6 +246,7 @@ class ProjectController extends Controller
 
                     return number_format($total_inc_vat, 0, '.', ',');
                 })
+                ->editColumn('option', 'invoice.partials.action')
                 ->rawColumns(['option', 'status'])
                 ->addIndexColumn()
                 ->make(true);
