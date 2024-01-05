@@ -48,6 +48,7 @@ class DashboardController extends Controller
 
         $chartProjects = DB::table('projects')
         ->selectRaw('company_name, COUNT(project_code) as total_projects')
+        ->where('deleted_at', '=', null)
         ->groupBy('company_name')
         ->get();
 
