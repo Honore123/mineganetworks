@@ -87,7 +87,7 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -143,7 +143,7 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param  Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
     public function show(Invoice $invoice)
@@ -154,7 +154,7 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param  Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
     public function edit(Invoice $invoice)
@@ -165,8 +165,8 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Invoice  $invoice
+     * @param  Request  $request
+     * @param  Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
     public function update(Invoice $invoice)
@@ -239,7 +239,7 @@ class InvoiceController extends Controller
         $data = request()->validate([
             'status' => ['required'],
         ]);
-        if (! $invoice->customer_purchase_order_id) {
+        if (! $invoice->customer_purchase_order_id && $invoice->invoice_type == '1') {
             return redirect()->back()->with('error', 'The invoice '.$invoice->invoice_code.' of '.$invoice->company_name." doesn't have a PO");
         }
         $date = request()->input('record_payment_date');
@@ -250,7 +250,9 @@ class InvoiceController extends Controller
             $data['payment_date'] = $date;
         }
         $invoice->update($data);
-
+        if ($invoice->invoice_type == '2') {
+            return redirect()->back()->with('success', 'Extra rigger service invoice '.$invoice->invoice_code.' updated');
+        }
         $purchaseOrder = CustomerPurchaseOrder::where('id', $invoice->customer_purchase_order_id)->first();
         if ($data['status'] == '2' && (int) $purchaseOrder->remaining_amount == 0) {
             $invoice->update($data);
@@ -293,7 +295,7 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param  Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
     public function destroy(Invoice $invoice)
