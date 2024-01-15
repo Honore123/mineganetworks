@@ -51,6 +51,21 @@ class DashboardController extends Controller
         ->where('deleted_at', '=', null)
         ->groupBy('company_name')
         ->get();
+        $chartQuotations = DB::table('quotations')
+        ->selectRaw('client_name, COUNT(quotation_code) as total_quotations')
+        ->where('deleted_at', '=', null)
+        ->groupBy('client_name')
+        ->get();
+        $chartInvoices = DB::table('invoices')
+        ->selectRaw('company_name, COUNT(invoice_code) as total_invoices')
+        ->where('deleted_at', '=', null)
+        ->groupBy('company_name')
+        ->get();
+        $chartPOs = DB::table('customer_purchase_orders')
+        ->selectRaw('company_name, COUNT(po_number) as total_po')
+        ->where('deleted_at', '=', null)
+        ->groupBy('company_name')
+        ->get();
 
         if (request()->ajax()) {
             return response()->json(
@@ -74,7 +89,9 @@ class DashboardController extends Controller
             'total_paid_amount' => $paidPOAmount,
             'total_unpaid_amount' => $unpaidPOAmount,
             'chart_projects' => $chartProjects,
-
+            'chart_quotations' => $chartQuotations,
+            'chart_invoices' => $chartInvoices,
+            'chart_po' => $chartPOs,
         ]);
     }
 }
