@@ -8,35 +8,42 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6 mb-4 stretch-card transparent">
-                  <a class="card card-tale text-decoration-none" href="{{route('quotation.index')}}" role="button">
+        <div class="col-md-4 mb-4 stretch-card transparent">
+                  <a class="card text-decoration-none" href="{{route('quotation.index')}}" role="button">
                     <div class="card-body">
-                      <p class="mb-4">Total Quotations</p>
-                      <p class="fs-30 mb-2">{{number_format($quotation,0,'.',',')}}</p>
-                      <p>(All)</p>
+                      <div class="d-flex justify-content-between">
+                        <h4 class="mb-4 text-dark">Total Quotations</h4>
+                        <p class="fs-30 mb-2 text-dark">{{number_format($quotation,0,'.',',')}}</p>
+                      </div>
+                     
+                      <canvas id="quotationChart" class="w-100"></canvas>
+                      {{-- <p class="fs-30 mb-2">{{number_format($quotation,0,'.',',')}}</p> --}}
                     </div>
                   </a>
-                </div>
-                <div class="col-md-6 mb-4 stretch-card transparent ">
-                  <a class="card card-dark-blue text-decoration-none" href="{{route('invoice.index')}}" role="button">
-                    <div class="card-body">
-                      <p class="mb-4">Total Invoices</p>
-                      <p class="fs-30 mb-2">{{number_format($invoice,0,'.',',')}}</p>
-                      <p>(All)</p>
-                    </div>
-                  </a>
-                </div>
-            </div>
         </div>
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
-                <div class="card"  role="button" style="background: #2f3683">
-                <div class="card-body text-light">
-                    <p class="mb-4">Purchase Orders</p>
-                    <div class="row">
+        <div class="col-md-4 mb-4 stretch-card transparent">
+            <a class="card text-decoration-none" href="{{route('invoice.index')}}" role="button">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <h4 class="mb-4 text-dark">Total Invoices</h4>
+                  <p class="fs-30 mb-2 text-dark">{{number_format($invoice,0,'.',',')}}</p>
+                </div>
+               
+                <canvas id="invoiceChart" class="w-100"></canvas>
+                {{-- <p class="fs-30 mb-2">{{number_format($invoice,0,'.',',')}}</p> --}}
+              </div>
+            </a>
+        </div>
+        <div class="col-md-4 mb-4 stretch-card transparent">
+                <div class="card text-decoration-none"  role="button">
+                <div class="card-body">
+                   
+                    <div class="d-flex justify-content-between">
+                      <h4 class="mb-4">Purchase Orders</h4>
+                      <p class="fs-30 mb-2 text-dark">{{number_format($customerPO,0,'.',',')}}</p>
+                    </div>
+                    <canvas id="purchaseOrderChart" class="w-100"></canvas>
+                    {{-- <div class="row">
                       <a href="{{route('purchase-order.index')}}" class="col-md-6 text-light text-decoration-none">
                         <p class="fs-30 mb-2">{{number_format($purchaseOrder,0,'.',',')}}</p>
                         <p>Contractors</p>
@@ -45,20 +52,9 @@
                         <p class="fs-30 mb-2">{{number_format($customerPO,0,'.',',')}}</p>
                         <p>Customers</p>
                       </a>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
-            </div>
-            <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
-                <a class="card text-light text-decoration-none" href="{{route('riggers.index')}}" role="button" style="background: #c7ad36">
-                <div class="card-body">
-                    <p class="mb-4">Number of Riggers</p>
-                    <p class="fs-30 mb-2">{{number_format($rigger,0,'.',',')}}</p>
-                    <p>(All)</p>
-                </div>
-                </a>
-            </div>
-        </div>
         </div>
     </div>
     <div class="row">
@@ -119,7 +115,7 @@
                 <td><h6>{{number_format($total_invoiced_amount,2,'.',',') }}</h6></td>
               </tr>
               <tr>
-                <td><h5>Rigger services</h5></td>
+                <td><h5>Extra rigger services</h5></td>
                 <td><h6>{{number_format($contact_unpaid_invoice,2,'.',',') }}</h6></td>
               </tr>
               <tr>
@@ -155,7 +151,7 @@
                 }else if(key == 'contact_unpaid_invoice'){
                     colors.push('rgba(255, 99, 71, 1)');
                     borderColors.push('rgb(255, 99, 71)');
-                    dateTime.push('Rigger services');
+                    dateTime.push('Extra rigger services');
                 } else if(key == 'total_invoiced_amount'){
                     colors.push('rgba(255, 205, 86, 1)');
                     borderColors.push('rgb(255, 205, 86)');
@@ -265,6 +261,116 @@
               }
             });
             }
-            
+            var qtx = document.getElementById('quotationChart').getContext('2d');
+            const chartQuotations = @json($chart_quotations);
+           
+            if(chartQuotations.length > 0){
+              let names = chartQuotations.map(obj => obj.client_name);
+              let quotations = chartQuotations.map(obj => obj.total_quotations);
+              let total = quotations.reduce((a, b) => a + b, 0);
+              var myChart = new Chart(qtx, {
+                type: 'pie',
+                data: {
+                    labels: names,
+                    datasets: [{
+                        data:quotations,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options:{
+                  legend:{
+                    position:"right",
+                  },
+                }
+            });
+            }
+            var itx = document.getElementById('invoiceChart').getContext('2d');
+            const chartInvoices = @json($chart_invoices);
+           
+            if(chartInvoices.length > 0){
+              let names = chartInvoices.map(obj => obj.company_name);
+              let invoices = chartInvoices.map(obj => obj.total_invoices);
+              let total = invoices.reduce((a, b) => a + b, 0);
+              var myChart = new Chart(itx, {
+                type: 'pie',
+                data: {
+                    labels: names,
+                    datasets: [{
+                        data:invoices,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options:{
+                  legend:{
+                    position:"right",
+                  },
+                }
+            });
+            }
+            var ptx = document.getElementById('purchaseOrderChart').getContext('2d');
+            const purchaseOrderChart = @json($chart_po);
+           
+            if(purchaseOrderChart.length > 0){
+              let names = purchaseOrderChart.map(obj => obj.company_name);
+              let purchaseOrders = purchaseOrderChart.map(obj => obj.total_po);
+              let total = purchaseOrders.reduce((a, b) => a + b, 0);
+              var myChart = new Chart(ptx, {
+                type: 'pie',
+                data: {
+                    labels: names,
+                    datasets: [{
+                        data:purchaseOrders,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options:{
+                  legend:{
+                    position:"right",
+                  },
+                }
+            });
+            }
     </script>
 @endpush
