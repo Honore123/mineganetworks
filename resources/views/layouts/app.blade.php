@@ -26,7 +26,7 @@
         <link rel="shortcut icon" href="{{asset('images/logo1.min.png')}}" />
        @stack('styles')
     </head>
-    <body class="sidebar-fixed">
+    <body class="sidebar-fixed ">
         <div class="container-scroller">
            @include('layouts.partials.navbar')
            
