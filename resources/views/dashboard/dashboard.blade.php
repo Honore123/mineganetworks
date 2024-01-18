@@ -60,7 +60,11 @@
     <div class="row">
       <div class="col-md-6 mb-4">
         <div class="card card-body h-100">
-          <h4 class="mb-3 border-bottom pb-3">Project per client chart</h4>
+          <div class="d-flex justify-content-between align-items-center mb-3 border-bottom">
+            <h4>Project per client chart</h4>
+            <p class="fs-30 mb-2 text-dark" id="projectTotal"></p>
+          </div>
+          
           <canvas id="doughnutChart"></canvas>
         </div>
       </div>
@@ -222,6 +226,7 @@
               let names = chartProjects.map(obj => obj.company_name);
               let projects = chartProjects.map(obj => obj.total_projects);
               let total = projects.reduce((a, b) => a + b, 0);
+              $('#projectTotal').text(total);
               var myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -245,20 +250,11 @@
                         borderWidth: 1
                     }]
                 },
-                plugins: {
-                  afterDraw: (chart) => {
-                      let ctx = chart.ctx;
-                      let width = chart.width;
-                      let height = chart.height;
-                      let posX = width / 2;
-                      let posY = height / 2;
-                      ctx.font = '30px Verdana';
-                      ctx.textAlign = 'center';
-                      ctx.textBaseline = 'middle';
-                      ctx.fillText(total, posX, posY);
-                      ctx.fillText('Total', posX, (posY*1.3))
-                  }
-              }
+                options:{
+                  legend:{
+                    position:"right",
+                  },
+                },
             });
             }
             var qtx = document.getElementById('quotationChart').getContext('2d');
