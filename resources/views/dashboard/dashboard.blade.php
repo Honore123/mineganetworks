@@ -2,26 +2,43 @@
 
 @section('content')
     <div class="row mb-5">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <h3>Welcome {{auth()->user()->name}}</h3>
-            <h6 class="font-weight-normal mb-0">Below are current <span class="text-primary">data!</span></h6>
+            <h6 class="font-weight-normal mb-0">Below are <span class="font-weight-bold">{{$start_date->format('d/m/Y')}}</span> up to <span class="font-weight-bold">{{$end_date->format('d/m/Y')}}</span> data!</h6>
         </div>
+       
+          <form action="{{route('dashboard')}}" method="GET" class="col-md-6 d-flex align-items-center justify-content-end">
+            <div class="form-group mb-0">
+              <input type="date" class="form-control" name="start" id="startDate" placeholder="Start date" value={{$start_date->format('Y-m-d')}}>
+          </div>
+          <div class="pl-2">
+            <span>-</span>
+          </div>
+          <div class="form-group mb-0 pl-2">
+            <input type="date" class="form-control" id="endDate" name="end" placeholder="d/m/Y" value={{$end_date->format('Y-m-d')}}>
+          </div>
+          <div class="form-group mb-0 pl-3"> 
+            <button class="btn btn-primary rounded-0">Filter</button>
+          </div>
+        
+          </form>
+       
     </div>
     <div class="row">
-        <div class="col-md-4 mb-4 stretch-card transparent">
-                  <a class="card text-decoration-none" href="{{route('quotation.index')}}" role="button">
-                    <div class="card-body">
-                      <div class="d-flex justify-content-between">
-                        <h4 class="mb-4 text-dark">Total Quotations</h4>
-                        <p class="fs-30 mb-2 text-dark">{{number_format($quotation,0,'.',',')}}</p>
-                      </div>
-                     
-                      <canvas id="quotationChart" class="w-100"></canvas>
-                      {{-- <p class="fs-30 mb-2">{{number_format($quotation,0,'.',',')}}</p> --}}
-                    </div>
-                  </a>
+        <div class="col-md-6 mb-4 stretch-card transparent">
+          <a class="card text-decoration-none" href="{{route('quotation.index')}}" role="button">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h4 class="mb-4 text-dark">Total Quotations</h4>
+                <p class="fs-30 mb-2 text-dark">{{number_format($quotation,0,'.',',')}}</p>
+              </div>
+              
+              <canvas id="quotationChart" class="w-100"></canvas>
+              {{-- <p class="fs-30 mb-2">{{number_format($quotation,0,'.',',')}}</p> --}}
+            </div>
+          </a>
         </div>
-        <div class="col-md-4 mb-4 stretch-card transparent">
+        <div class="col-md-6 mb-4 stretch-card transparent">
             <a class="card text-decoration-none" href="{{route('invoice.index')}}" role="button">
               <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -34,7 +51,7 @@
               </div>
             </a>
         </div>
-        <div class="col-md-4 mb-4 stretch-card transparent">
+        <div class="col-md-6 mb-4 stretch-card transparent">
                 <div class="card text-decoration-none"  role="button">
                 <div class="card-body">
                    
@@ -144,10 +161,11 @@
             var ecgData = new Array();
             var colors = new Array();
             var borderColors = new Array();
-            $.get(url, function(response){
-              Object.keys(response).map((key)=>{
+            var cashflow = @json($cashflow_chart);
+              console.log(cashflow);
+              Object.keys(cashflow.original).map((key)=>{
                 
-                ecgData.push(response[key]);
+                ecgData.push(cashflow.original[key]);
                 if(key == 'total_po_amount'){
                     colors.push('rgba(54, 162, 235, 1)');
                     borderColors.push('rgb(54, 162, 235)');
@@ -218,7 +236,6 @@
                         }
                     }
                 });
-            });
             var ctx = document.getElementById('doughnutChart').getContext('2d');
             const chartProjects = @json($chart_projects);
            
@@ -228,7 +245,7 @@
               let total = projects.reduce((a, b) => a + b, 0);
               $('#projectTotal').text(total);
               var myChart = new Chart(ctx, {
-                type: 'doughnut',
+                type: 'pie',
                 data: {
                     labels: names,
                     datasets: [{
