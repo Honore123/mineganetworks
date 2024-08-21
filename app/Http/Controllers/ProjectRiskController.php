@@ -71,7 +71,7 @@ class ProjectRiskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Project $project)
@@ -82,6 +82,8 @@ class ProjectRiskController extends Controller
             'reported_at' => ['required'],
             'assigned_to' => ['required'],
             'comment'=>['nullable'],
+            'site_id' => ['required', 'string'],
+            'site_name' => ['required', 'string'],
         ]);
         $data['project_id'] = $project->id;
         $data['reported_at'] = Carbon::parse($data['reported_at'])->toDateTimeString();
@@ -93,7 +95,7 @@ class ProjectRiskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ProjectRisk  $projectRisk
+     * @param  ProjectRisk  $projectRisk
      * @return \Illuminate\Http\Response
      */
     public function show(ProjectRisk $projectRisk)
@@ -104,7 +106,7 @@ class ProjectRiskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ProjectRisk  $projectRisk
+     * @param  ProjectRisk  $projectRisk
      * @return \Illuminate\Http\Response
      */
     public function edit(ProjectRisk $projectRisk)
@@ -115,8 +117,8 @@ class ProjectRiskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProjectRisk  $projectRisk
+     * @param  Request  $request
+     * @param  ProjectRisk  $projectRisk
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ProjectRisk $projectRisk)
@@ -127,6 +129,8 @@ class ProjectRiskController extends Controller
             'reported_at' => ['required'],
             'assigned_to' => ['required'],
             'comment'=>['nullable'],
+            'site_id' => ['required', 'string'],
+            'site_name' => ['required', 'string'],
         ]);
 
         $data['reported_at'] = Carbon::parse($data['reported_at'])->toDateTimeString();
@@ -150,7 +154,7 @@ class ProjectRiskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ProjectRisk  $projectRisk
+     * @param  ProjectRisk  $projectRisk
      * @return \Illuminate\Http\Response
      */
     public function destroy(ProjectRisk $projectRisk)

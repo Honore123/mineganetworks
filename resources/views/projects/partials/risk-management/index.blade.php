@@ -33,6 +33,8 @@
                         <tr>
                             <th>#</th>
                             <th>Issue</th>
+                            <th>Site ID</th>
+                            <th>Site name</th>
                             <th>Reporter</th>
                             <th>Assigned to</th>
                             <th>Reported at</th>

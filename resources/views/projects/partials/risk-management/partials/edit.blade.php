@@ -27,6 +27,14 @@
                 <input type="text" class="form-control" id="edit_datetimepicker" id="reported_at" name="reported_at" />
             </div>
             <div class="form-group">
+              <label for="">Site ID</label>
+              <input type="text" class="form-control" name="site_id" id="edit_site_id" placeholder="Site ID">
+          </div> 
+          <div class="form-group">
+            <label for="">Site name</label>
+            <input type="text" class="form-control" name="site_name" id="edit_site_name" placeholder="Site name">
+        </div> 
+            <div class="form-group">
                 <label for="">Reporter</label>
                 <input type="text" class="form-control" name="reportee" id="edit_reportee" placeholder="Reporter name">
             </div> 

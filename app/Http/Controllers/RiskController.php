@@ -51,7 +51,7 @@ class RiskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -70,7 +70,7 @@ class RiskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Risk  $risk
+     * @param  Risk  $risk
      * @return \Illuminate\Http\Response
      */
     public function show(Risk $risk)
@@ -81,7 +81,7 @@ class RiskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Risk  $risk
+     * @param  Risk  $risk
      * @return \Illuminate\Http\Response
      */
     public function edit(Risk $risk)
@@ -92,8 +92,8 @@ class RiskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Risk  $risk
+     * @param  Request  $request
+     * @param  Risk  $risk
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Risk $risk)
@@ -112,7 +112,7 @@ class RiskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Risk  $risk
+     * @param  Risk  $risk
      * @return \Illuminate\Http\Response
      */
     public function destroy(Risk $risk)
