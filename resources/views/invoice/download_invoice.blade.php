@@ -94,9 +94,8 @@
                             <th>#</th>
                             <th>Name/description</th>
                             <th>Quantity</th>
-                            <th>Unit Price (Tax Ex)</th>
-                            <th>Tax</th>
-                            <th>Total (Tax incl)</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
                         </tr>
                         <tbody>
                             @forelse($items as $item)
@@ -105,21 +104,20 @@
                                 <td>{{$item->item_name}}</td>
                                 <td>{{$item->quantity}}</td>
                                 <td>{{number_format($item->unit_price,0,'.',',')}}</td>
-                                <td>{{number_format($item->total_price * 0.18,0,'.',',')}}</td>
-                                <td>{{number_format($item->total_price + ($item->total_price * 0.18),0,'.',',')}}</td>
+                                <td>{{number_format($item->total_price,0,'.',',')}}</td>
                             </tr>
                             @empty
                             @endforelse
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="5" class="text-center"><b>Total Excl. VAT</b></td>
+                                <td colspan="4" class="text-center"><b>Total Excl. VAT</b></td>
                                 <td style="font-family: 'century_bold'"><b>{{$total}}</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="5" class="text-center"><b>VAT(18%)</b> </td>
+                                <td colspan="4" class="text-center"><b>VAT(18%)</b> </td>
                                 <td ><b>{{$vat}}</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="5" class="text-center"><b>Total Incl. VAT</b></td>
+                                <td colspan="4" class="text-center"><b>Total Incl. VAT</b></td>
                                 <td><b>{{$totalVat}}</b></td>
                             </tr>
                         </tbody>

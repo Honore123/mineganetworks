@@ -276,6 +276,8 @@
                 $('#edit_risk').append($option);
             });
             $('#edit_reportee').val(projectRisk.reportee);
+            $('#edit_site_id').val(projectRisk.site_id);
+            $('#edit_site_name').val(projectRisk.site_name);
             $('#edit_assigned_to').val(projectRisk.assigned_to);
             $('#edit_datetimepicker').val(projectRisk.reported_at);
             var url = '{{ route("risk-management.update", ":id") }}';
@@ -347,6 +349,8 @@
             "columns": [
                 {"data": 'DT_RowIndex', "name": 'DT_RowIndex', orderable: false,searchable: false,"className":"text-middle"},
                 { "data": 'risk_name', "name": 'risk_name',"className":"text-middle"},
+                { "data": 'site_id', "name": 'site_id',"className":"text-middle", "defaultContent":"-"},
+                { "data": 'site_name', "name": 'site_name',"className":"text-middle","defaultContent":"-"},
                 { "data": 'reportee', "name": 'reportee',"className":"text-middle"},
                 { "data": 'assigned_to', "name": 'assigned_to',"className":"text-middle","defaultContent":"-"},
                 { "data": 'reported_at', "name": 'reported_at',"className":"text-middle", "defaultContent":"-"},
