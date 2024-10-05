@@ -111,6 +111,7 @@
             });
         }
          $('#quotations-table').DataTable({
+            'dom':'lBfrtip',
             'paging': true,
             'lengthChange': true,
             'searching': true,
@@ -135,7 +136,11 @@
                 { "data": 'total_inc_vat', "name": 'total_inc_vat',"className":"text-middle"},
                 { "data": 'date', "name": 'date',"className":"text-middle"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
-            ]
+            ],
+            "buttons": [
+                {extend: 'colvis', className: 'btn btn-warning', columns: ':visible'},
+                { extend: 'excelHtml5', className: 'btn btn-info', exportOptions: {columns:':visible'} },
+            ],
         })
     </script>
 @endpush

@@ -26,9 +26,9 @@ class DashboardController extends Controller
         $quotation = Quotation::whereBetween('created_at', [$startDate, $endDate])->count();
         $invoice = Invoice::whereBetween('created_at', [$startDate, $endDate])->count();
         $purchaseOrder = PurchaseOrder::whereBetween('created_at', [$startDate, $endDate])->count();
-        $customerPO = CustomerPurchaseOrder::whereBetween('created_at', [$startDate, $endDate])->count();
+        $customerPO = CustomerPurchaseOrder::whereBetween('po_date', [$startDate, $endDate])->count();
         $rigger = Rigger::whereBetween('created_at', [$startDate, $endDate])->count();
-        $totalPOAmount = CustomerPurchaseOrder::whereBetween('created_at', [$startDate, $endDate])->where('status', '!=', '0')->sum('total_amount');
+        $totalPOAmount = CustomerPurchaseOrder::whereBetween('po_date', [$startDate, $endDate])->where('status', '!=', '0')->sum('total_amount');
         $invoicedPOAmount = DB::table('invoice_items')
                             ->join('invoices', 'invoice_items.invoice_id', '=', 'invoices.id')
                             ->select(DB::raw('sum(total_price) as total_invoiced'))
@@ -53,7 +53,7 @@ class DashboardController extends Controller
         $invoicedAmount = $invoicedPOAmount[0]->total_invoiced + ($invoicedPOAmount[0]->total_invoiced * 0.18);
         $contractPaidAmount = $contractBasedPaidInvoice[0]->total_invoiced + ($contractBasedPaidInvoice[0]->total_invoiced * 0.18);
         $contractUnpaidAmount = $contractBasedInvoice[0]->total_invoiced + ($contractBasedInvoice[0]->total_invoiced * 0.18);
-        $unpaidPOAmount = CustomerPurchaseOrder::whereBetween('created_at', [$startDate, $endDate])->where('status', '2')->orWhere('status', '1')->sum('remaining_amount');
+        $unpaidPOAmount = CustomerPurchaseOrder::whereBetween('po_date', [$startDate, $endDate])->where('status', '2')->orWhere('status', '1')->sum('remaining_amount');
         $paidPOAmount = $totalPOAmount - ($unpaidPOAmount + $invoicedAmount) + $contractPaidAmount;
 
         $chartProjects = DB::table('projects')

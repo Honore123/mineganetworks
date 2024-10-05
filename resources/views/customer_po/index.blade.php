@@ -83,6 +83,7 @@
         $('#customer_po_edit').modal('show');
        }
      $('#customers-table').DataTable({
+            'dom':'lBfrtip',
             'paging': true,
             'lengthChange': true,
             'searching': true,
@@ -108,7 +109,11 @@
                 { "data": 'remaining_amount', "name": 'remaining_amount',"className":"text-center"},
                 { "data": 'created_at', "name": 'created_at',"className":"text-center","width":"12%"},
                 {"data": 'option', "name": 'option', orderable:false, searchable:false,"className":"text-middle"},
-            ]
+            ],
+            "buttons": [
+                {extend: 'colvis', className: 'btn btn-warning', columns: ':visible'},
+                { extend: 'excelHtml5', className: 'btn btn-info', exportOptions: {columns:':visible'} },
+            ],
         })
 </script>
 @endpush
