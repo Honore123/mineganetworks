@@ -31,8 +31,9 @@ class DashboardController extends Controller
         $totalPOAmount = CustomerPurchaseOrder::whereBetween('po_date', [$startDate, $endDate])->where('status', '!=', '0')->sum('total_amount');
         $invoicedPOAmount = DB::table('invoice_items')
                             ->join('invoices', 'invoice_items.invoice_id', '=', 'invoices.id')
+                            ->join('customer_purchase_orders', 'invoices.customer_purchase_order_id', '=', 'customer_purchase_orders.id')
                             ->select(DB::raw('sum(total_price) as total_invoiced'))
-                            ->whereBetween('invoices.created_at', [$startDate, $endDate])
+                            ->whereBetween('customer_purchase_orders.po_date', [$startDate, $endDate])
                             ->where('invoices.status', '1')
                             ->where('invoices.customer_purchase_order_id', '!=', '0')
                             ->get();
