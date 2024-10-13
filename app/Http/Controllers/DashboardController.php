@@ -54,7 +54,7 @@ class DashboardController extends Controller
         $invoicedAmount = $invoicedPOAmount[0]->total_invoiced + ($invoicedPOAmount[0]->total_invoiced * 0.18);
         $contractPaidAmount = $contractBasedPaidInvoice[0]->total_invoiced + ($contractBasedPaidInvoice[0]->total_invoiced * 0.18);
         $contractUnpaidAmount = $contractBasedInvoice[0]->total_invoiced + ($contractBasedInvoice[0]->total_invoiced * 0.18);
-        $unpaidPOAmount = CustomerPurchaseOrder::whereBetween('po_date', [$startDate, $endDate])->where('status', ['2', '1'])->sum('remaining_amount');
+        $unpaidPOAmount = CustomerPurchaseOrder::whereBetween('po_date', [$startDate, $endDate])->whereIn('status', ['2', '1'])->sum('remaining_amount');
         $paidPOAmount = $totalPOAmount - ($unpaidPOAmount + $invoicedAmount) + $contractPaidAmount;
 
         $chartProjects = DB::table('projects')
