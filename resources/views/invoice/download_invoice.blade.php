@@ -93,8 +93,11 @@
                         <tr class="bg-yellow" style="font-family: 'century_bold'">
                             <th>#</th>
                             <th>Name/description</th>
-                            <th>Quantity</th>
+                            <th>{{$invoice->invoice_type === 1 ? 'Quantity' : 'No of rigger(s)'}}</th>
                             <th>Unit Price</th>
+                            @if($invoice->invoice_type === 2)
+                            <th>No of day(s)</th>
+                            @endif
                             <th>Total</th>
                         </tr>
                         <tbody>
@@ -104,20 +107,23 @@
                                 <td>{{$item->item_name}}</td>
                                 <td>{{$item->quantity}}</td>
                                 <td>{{number_format($item->unit_price,0,'.',',')}}</td>
+                                @if($invoice->invoice_type === 2)
+                                <td>{{number_format($item->rigger_days,0,'.',',')}}</td>
+                                @endif
                                 <td>{{number_format($item->total_price,0,'.',',')}}</td>
                             </tr>
                             @empty
                             @endforelse
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="4" class="text-center"><b>Total Excl. VAT</b></td>
+                                <td colspan={{$invoice->invoice_type === 1 ?'4' : '5'}} class="text-center"><b>Total Excl. VAT</b></td>
                                 <td style="font-family: 'century_bold'"><b>{{$total}}</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="4" class="text-center"><b>VAT(18%)</b> </td>
+                                <td colspan={{$invoice->invoice_type === 1 ?'4' : '5'}} class="text-center"><b>VAT(18%)</b> </td>
                                 <td ><b>{{$vat}}</b></td>
                             </tr>
                             <tr class="bg-grey" style="font-family: 'century_bold'">
-                                <td colspan="4" class="text-center"><b>Total Incl. VAT</b></td>
+                                <td colspan={{$invoice->invoice_type === 1 ?'4' : '5'}} class="text-center"><b>Total Incl. VAT</b></td>
                                 <td><b>{{$totalVat}}</b></td>
                             </tr>
                         </tbody>
