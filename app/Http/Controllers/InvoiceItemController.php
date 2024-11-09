@@ -51,7 +51,7 @@ class InvoiceItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Invoice $invoice)
@@ -70,6 +70,8 @@ class InvoiceItemController extends Controller
             if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > (float) $customer_po->remaining_amount) {
                 return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
             }
+        } else {
+            $data['rigger_days'] = request()->input('rigger_days');
         }
         InvoiceItem::create($data);
         $invoice->update([
@@ -87,7 +89,7 @@ class InvoiceItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @param  InvoiceItem  $invoiceItem
      * @return \Illuminate\Http\Response
      */
     public function show(InvoiceItem $invoiceItem)
@@ -98,7 +100,7 @@ class InvoiceItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @param  InvoiceItem  $invoiceItem
      * @return \Illuminate\Http\Response
      */
     public function edit(InvoiceItem $invoiceItem)
@@ -109,8 +111,8 @@ class InvoiceItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @param  Request  $request
+     * @param  InvoiceItem  $invoiceItem
      * @return \Illuminate\Http\Response
      */
     public function update(InvoiceItem $item)
@@ -130,6 +132,8 @@ class InvoiceItemController extends Controller
             if (((int) $data['total_price'] + ((int) $data['total_price'] * 0.18)) > ((float) $customer_po->remaining_amount + (float) $old_total_price)) {
                 return redirect()->back()->with('error', 'Amount entered exceeds remaining amount on P.O');
             }
+        } else {
+            $data['rigger_days'] = request()->input('rigger_days');
         }
         $item->update($data);
         $invoice->update([
@@ -147,7 +151,7 @@ class InvoiceItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\InvoiceItem  $invoiceItem
+     * @param  InvoiceItem  $invoiceItem
      * @return \Illuminate\Http\Response
      */
     public function destroy(InvoiceItem $item)

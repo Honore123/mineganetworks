@@ -16,13 +16,19 @@
             <input type="text" class="form-control" id="edit_item_name" name="item_name" placeholder="Item name">
           </div>
           <div class="form-group">
-            <label for="quantity">Quantity</label>
-            <input type="number" class="form-control" oninput="editTotalPrice()" id="edit_quantity" name="quantity" placeholder="Quantity" step=".001">
+            <label for="quantity">{{$invoice->invoice_type === 1 ? 'Quantity' : 'No of rigger(s)'}}</label>
+            <input type="number" class="form-control" oninput="editTotalPrice({{$invoice->invoice_type}})" id="edit_quantity" name="quantity" placeholder={{$invoice->invoice_type === 1 ? 'Quantity' : 'Rigger(s)'}} step=".001">
           </div>
           <div class="form-group">
             <label for="unit_price">Unit price</label>
-            <input type="number" class="form-control" oninput="editTotalPrice()" id="edit_unit_price" name="unit_price" placeholder="Unit price">
+            <input type="number" class="form-control" oninput="editTotalPrice({{$invoice->invoice_type}})" id="edit_unit_price" name="unit_price" placeholder="Unit price">
           </div>
+          @if($invoice->invoice_type === 2)
+          <div class="form-group">
+            <label for="rigger_days">No of day(s)</label>
+            <input type="number" class="form-control" oninput="editTotalPrice({{$invoice->invoice_type}})" id="edit_rigger_days" name="rigger_days" placeholder="No of day(s)">
+          </div>
+          @endif
           <div class="form-group">
             <label for="total_price">Total price</label>
             <input type="number" class="form-control" id="edit_total_price" name="total_price" placeholder="Total price" readonly>

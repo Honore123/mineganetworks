@@ -72,7 +72,10 @@
                                 <th>#</th>
                                 <th>Name/description</th>
                                 <th>Unit Price</th>
-                                <th>Quantity</th>
+                                <th>{{$invoice->invoice_type === 1 ? 'Quantity' : 'No of rigger(s)'}}</th>
+                                @if($invoice->invoice_type === 2)
+                                <th>No of day(s)</th>
+                                @endif
                                 <th>Total Price</th>
                                 @if($invoice->status != 0 && $invoice->status != 2)
                                 <th>Option</th>
@@ -86,6 +89,9 @@
                                 <td>{{$item->item_name}}</td>
                                 <td>{{number_format($item->unit_price,0,'.',',')}}</td>
                                 <td>{{$item->quantity}}</td>
+                                @if($invoice->invoice_type === 2)
+                                <td>{{number_format($item->rigger_days,0,'.',',')}}</td>
+                                @endif
                                 <td>{{number_format($item->total_price,0,'.',',')}}</td>
                                 @if($invoice->status != 0 && $invoice->status != 2)
                                 <td>
@@ -188,21 +194,35 @@
             $("#edit_quantity").val(item.quantity);
             $("#edit_unit_price").val(item.unit_price);
             $("#edit_total_price").val(item.total_price);
+            $("#edit_rigger_days").val(item.rigger_days);
             var url = '{{ route("invoiceItem.update", ":id") }}';
             url = url.replace(':id',id);
             $('#edit_item_form').attr("action",url);
         $('#edit_item').modal('show');
         }
-        function totalPrice() {
+        function totalPrice(invoice) {
             let quantity = $('#quantity').val();
             let unit = $('#unit_price').val();
-            const totalPrice = quantity * unit;
+            let totalPrice = 0;
+            if(invoice == 2){
+                let days = $('#rigger_days').val();
+                totalPrice = quantity * unit * days;
+            } else {
+                totalPrice = quantity * unit;
+            }
+           
             $('#total_price').val(totalPrice);
         }
-        function editTotalPrice() {
+        function editTotalPrice(invoice) {
             let quantity = $('#edit_quantity').val();
             let unit = $('#edit_unit_price').val();
-            const totalPrice = quantity * unit;
+            let totalPrice = 0;
+            if(invoice == 2){
+                let days = $('#edit_rigger_days').val();
+                totalPrice = quantity * unit * days;
+            } else {
+                totalPrice = quantity * unit;
+            }
             $('#edit_total_price').val(totalPrice);
         }
     </script>
