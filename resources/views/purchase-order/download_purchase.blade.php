@@ -109,16 +109,23 @@
                         </tbody>
                     </table>
                   </div>
-                  <div style="margin-top: 10em !important">
+                  <div style="margin-top: 2em !important">
+                    <p style="font-family: 'century_bold'; margin-bottom: 0px !important; text-decoration: underline">Terms And Conditions</p>
+                    <p style="margin-bottom: 0px !important">Detailed terms and conditions as service agreement</p>
+                    <p>Payment will be made in after completion of service and reception of a valid invoice from supplier</p>
+                    <p>Prepared by: Project coordinator................................................................</p>
+                    <p>Authorized by: Managing Director........................................................</p>
+                  </div>
+                  {{-- <div style="margin-top: 10em !important">
                     <p class="pt-2 w-25" style="position: fixed; left:0;font-size: 12px; font-family: 'century';border-top: 1px dashed #000">Date</p>
                     <p class="pt-2 w-25" style="position: fixed; right:0;font-size: 12px; font-family: 'century'; border-top: 1px dashed #000">Authorized Signature</p>
-                  </div>
+                  </div> --}}
               </div>
             </div>
           </div>
     </div>
     <div class="footer">
-        <p class="mb-4" style="color:#000000">If you haveany questions, concerns or queries regarding this PO, please feel free to write to us through (info@mineganetworks.rw)</p>
+        {{-- <p class="mb-4" style="color:#000000">If you haveany questions, concerns or queries regarding this PO, please feel free to write to us through (info@mineganetworks.rw)</p> --}}
         <p>Kicukiro District, Gikondo Sector, +250788312962, +250731000166, aimableg@mineganetworks.rw, www.mineganetworks.rw</p>
     </div>
 </body>

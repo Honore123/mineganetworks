@@ -94,10 +94,10 @@
                             <th>#</th>
                             <th>Name/description</th>
                             <th>{{$invoice->invoice_type === 1 ? 'Quantity' : 'No of rigger(s)'}}</th>
-                            <th>Unit Price</th>
                             @if($invoice->invoice_type === 2)
                             <th>No of day(s)</th>
                             @endif
+                            <th>Unit Price</th>
                             <th>Total</th>
                         </tr>
                         <tbody>
@@ -106,10 +106,10 @@
                                 <td>{{$loop->iteration++}}</td>
                                 <td>{{$item->item_name}}</td>
                                 <td>{{$item->quantity}}</td>
-                                <td>{{number_format($item->unit_price,0,'.',',')}}</td>
                                 @if($invoice->invoice_type === 2)
                                 <td>{{number_format($item->rigger_days,0,'.',',')}}</td>
                                 @endif
+                                <td>{{number_format($item->unit_price,0,'.',',')}}</td>
                                 <td>{{number_format($item->total_price,0,'.',',')}}</td>
                             </tr>
                             @empty
