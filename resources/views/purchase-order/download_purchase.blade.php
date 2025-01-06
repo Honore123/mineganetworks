@@ -106,6 +106,14 @@
                                 <td colspan="4" class="text-center"><b>Total</b></td>
                                 <td style="font-family: 'century_bold'"><b>{{$total}}</b></td>
                             </tr>
+                            <tr class="bg-grey" style="font-family: 'century_bold'">
+                                <td colspan="4" class="text-center"><b>VAT(18%)</b> </td>
+                                <td style="font-family: 'century_bold'"><b>{{$vat}}</b></td>
+                            </tr>
+                            <tr class="bg-grey" style="font-family: 'century_bold'">
+                                <td colspan="4" class="text-center"><b>Total Incl. VAT</b></td>
+                                <td style="font-family: 'century_bold'"><b>{{$totalVat}}</b></td>
+                            </tr>
                         </tbody>
                     </table>
                   </div>
